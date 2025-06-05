@@ -1,289 +1,362 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-       <%- include('../common_pages/head') %>
-    
+<%- include('../common_pages/head') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <body>
         <!--********************************
         Code Start From Here
         ******************************** -->
-       <%- include('../common_pages/header') %>
+        <%- include('../common_pages/header') %>
+
+            <div id="instructionPopup" class="instruction-popup">
+                <div class="popup-content">
+                    <button class="close-btn" onclick="closePopup()">&times;</button>
+                    <h4>Instructions</h4>
+                    <p>Fill in all the mandatory fields (Functional mobile number and e-mail ID should be provided
+                        during filling of application).</p>
+                    <p>Upload all the mandatory documents (documents should be jpg, png, or pdf files and max file size
+                        is 5MB).</p>
+                    <p>Upload a passport size photo of applicant (photo should be jpg, png, or jpeg and dimension should
+                        be 208x268).</p>
+                </div>
+            </div>
 
 
-        
-        <!-- Hero Area Start -->
-        <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
-            <div class="container z-index-common">
-                <div class="breadcumb-content">
-                    <h1 class="breadcumb-title">Join Tourist Guide Club (TGC)</h1>
-                    <div class="breadcumb-menu-wrap">
-                        <ul class="breadcumb-menu">
-                            <li><a href="/index">Home</a></li>
-                            <li>Membership</li>
-                        </ul>
+            <!-- Hero Area Start -->
+            <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
+                <div class="container z-index-common">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">Join Tourist Guide Club (TGC)</h1>
+                        <div class="breadcumb-menu-wrap">
+                            <ul class="breadcumb-menu">
+                                <li><a href="/index">Home</a></li>
+                                <li>Membership</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Hero Area End -->
-        
-        <!-- Sign Up Area Start -->
-        <div class="signup-wrapper space pt-2">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-10">
-                        <form method="POST" enctype="multipart/form-data" class="signup-form bg-smoke">
-                            <h2 class="form-title text-center mb-lg-35">Membership Form</h2>
-                            <p class="form-sub-title text-center mb-lg-35">Join (TGC) as a Member or as a Volunteer </p>
-                            <p class="mb-0">Basic Details</p>
-                            <hr class="text-info mt-1">
-                            <!-- Start Input Fileds -->
-                            <div class="row">
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="fullname" class="sr-only">Full Name*</label>
-                                        <input type="text" class="form-control" placeholder="Enter your full name*" id="fullname" name="fullname" required>
+            <!-- Hero Area End -->
+
+            <!-- Sign Up Area Start -->
+            <div class="signup-wrapper space pt-2">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <form id="membershipForm" action="/submit_membership" method="POST"
+                                enctype="multipart/form-data" class="signup-form bg-smoke">
+                                <h2 class="form-title text-center mb-lg-35">Membership Form</h2>
+                                <p class="form-sub-title text-center mb-lg-35">Join (TGC) as a Member or as a Volunteer
+                                </p>
+                                <p class="mb-0">Basic Details</p>
+                                <hr class="text-info mt-1">
+                                <!-- Start Input Fileds -->
+                                <div class="row">
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="fullname" class="sr-only">Full Name*</label>
+                                            <input type="text" class="form-control" placeholder="Enter your full name*"
+                                                id="fullname" name="name">
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="dob" class="sr-only">Date of Birth*</label>
-                                        <input type="date" class="form-control" placeholder="Enter your date of birth*" id="dob" name="dob" required>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="dob" class="sr-only">Date of Birth*</label>
+                                            <input type="date" class="form-control"
+                                                placeholder="Enter your date of birth*" id="dob" name="dob">
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="loginUserId" class="sr-only">Gender*</label>
-                                        <select class="form-select" name="gender" id="gender" required>
-                                            <option value="" selected="selected" disabled="disabled" hidden="">Select your Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Other">Other</option>
-                                            <option value="Prefer not Say">Prefer not Say</option>
-                                        </select>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="loginUserId" class="sr-only">Gender*</label>
+                                            <select class="form-select" name="gender" id="gender">
+                                                <option value="" selected="selected" disabled="disabled" hidden="">
+                                                    Select your Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                                <option value="Prefer not Say">Prefer not Say</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="bloodgroup" class="sr-only">Blood Group*</label>
-                                        <select class="form-select" name="bloodgroup" required>
-                                            <option value="" selected="selected" disabled="disabled" hidden="">Select your Blood Group</option>
-                                            <option value="A+">A+</option>
-                                            <option value="A-">A-</option>
-                                            <option value="AB+">AB+</option>
-                                            <option value="AB-">AB-</option>
-                                            <option value="B+">B+</option>
-                                            <option value="B-">B-</option>
-                                            <option value="O+">O+</option>
-                                            <option value="O-">O-</option>
-                                        </select>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="bloodgroup" class="sr-only">Blood Group*</label>
+                                            <select class="form-select" name="bloodgroup">
+                                                <option value="" selected="selected" disabled="disabled" hidden="">
+                                                    Select your Blood Group</option>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="mobile" class="sr-only">Mobile*</label>
-                                        <input type="text" class="form-control" placeholder="Enter your mobile number*" minlength="10" maxlength="11" id="mobile" name="mobile" required>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="mobile" class="sr-only">Mobile*</label>
+                                            <input type="text" class="form-control"
+                                                placeholder="Enter your mobile number*"
+                                                id="mobile" name="mobile">
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="email" class="sr-only">Email*</label>
-                                        <input type="email" class="form-control" placeholder="Enter your email address*" id="email" name="email" required>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="email" class="sr-only">Email*</label>
+                                            <input type="email" class="form-control"
+                                                placeholder="Enter your email address*" id="email" name="email">
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="state" class="sr-only">State*</label>
-                                        <select class="form-select States" name="state" id="state" aria-label="State" required></select>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="password" class="sr-only">Password*</label>
+                                            <input type="password" class="form-control"
+                                                placeholder="Enter your password*" id="password" name="password">
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="bloodgroup" class="sr-only">District*</label>
-                                        <select class="form-select District" id="district" name="district" aria-label="District" required>
-                                            <option value="" selected="selected" disabled="disabled" hidden="">-- Select District --</option>
-                                        </select>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="state" class="sr-only">State*</label>
+                                            <select class="form-select States" name="state" id="state"
+                                                aria-label="State"></select>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="pincode" class="sr-only">Pincode*</label>
-                                        <input type="number" class="form-control" placeholder="Enter your pincode*" id="pincode" name="pincode" required>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="bloodgroup" class="sr-only">District*</label>
+                                            <select class="form-select District" id="district" name="district"
+                                                aria-label="District">
+                                                <option value="" selected="selected" disabled="disabled" hidden="">--
+                                                    Select District --</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="address" class="sr-only">Address*</label>
-                                        <textarea class="form-control" placeholder="Enter your address*" style="min-height: 60px;" id="address" name="address" required></textarea>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="pincode" class="sr-only">Pincode*</label>
+                                            <input type="number" class="form-control" placeholder="Enter your pincode*"
+                                                id="pincode" name="pincode">
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                            </div>
-                            <!-- End Fields -->
-                            <p class="mb-0">Additional Details</p>
-                            <hr class="text-info mt-1">
-                            <!-- Start Input Fields -->
-                            <div class="row">
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="category" class="sr-only">Registration Category*</label>
-                                        <select class="form-select" name="category" required>
-                                            <option value="" selected="selected" disabled="disabled" hidden="">Membership Category</option>
-                                            <option value="Professional">Professional</option>
-                                            <option value="Associate">Associate</option>
-                                            <option value="Student">Student</option>
-                                        </select>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="address" class="sr-only">Address*</label>
+                                            <textarea class="form-control" placeholder="Enter your address*"
+                                                style="min-height: 60px;" id="address" name="address"></textarea>
+                                        </div>
                                     </div>
+                                    <!-- End Input -->
                                 </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="loginUserId" class="sr-only">Membership Type*</label>
-                                        <select class="form-select" name="type">
-                                            <option value="" selected="selected" disabled="disabled" hidden="">Membership Type</option>
-                                            <option value="Member">Member</option>
-                                            <option value="Volunteer">Volunteer</option>
-                                        </select>
+                                <!-- End Fields -->
+                                <p class="mb-0">Additional Details</p>
+                                <hr class="text-info mt-1">
+                                <!-- Start Input Fields -->
+                                <div class="row">
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="category" class="sr-only">Registration Category*</label>
+                                            <select class="form-select" name="category">
+                                                <option value="" selected="selected" disabled="disabled" hidden="">
+                                                    Membership Category</option>
+                                                <option value="Professional">Professional</option>
+                                                <option value="Associate">Associate</option>
+                                                <option value="Student">Student</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="bio" class="sr-only">A Short Bio*</label>
-                                        <textarea class="form-control" placeholder="Enter a Short Bio*" style="min-height: 60px;" id="bio" name="bio" required></textarea>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="loginUserId" class="sr-only">Membership Type*</label>
+                                            <select class="form-select" name="type">
+                                                <option value="" selected="selected" disabled="disabled" hidden="">
+                                                    Membership Type</option>
+                                                <option value="Member">Member</option>
+                                                <option value="Volunteer">Volunteer</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                            </div>
-                            <!-- End Field -->
-                            <p class="mb-0">Upload Documents</p>
-                            <hr class="text-info mt-1">
-                            <!-- Start Input Fields -->
-                            <div class="row">
-                                <!-- Start Input -->
-                                <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <label for="aadhaar_card" class="input-label"><small>Aadhaar Card*</small></label>
-                                    <div class="file-input-wrapper mx-auto mt-2">
-                                        <input type="file" class="file-input" accept="image/*" name="aadhaar_card">
-                                        <img class="file-preview" src="#" alt="File Preview">
-                                        <span class="upload-label">Browse File</span>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="bio" class="sr-only">A Short Bio*</label>
+                                            <textarea class="form-control" placeholder="Enter a Short Bio*"
+                                                style="min-height: 60px;" id="bio" name="bio"></textarea>
+                                        </div>
                                     </div>
+                                    <!-- End Input -->
                                 </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <label for="passport_photo" class="input-label"><small>Latest Passport Photo*</small></label>
-                                    <div class="file-input-wrapper mx-auto mt-2">
-                                        <input type="file" class="file-input" accept="image/*" name="passport_photo">
-                                        <img class="file-preview" src="#" alt="File Preview">
-                                        <span class="upload-label">Browse File</span>
+                                <!-- End Field -->
+                                <p class="mb-0">Upload Documents</p>
+                                <hr class="text-info mt-1">
+                                <!-- Start Input Fields -->
+                                <div class="row">
+                                    <!-- Start Input -->
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <label for="aadhaar_card" class="input-label"><small>Aadhaar
+                                                Card*</small></label>
+                                        <div class="file-input-wrapper mx-auto mt-2">
+                                            <input type="file" class="file-input" accept="image/*" name="aadhaar_card">
+                                            <img class="file-preview" src="#" alt="File Preview">
+                                            <span class="upload-label">Browse File</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <label for="qualification_cert" class="input-label"><small>Last Qualification Certificate*</small></label>
-                                    <div class="file-input-wrapper mx-auto mt-2">
-                                        <input type="file" class="file-input" accept="image/*" name="qualification_cert">
-                                        <img class="file-preview" src="#" alt="File Preview">
-                                        <span class="upload-label">Browse File</span>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <label for="passport_photo" class="input-label"><small>Latest Passport
+                                                Photo*</small></label>
+                                        <div class="file-input-wrapper mx-auto mt-2">
+                                            <input type="file" class="file-input" accept="image/*"
+                                                name="passport_photo">
+                                            <img class="file-preview" src="#" alt="File Preview">
+                                            <span class="upload-label">Browse File</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <label for="identity_card" class="input-label"><small>Guide Identity Card*</small></label>
-                                    <div class="file-input-wrapper mx-auto mt-2">
-                                        <input type="file" class="file-input" accept="image/*" name="identity_card">
-                                        <img class="file-preview" src="#" alt="File Preview">
-                                        <span class="upload-label">Browse File</span>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <label for="qualification_cert" class="input-label"><small>Last Qualification
+                                                Certificate*</small></label>
+                                        <div class="file-input-wrapper mx-auto mt-2">
+                                            <input type="file" class="file-input" accept="image/*"
+                                                name="qualification_cert">
+                                            <img class="file-preview" src="#" alt="File Preview">
+                                            <span class="upload-label">Browse File</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <label for="govt_cert" class="input-label"><small>Certificate Receive by Central/State Govt*</small></label>
-                                    <div class="file-input-wrapper mx-auto mt-2">
-                                        <input type="file" class="file-input" accept="image/*" name="govt_cert">
-                                        <img class="file-preview" src="#" alt="File Preview">
-                                        <span class="upload-label">Browse File</span>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <label for="identity_card" class="input-label"><small>Guide Identity
+                                                Card*</small></label>
+                                        <div class="file-input-wrapper mx-auto mt-2">
+                                            <input type="file" class="file-input" accept="image/*" name="identity_card">
+                                            <img class="file-preview" src="#" alt="File Preview">
+                                            <span class="upload-label">Browse File</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <input type="checkbox" name="loginRemember" id="loginRemember" required>
-                                        <label for="loginRemember">I declare that the information provided in the form is to the best of my knowledge and is accurate. I will be legally obligated and responsible for any discrepancy.</label>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <label for="govt_cert" class="input-label"><small>Certificate Receive by
+                                                Central/State Govt*</small></label>
+                                        <div class="file-input-wrapper mx-auto mt-2">
+                                            <input type="file" class="file-input" accept="image/*" name="govt_cert">
+                                            <img class="file-preview" src="#" alt="File Preview">
+                                            <span class="upload-label">Browse File</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- End Input -->
-                                <!-- Start Input -->
-                                <div class="col-lg-4 col-md-4 col-sm-12 offset-lg-8 offset-md-8">
-                                    <div class="form-group">
-                                        <button class="vs-btn mask-style1 w-100 style4" type="submit" name="register">Submit Application</button>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <input type="checkbox" name="loginRemember" id="loginRemember">
+                                            <label for="loginRemember">I declare that the information provided in the
+                                                form is to the best of my knowledge and is accurate. I will be legally
+                                                obligated and responsible for any discrepancy.</label>
+                                        </div>
                                     </div>
+                                    <!-- End Input -->
+                                    <!-- Start Input -->
+                                    <div class="col-lg-4 col-md-4 col-sm-12 offset-lg-8 offset-md-8">
+                                        <div class="form-group">
+                                            <button class="vs-btn mask-style1 w-100 style4" type="submit"
+                                                name="register">Submit Application</button>
+                                        </div>
+                                    </div>
+                                    <!-- End Input -->
                                 </div>
-                                <!-- End Input -->
-                            </div>
-                            <!-- End Fields -->
-                        </form>
+                                <!-- End Fields -->
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Sign Up Area End -->
-        
-               <%- include('../common_pages/footer') %>
+            <!-- Sign Up Area End -->
 
-        
-        <!-- Scroll To Top -->
-        <a href="#" class="scrollToTop scroll-btn"><i class="far fa-arrow-up"></i></a>
-        
-        <!-- ==============================
+            <%- include('../common_pages/footer') %>
+
+
+                <!-- Scroll To Top -->
+                <a href="#" class="scrollToTop scroll-btn"><i class="far fa-arrow-up"></i></a>
+
+                <!-- ==============================
         All Js File
         ================================ -->
-        <!-- Jquery -->
-        <script src="/js/vendor/jquery-3.6.0.min.js"></script>
-        <!-- Slick Slider -->
-        <script src="/js/slick.min.js"></script>
-        <!-- Bootstrap -->
-        <script src="/js/bootstrap.min.js"></script>
-        <!-- Magnific Popup -->
-        <script src="/js/jquery.magnific-popup.min.js"></script>
-        <!-- jquery Ui -->
-        <script src="/js/jquery-ui.min.js"></script>
-        <!-- Circle Progress -->
-        <script src="/js/circle-progress.min.js"></script>
-        <!-- isotope -->
-        <script src="/js/imagesLoaded.js"></script>
-        <script src="/js/isotope.js"></script>
-        <!-- Wow.js -->
-        <script src="/js/wow.min.js"></script>
-        <!-- Main Js File -->
-        <script src="/js/main.js"></script>
-        <!-- State City Js File -->
-        <script src="/js/states_cities.js"></script>
+                <!-- Jquery -->
+                <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+                <!-- Slick Slider -->
+                <script src="/js/slick.min.js"></script>
+                <!-- Bootstrap -->
+                <script src="/js/bootstrap.min.js"></script>
+                <!-- Magnific Popup -->
+                <script src="/js/jquery.magnific-popup.min.js"></script>
+                <!-- jquery Ui -->
+                <script src="/js/jquery-ui.min.js"></script>
+                <!-- Circle Progress -->
+                <script src="/js/circle-progress.min.js"></script>
+                <!-- isotope -->
+                <script src="/js/imagesLoaded.js"></script>
+                <script src="/js/isotope.js"></script>
+                <!-- Wow.js -->
+                <script src="/js/wow.min.js"></script>
+                <!-- Main Js File -->
+                <script src="/js/main.js"></script>
+                <!-- State City Js File -->
+                <script src="/js/states_cities.js"></script>
+                <script src="/js/validation.js"></script>
+
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
+                <script>
+
+                    setTimeout(() => {
+                        const popup = document.getElementById('instructionPopup');
+                        if (popup) popup.style.display = 'none';
+                    }, 5000);
+
+
+                    function closePopup() {
+                        document.getElementById('instructionPopup').style.display = 'none';
+                    }
+                </script>
+
+
+
+
+
+
     </body>
+
 </html>

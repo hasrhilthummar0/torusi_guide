@@ -194,19 +194,19 @@ Header Area
               <!-- <ul class="general-list">
           <li><b><%= news.title %>:</b> <%= news.description %></li>
         </ul> -->
-              <% if (news && news.length> 0) { %>
-                <ul class="general-list">
-                  <% news.forEach(item=> { %>
-                    <li><b>
-                        <%= item.title %>:
-                      </b>
-                      <%= item.description %>
-                    </li>
-                    <% }) %>
-                </ul>
-                <% } else { %>
-                  <p>No news available.</p>
-                  <% } %>
+                <% if (news && news.length> 0) { %>
+                  <ul class="general-list">
+                    <% news.forEach(item=> { %>
+                      <li><b>
+                          <%= item.title %>:
+                        </b>
+                        <%= item.description %>
+                      </li>
+                      <% }) %>
+                  </ul>
+                  <% } else { %>
+                    <p>No news available.</p>
+                    <% } %>
 
             </div>
           </div>
