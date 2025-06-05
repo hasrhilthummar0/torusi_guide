@@ -6,6 +6,7 @@ const connection = mysql.createConnection({
   host: process.env.host,
   user: process.env.user,
   database: process.env.database,
+  timezone: '+05:30'
 });
 
 
