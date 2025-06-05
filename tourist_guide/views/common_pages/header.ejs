@@ -20,7 +20,7 @@
                 <li><a href="sitemap"><i class="fas fa-sitemap"></i></a></li>
               </ul>
             </div>
-            <div class="header-dropdown">
+            <!-- <div class="header-dropdown">
               <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                 <img src="/img/icons/flag-icon-1.png" alt="Flag">English
               </a>
@@ -34,7 +34,23 @@
                   <a href="#">Greek</a>
                 </li>
               </ul>
+            </div> -->
+            <div class="header-dropdown">
+              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                <img src="/img/icons/flag-icon-1.png" alt="Flag">Language
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="doGTranslate('en|en')">English</a></li>
+                <li><a href="#" onclick="doGTranslate('en|de')">German</a></li>
+                <li><a href="#" onclick="doGTranslate('en|fr')">French</a></li>
+                <li><a href="#" onclick="doGTranslate('en|it')">Italian</a></li>
+                <li><a href="#" onclick="doGTranslate('en|es')">Spanish</a></li>
+                <li><a href="#" onclick="doGTranslate('en|el')">Greek</a></li>
+              </ul>
             </div>
+
+            <div id="google_translate_element" style="display:none"></div>
+
           </div>
         </div>
       </div>

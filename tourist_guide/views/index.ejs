@@ -3,6 +3,7 @@
 <%- include('common_pages/head') %>
 
   <body>
+<div id="google_translate_element" style="display: none;"></div>
 
     <!-- HEADER PLACEHOLDER -->
 
@@ -298,6 +299,22 @@ Footer Area
             }, 2000);
           };
         </script>
+
+<script>
+  function translateLanguage(lang) {
+    const frame = document.querySelector('iframe.goog-te-menu-frame');
+    if (frame) {
+      const innerDoc = frame.contentDocument || frame.contentWindow.document;
+      const langElements = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
+
+      langElements.forEach(function(el) {
+        if (el.innerHTML.toLowerCase().indexOf(lang) !== -1) {
+          el.click();
+        }
+      });
+    }
+  }
+</script>
 
   </body>
 
