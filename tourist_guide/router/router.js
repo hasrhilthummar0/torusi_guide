@@ -436,7 +436,15 @@ router.get("/origin_history",(req,res)=>{
 
 
 router.get("/aims_objectives",async(req,res)=>{
-    res.render("member/aims_objectives")
+    res.render("member/aeims_objective")
 })
 
+
+router.get("/about/about_the_founder",async(req,res)=>{
+    res.render("member/about_founder")
+})
+
+router.get("/about/about_membership",async(req,res)=>{
+    res.render("member/about_member")
+})
 module.exports = router;
