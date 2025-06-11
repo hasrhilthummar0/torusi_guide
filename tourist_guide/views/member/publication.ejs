@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<%- include('../common_pages/head') %>
+
+    <body>
+        <!--********************************
+    Code Start From Here
+    ******************************** -->
+        <%- include('../common_pages/header') %>
+            <!--==============================
+      Hero area Start
+    ==============================-->
+            <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
+                <div class="container z-index-common">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">Publication</h1>
+                        <div class="breadcumb-menu-wrap">
+                            <ul class="breadcumb-menu">
+                                <li><a href="/">Home</a></li>
+                                <li>Publication</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--==============================
+      Hero Area End
+    ==============================-->
+            <!--==============================
+    About Area Start
+    ==============================-->
+            <section class="py-5" id="newsletter">
+                <div class="container">
+                    <div class="text-center mb-4">
+                        <h2 class="position-relative d-inline-block">Newsletter</h2>
+                    </div>
+
+                    <% enquiry.forEach(function(enquiry, index) { %>
+                        <div class="row g-4 align-items-center mb-4">
+                            <!-- Left: Image -->
+                            <div class="col-md-5 text-center">
+                                <img src="<%= enquiry.image %>" alt="<%= enquiry.title %>"
+                                    class="img-fluid rounded shadow-sm" style="max-height: 500px; object-fit: cover;">
+                            </div>
+
+                            <!-- Right: Content -->
+                            <div class="col-md-7">
+                                <div class="p-3 border rounded bg-white h-100">
+                                    <h4 class="mb-2">
+                                        <span class="border-start border-primary border-4 ps-2 fw-bold">
+                                            <%= enquiry.title %>
+                                        </span>
+                                    </h4>
+
+                                    <p class="text-muted" style="text-align: justify;" id="desc-<%= index %>">
+                                        <%= enquiry.description.substring(0, 200) %>...
+                                            <span id="more-<%= index %>" style="display: none;">
+                                                <%= enquiry.description.substring(200) %>
+                                            </span>
+                                            <a href="javascript:void(0);" class="text-danger"
+                                                onclick="toggleMore(<%= index %>)" id="readmore-<%= index %>">Read
+                                                more</a>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <nav aria-label="News pagination" class="text-center">
+                                <ul class="pagination justify-content-center mt-4">
+                                    <% if (currentPage> 1) { %>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                                        </li>
+                                        <% } else { %>
+                                            <li class="page-item disabled">
+                                                <span class="page-link">Previous</span>
+                                            </li>
+                                            <% } %>
+
+                                                <% for (let i=1; i <=totalPages; i++) { %>
+                                                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                        <a class="page-link" href="?page=<%= i %>">
+                                                            <%= i %>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+
+                                                        <% if (currentPage < totalPages) { %>
+                                                            <li class="page-item">
+                                                                <a class="page-link"
+                                                                    href="?page=<%= currentPage + 1 %>">Next</a>
+                                                            </li>
+                                                            <% } else { %>
+                                                                <li class="page-item disabled">
+                                                                    <span class="page-link">Next</span>
+                                                                </li>
+                                                                <% } %>
+                                </ul>
+                            </nav>
+
+                </div>
+            </section>
+
+            <!--==============================
+    About Area End
+    ==============================-->
+            <!--==============================
+      Histoy area Start
+    ==============================-->
+
+            <!--==============================
+      Histoy area End
+    ==============================-->
+            <!--==============================
+    Special Offer Area Start
+    ==============================-->
+
+            <!--==============================
+    Special Offer Area End
+    ==============================-->
+            <!-- ==============================
+    Testimonail Area Start
+    ==============================-->
+
+            <!-- ==============================
+    Testimonail Area End
+    ==============================-->
+            <!-- ==============================
+    Blogs Area Start
+    ============================== -->
+
+            <!-- ==============================
+    Blogs Area End
+    ============================== -->
+            <%- include('../common_pages/footer') %>
+
+                <!-- Scroll To Top -->
+                <a href="#" class="scrollToTop scroll-btn"><i class="far fa-arrow-up"></i></a>
+                <!-- ==============================
+    All Js File
+    ================================ -->
+                <!-- Jquery -->
+                <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+                <!-- Slick Slider -->
+                <script src="/js/slick.min.js"></script>
+                <!-- Bootstrap -->
+                <script src="/js/bootstrap.min.js"></script>
+                <!-- Magnific Popup -->
+                <script src="/js/jquery.magnific-popup.min.js"></script>
+                <!-- jquery Ui -->
+                <script src="/js/jquery-ui.min.js"></script>
+                <!-- Circle Progress -->
+                <script src="/js/circle-progress.min.js"></script>
+                <!-- isotope -->
+                <script src="/js/imagesLoaded.js"></script>
+                <script src="/js/isotope.js"></script>
+                <!-- Wow.js -->
+                <script src="/js/wow.min.js"></script>
+                <!-- Main Js File -->
+                <script src="/js/main.js"></script>
+                <script>
+                    function toggleMore(index) {
+                        const more = document.getElementById('more-' + index);
+                        const link = document.getElementById('readmore-' + index);
+
+                        if (more.style.display === "none") {
+                            more.style.display = "inline";
+                            link.innerText = "Read less";
+                        } else {
+                            more.style.display = "none";
+                            link.innerText = "Read more";
+                        }
+                    }
+                </script>
+    </body>
+
+</html>

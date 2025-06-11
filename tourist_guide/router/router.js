@@ -447,4 +447,41 @@ router.get("/about/about_the_founder",async(req,res)=>{
 router.get("/about/about_membership",async(req,res)=>{
     res.render("member/about_member")
 })
+
+
+router.get("/publications", (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 4;
+  const offset = (page - 1) * limit;
+
+
+  db.query("SELECT COUNT(*) AS count FROM tgc_news WHERE status = 'active'", (err, countResult) => {
+    if (err) {
+      console.error("Count error:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+
+    const totalRecords = countResult[0].count;
+    const totalPages = Math.ceil(totalRecords / limit);
+
+   
+    db.query(
+      "SELECT * FROM tgc_news WHERE status = 'active' ORDER BY created_at DESC LIMIT ? OFFSET ?",
+      [limit, offset],
+      (err, result) => {
+        if (err) {
+          console.error("Data error:", err);
+          return res.status(500).send("Internal Server Error");
+        }
+
+        res.render("member/publication", {
+          enquiry: result,
+          currentPage: page,
+          totalPages: totalPages,
+        });
+      }
+    );
+  });
+});
+
 module.exports = router;
