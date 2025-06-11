@@ -394,6 +394,15 @@ router.post("/submit_membership", async (req, res) => {
                 ];
 
                 const result = await query(insertQuery, values);
+                const generatedEmpid = `TGC${String(result.insertId).padStart(3, '0')}`;
+
+                const updateEmpidQuery = `
+                    UPDATE tgc_users
+                    SET empid = ?
+                    WHERE id = ?
+                `;
+
+                await query(updateEmpidQuery, [generatedEmpid, result.insertId]);
 
                 return res.json({
                     success: true,
@@ -421,5 +430,13 @@ router.post("/submit_membership", async (req, res) => {
 });
 
 
+router.get("/origin_history",(req,res)=>{
+    res.render("member/origin_history")
+})
+
+
+router.get("/aims_objectives",async(req,res)=>{
+    res.render("member/aims_objectives")
+})
 
 module.exports = router;

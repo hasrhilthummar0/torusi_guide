@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // database
 require('./database/db')
 const port = 2003;
-app.listen(port, ()=>{
+app.listen(port, '0.0.0.0',()=>{
     console.log(`Server is running on port ${port}`);
     
 })

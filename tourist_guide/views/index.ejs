@@ -1,9 +1,54 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <%- include('common_pages/head') %>
+  <style>
+    footer.footer-layout5.shape-mockup-wrap.z-index-common.background-image {
+      margin-top: 100px;
+    }
+
+    section.client-carousel-section {
+      padding: 110px 0px 0px 0px;
+    }
+
+    .swiper.client-swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden {
+      margin-top: 100px;
+    }
+
+    .qr-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding-top: 80px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .qr-modal-content {
+      background-color: #fff;
+      margin: auto;
+      padding: 15px;
+      width: fit-content;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+    }
+
+    .qr-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+    }
+  </style>
 
   <body>
-<div id="google_translate_element" style="display: none;"></div>
+    <div id="google_translate_element" style="display: none;"></div>
 
     <!-- HEADER PLACEHOLDER -->
 
@@ -21,8 +66,8 @@ Mobile Menu
             <li class="menu-item-has-children">
               <a href="javascript:void(0);">About</a>
               <ul class="sub-menu">
-                <li><a href="about/history">Origin History</a></li>
-                <li><a href="about/aim-objectives">Aims & Objectives</a></li>
+                <li><a href="/origin_history">Origin History</a></li>
+                <li><a href="/aims_objectives">Aims & Objectives</a></li>
                 <li><a href="about/founder">About the Founder</a></li>
                 <li><a href="about/board-members">Boards Members</a></li>
                 <li><a href="about/office-bearers">Office Bearers</a></li>
@@ -62,7 +107,7 @@ Sidemenu
         <img src="/img/logo_default.png" alt="Tourist Guide Club" class="popup-logo">
         <h2>BECOME A MEMBER</h2>
         <p>The biggest platform for professional tourist guides in India.</p>
-        <a href="/register" class="popup-button">REGISTER NOW</a>
+        <a href="/membership" class="popup-button">REGISTER NOW</a>
       </div>
     </div>
 
@@ -195,19 +240,19 @@ Header Area
               <!-- <ul class="general-list">
           <li><b><%= news.title %>:</b> <%= news.description %></li>
         </ul> -->
-                <% if (news && news.length> 0) { %>
-                  <ul class="general-list">
-                    <% news.forEach(item=> { %>
-                      <li><b>
-                          <%= item.title %>:
-                        </b>
-                        <%= item.description %>
-                      </li>
-                      <% }) %>
-                  </ul>
-                  <% } else { %>
-                    <p>No news available.</p>
-                    <% } %>
+              <% if (news && news.length> 0) { %>
+                <ul class="general-list">
+                  <% news.forEach(item=> { %>
+                    <li><b>
+                        <%= item.title %>:
+                      </b>
+                      <%= item.description %>
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } else { %>
+                  <p>No news available.</p>
+                  <% } %>
 
             </div>
           </div>
@@ -265,6 +310,23 @@ Header Area
           </div>
         </div>
       </section>
+      <section class="client-carousel-section">
+        <h1 class="text-center">In Association & Partnership With</h1>
+        <div class="swiper client-swiper">
+          <div class="swiper-wrapper mt-2">
+            <div class="swiper-slide"><img src="/img/slider1.jpg" alt="Lupin" /></div>
+            <div class="swiper-slide"><img src="/img/slider2.jpg" alt="Godrej" /></div>
+            <div class="swiper-slide"><img src="/img/slider3.jpg" alt="Nilkamal" /></div>
+            <div class="swiper-slide"><img src="/img/slider4.jpg" height="500px;" alt="LG" /></div>
+            <div class="swiper-slide"><img src="/img/slider1.jpg" alt="Lupin" /></div>
+            <div class="swiper-slide"><img src="/img/slider2.jpg" alt="Godrej" /></div>
+            <div class="swiper-slide"><img src="/img/slider3.jpg" alt="Nilkamal" /></div>
+            <div class="swiper-slide"><img src="/img/slider4.jpg" alt="LG" /></div>
+            <!-- Add more slides as needed -->
+          </div>
+        </div>
+      </section>
+
 
       <!-- FOOTER PLACEHOLDER -->
       <!--==============================
@@ -275,10 +337,87 @@ Footer Area
       <!-- Include your footer HTML content here -->
       <%- include('common_pages/footer') %>
 
+        <!-- QR Modal -->
+        <div id="qrModal" class="qr-modal">
+          <div class="qr-modal-content">
+            <span class="qr-close" id="closeQRScanner">&times;</span>
+            <div id="qr-reader" style="width: 300px"></div>
+            <div id="qr-reader-results"></div>
+          </div>
+        </div>
+
+        <!-- QR Code Scanner Library -->
+        <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+        <script>
+          // QR Scanner Functionality
+          document.addEventListener('DOMContentLoaded', function () {
+            const qrModal = document.getElementById("qrModal");
+            const openQRBtn = document.getElementById("openQRScanner");
+            const closeQRBtn = document.getElementById("closeQRScanner");
+            let html5QrcodeScanner;
+
+            openQRBtn.onclick = function () {
+              qrModal.style.display = "block";
+
+              // Initialize scanner
+              if (!html5QrcodeScanner) {
+                html5QrcodeScanner = new Html5QrcodeScanner(
+                  "qr-reader",
+                  {
+                    fps: 10,
+                    qrbox: 250,
+                    supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+                  },
+          /* verbose= */ false
+                );
+              }
+
+              function onScanSuccess(decodedText, decodedResult) {
+                // Handle the scanned code
+                console.log(`Scan result: ${decodedText}`, decodedResult);
+                alert("Scanned: " + decodedText);
+
+                // Stop scanning and close modal
+                html5QrcodeScanner.clear();
+                qrModal.style.display = "none";
+              }
+
+              function onScanFailure(error) {
+                // Handle scan failure
+                console.warn(`QR error = ${error}`);
+              }
+
+              // Start scanning
+              html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            };
+
+            closeQRBtn.onclick = function () {
+              qrModal.style.display = "none";
+              if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear();
+              }
+            };
+
+            window.onclick = function (event) {
+              if (event.target == qrModal) {
+                qrModal.style.display = "none";
+                if (html5QrcodeScanner) {
+                  html5QrcodeScanner.clear();
+                }
+              }
+            };
+          });
+        </script>
+
+
         <a href="#" class="scrollToTop scroll-btn"><i class="far fa-arrow-up"></i></a>
 
         <script src="/js/vendor/jquery-3.6.0.min.js"></script>
         <script src="/js/slick.min.js"></script>
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> -->
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/jquery.magnific-popup.min.js"></script>
         <script src="/js/jquery-ui.min.js"></script>
@@ -300,21 +439,49 @@ Footer Area
           };
         </script>
 
-<script>
-  function translateLanguage(lang) {
-    const frame = document.querySelector('iframe.goog-te-menu-frame');
-    if (frame) {
-      const innerDoc = frame.contentDocument || frame.contentWindow.document;
-      const langElements = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
+        <script>
+          function translateLanguage(lang) {
+            const frame = document.querySelector('iframe.goog-te-menu-frame');
+            if (frame) {
+              const innerDoc = frame.contentDocument || frame.contentWindow.document;
+              const langElements = innerDoc.querySelectorAll('.goog-te-menu2-item span.text');
 
-      langElements.forEach(function(el) {
-        if (el.innerHTML.toLowerCase().indexOf(lang) !== -1) {
-          el.click();
-        }
-      });
-    }
-  }
-</script>
+              langElements.forEach(function (el) {
+                if (el.innerHTML.toLowerCase().indexOf(lang) !== -1) {
+                  el.click();
+                }
+              });
+            }
+          }
+        </script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            new Swiper(".client-swiper", {
+              loop: true,
+              autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+              },
+              slidesPerView: 4,
+              spaceBetween: 40,
+              breakpoints: {
+                1024: {
+                  slidesPerView: 4,
+                },
+                768: {
+                  slidesPerView: 3,
+                },
+                480: {
+                  slidesPerView: 2,
+                },
+                320: {
+                  slidesPerView: 1,
+                },
+              },
+            });
+          });
+        </script>
+
 
   </body>
 
