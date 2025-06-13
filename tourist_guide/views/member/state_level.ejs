@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<%- include('../common_pages/head') %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+  <body>
+    <style>
+      ul.about-list1 {
+        display: block;
+      }
+    </style>
+    <!--********************************
+    Code Start From Here
+    ******************************** -->
+    <%- include('../common_pages/header') %>
+      <!--==============================
+      Hero area Start
+    ==============================-->
+      <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
+        <div class="container z-index-common">
+          <div class="breadcumb-content">
+            <h1 class="breadcumb-title">State Level</h1>
+
+            <div class="breadcumb-menu-wrap">
+              <ul class="breadcumb-menu">
+                <li><a href="/">Home</a></li>
+                <li>Tourist Guide </li>
+                <li>State Level</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--==============================
+      Hero Area End
+    ==============================-->
+      <!--==============================
+    About Area Start
+    ==============================-->
+
+      <section class="container py-5" style="margin-bottom: 60px;">
+        <div class="row g-4 justify-content-center">
+
+          <% if (guides && guides.length> 0) { %>
+            <% guides.forEach(function(guide) { %>
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="d-flex border rounded p-4 h-100" style="min-height: 200px;">
+                  <img src="/uploads/<%= guide.photo ? guide.photo : 'default.png' %>" alt="Profile"
+                    class="img-fluid rounded-circle me-4" style="width: 90px; height: 90px; object-fit: cover;">
+                  <div>
+                    <h5 class="fw-bold mb-2">
+                      <%= guide.name %>
+                    </h5>
+                    <p class="mb-1">City: <%= guide.district %>
+                    </p>
+                    <p class="mb-1">Mobile: <%= guide.mobile %>
+                    </p>
+                    <div class="text-warning">★ ★ ★ ★ ★</div>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+                <% } else { %>
+                  <p>No guides available.</p>
+                  <% } %>
+                    <div class="mt-4">
+                      <% if (totalPages> 1) { %>
+                        <nav>
+                          <ul class="pagination d-flex justify-content-center flex-wrap">
+                            <!-- Previous Button -->
+                            <% if (currentPage> 1) { %>
+                              <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                              </li>
+                              <% } else { %>
+                                <li class="page-item disabled">
+                                  <span class="page-link">Previous</span>
+                                </li>
+                                <% } %>
+
+                                  <!-- Page Numbers -->
+                                  <% for (let i=1; i <=totalPages; i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                      <a class="page-link" href="?page=<%= i %>">
+                                        <%= i %>
+                                      </a>
+                                    </li>
+                                    <% } %>
+
+                                      <!-- Next Button -->
+                                      <% if (currentPage < totalPages) { %>
+                                        <li class="page-item">
+                                          <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                                        </li>
+                                        <% } else { %>
+                                          <li class="page-item disabled">
+                                            <span class="page-link">Next</span>
+                                          </li>
+                                          <% } %>
+                          </ul>
+                        </nav>
+                        <% } %>
+                    </div>
+
+        </div>
+      </section>
+
+
+      <%- include('../common_pages/footer') %>
+
+        <!-- Scroll To Top -->
+        <a href="#" class="scrollToTop scroll-btn"><i class="fas fa-arrow-up"></i>
+        </a>
+        <!-- ==============================
+    All Js File
+    ================================ -->
+        <!-- Jquery -->
+        <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+        <!-- Slick Slider -->
+        <script src="/js/slick.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="/js/bootstrap.min.js"></script>
+        <!-- Magnific Popup -->
+        <script src="/js/jquery.magnific-popup.min.js"></script>
+        <!-- jquery Ui -->
+        <script src="/js/jquery-ui.min.js"></script>
+        <!-- Circle Progress -->
+        <script src="/js/circle-progress.min.js"></script>
+        <!-- isotope -->
+        <script src="/js/imagesLoaded.js"></script>
+        <script src="/js/isotope.js"></script>
+        <!-- Wow.js -->
+        <script src="/js/wow.min.js"></script>
+        <!-- Main Js File -->
+        <script src="/js/main.js"></script>
+  </body>
+
+</html>
