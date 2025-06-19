@@ -488,8 +488,8 @@ router.get("/publications", (req, res) => {
 //     res.render("member/panindia_level")
 // })
 router.get('/panindia_level', (req, res) => {
-  const page = parseInt(req.query.page) || 1; 
-  const limit = 6; 
+  const page = parseInt(req.query.page) || 1;
+  const limit = 6;
   const offset = (page - 1) * limit;
 
   // First, get total count
@@ -526,8 +526,8 @@ router.get('/panindia_level', (req, res) => {
 
 
 router.get('/regional_level', (req, res) => {
-  const page = parseInt(req.query.page) || 1; 
-  const limit = 6; 
+  const page = parseInt(req.query.page) || 1;
+  const limit = 6;
   const offset = (page - 1) * limit;
 
   const countQuery = `
@@ -562,8 +562,8 @@ router.get('/regional_level', (req, res) => {
 
 
 router.get('/state_level', (req, res) => {
-  const page = parseInt(req.query.page) || 1; 
-  const limit = 6; 
+  const page = parseInt(req.query.page) || 1;
+  const limit = 6;
   const offset = (page - 1) * limit;
 
 
@@ -599,8 +599,8 @@ router.get('/state_level', (req, res) => {
 
 
 router.get('/eco_guide', (req, res) => {
-  const page = parseInt(req.query.page) || 1; 
-  const limit = 6; 
+  const page = parseInt(req.query.page) || 1;
+  const limit = 6;
   const offset = (page - 1) * limit;
 
 
@@ -637,11 +637,11 @@ router.get('/eco_guide', (req, res) => {
 
 
 router.get('/konark', (req, res) => {
-  const page = parseInt(req.query.page) || 1; 
-  const limit = 6; 
+  const page = parseInt(req.query.page) || 1;
+  const limit = 6;
   const offset = (page - 1) * limit;
 
- 
+
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
     WHERE membership_cat = 'Konark Guide' AND status = 'Active'
@@ -674,10 +674,10 @@ router.get('/konark', (req, res) => {
 
 router.get('/nandankanan_guide', (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = 6; 
+  const limit = 6;
   const offset = (page - 1) * limit;
 
-  
+
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
     WHERE membership_cat = 'Nandankanan Guide' AND status = 'Active'
@@ -709,7 +709,7 @@ router.get('/nandankanan_guide', (req, res) => {
 
 
 router.get('/similipal_guide', (req, res) => {
-  const page = parseInt(req.query.page) || 1; 
+  const page = parseInt(req.query.page) || 1;
   const limit = 6; // itne container add he abhi change kar sakte he 
   const offset = (page - 1) * limit;
 
@@ -742,5 +742,51 @@ router.get('/similipal_guide', (req, res) => {
     });
   });
 });
+
+
+
+
+router.get('/top_tourist_guide', (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 6;
+  const offset = (page - 1) * limit;
+
+  // First, count the total matching records
+  const countQuery = `
+    SELECT COUNT(*) AS total FROM tgc_users
+    WHERE status = 'Active' AND isbest_guide = 1
+     ORDER BY id DESC
+    LIMIT 20
+  `;
+
+  db.query(countQuery, (err, countResult) => {
+    if (err) return res.status(500).send('Count error');
+
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
+
+    
+    const dataQuery = `
+      SELECT * FROM tgc_users
+      WHERE status = 'Active' AND isbest_guide = 1
+      ORDER BY id DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+
+    db.query(dataQuery, (err, results) => {
+      if (err) return res.status(500).send('Data error');
+
+      res.render('member/top_touristguide', {
+        guides: results,
+        currentPage: page,
+        totalPages: totalPages
+      });
+    });
+  });
+});
+
+
+
+
 
 module.exports = router;
