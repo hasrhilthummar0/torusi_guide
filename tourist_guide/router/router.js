@@ -596,7 +596,7 @@ router.get('/top_tourist_guide', (req, res) => {
     const total = countResult[0].total;
     const totalPages = Math.ceil(total / limit);
 
-    
+
     const dataQuery = `
       SELECT * FROM tgc_users
       WHERE status = 'Active' AND isbest_guide = 1
@@ -617,9 +617,100 @@ router.get('/top_tourist_guide', (req, res) => {
 });
 
 
-router.get("/gallery/photos",(req,res)=>{
-  res.render("member/photo")
-})
+router.get('/gallery', async (req, res) => {
+  try {
+    const perPage = 9;
+    const page = parseInt(req.query.page) || 1;
+    const offset = (page - 1) * perPage;
+
+    // Get total count
+    const totalCount = await new Promise((resolve, reject) => {
+      db.query('SELECT COUNT(*) AS count FROM gallery_categories', (err, result) => {
+        if (err) return reject(err);
+        resolve(result[0].count);
+      });
+    });
+
+    // Get paginated records
+    const categories = await new Promise((resolve, reject) => {
+      db.query(
+        'SELECT * FROM gallery_categories LIMIT ? OFFSET ?',
+        [perPage, offset],
+        (err, results) => {
+          if (err) return reject(err);
+          resolve(results);
+        }
+      );
+    });
+
+    const totalPages = Math.ceil(totalCount / perPage);
+
+    // ✅ Pass totalPages and currentPage to EJS
+    res.render('member/photo', {
+      categories,
+      currentPage: page,
+      totalPages,
+    });
+  } catch (err) {
+    console.error('Gallery query failed:', err);
+    res.status(500).send('Server error');
+  }
+});
+
+
+ // AHYA CHANGE HTO 
+
+
+
+ router.get('/gallery/:slug', async (req, res) => {
+  const slug = req.params.slug;
+  const perPage = 6;
+  const page = parseInt(req.query.page) || 1;
+  const offset = (page - 1) * perPage;
+
+  try {
+    const [catRows] = await new Promise((resolve, reject) => {
+      db.query('SELECT * FROM gallery_categories WHERE slug = ?', [slug], (err, result) => {
+        if (err) return reject(err);
+        resolve([result]);
+      });
+    });
+
+    const category = catRows[0];
+    if (!category) return res.status(404).send('Category not found');
+
+    const [countRows] = await new Promise((resolve, reject) => {
+      db.query('SELECT COUNT(*) AS count FROM gallery_images WHERE category_id = ?', [category.id], (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+
+    const totalCount = countRows.count || countRows[0]?.count || 0;
+
+    const [images] = await new Promise((resolve, reject) => {
+      db.query('SELECT * FROM gallery_images WHERE category_id = ? LIMIT ? OFFSET ?', [category.id, perPage, offset], (err, result) => {
+        if (err) return reject(err);
+        resolve([result]);
+      });
+    });
+
+    const totalPages = Math.ceil(totalCount / perPage);
+
+    // ✅ Make sure to send currentPage and totalPages
+    res.render('member/gallery_detail', {
+      category,
+      images,
+      currentPage: page,
+      totalPages
+    });
+
+  } catch (err) {
+    console.error('Gallery error:', err);
+    res.status(500).send('Server error');
+  }
+});
+
 
 
 module.exports = router;

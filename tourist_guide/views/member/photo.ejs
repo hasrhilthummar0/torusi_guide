@@ -2,7 +2,40 @@
 <html class="no-js" lang="en">
 <%- include('../common_pages/head') %>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<style>
+  .category-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
 
+  .category-gallery a {
+    width: calc(33.333% - 20px); /* 3 items per row with spacing */
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .category-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .category-gallery p {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #3b5e0a;
+  }
+
+  @media (max-width: 768px) {
+    .category-gallery a {
+      width: 100%; /* Stack on small screens */
+    }
+  }
+</style>
   <body>
     <style>
       ul.about-list1 {
@@ -37,8 +70,47 @@
       <!--==============================
     About Area Start
     ==============================-->
+    <section>
+  <h2 style="text-align: center;">OUR GALLERY</h2>
+  <div class="category-gallery">
+    <% categories.forEach(cat => { %>
+      <a href="/gallery/<%= cat.slug %>">
+        <img src="/uploads/<%= cat.cover_image %>" alt="<%= cat.title %>">
+        <p><%= cat.title.toUpperCase() %></p>
+      </a>
+    <% }) %>
+  </div>
 
-     
+  <!-- Pagination -->
+  <!-- Pagination -->
+<!-- Pagination -->
+<!-- Pagination -->
+<div class="d-flex justify-content-center mt-4">
+  <ul class="pagination">
+
+    <!-- Prev Button -->
+    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+      <a class="page-link" href="/gallery?page=<%= currentPage - 1 %>">Previous</a>
+    </li>
+
+    <!-- Page Numbers -->
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+        <a class="page-link" href="/gallery?page=<%= i %>"><%= i %></a>
+      </li>
+    <% } %>
+
+    <!-- Next Button -->
+    <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+      <a class="page-link" href="/gallery?page=<%= currentPage + 1 %>">Next</a>
+    </li>
+
+  </ul>
+</div>
+
+
+</section>
+
 
       <%- include('../common_pages/footer') %>
 
