@@ -617,13 +617,13 @@ router.get('/top_tourist_guide', (req, res) => {
 });
 
 
-router.get('/gallery', async (req, res) => {
+router.get('/photos', async (req, res) => {
   try {
     const perPage = 9;
     const page = parseInt(req.query.page) || 1;
     const offset = (page - 1) * perPage;
 
-    // Get total count
+    
     const totalCount = await new Promise((resolve, reject) => {
       db.query('SELECT COUNT(*) AS count FROM gallery_categories', (err, result) => {
         if (err) return reject(err);
@@ -631,7 +631,7 @@ router.get('/gallery', async (req, res) => {
       });
     });
 
-    // Get paginated records
+    
     const categories = await new Promise((resolve, reject) => {
       db.query(
         'SELECT * FROM gallery_categories LIMIT ? OFFSET ?',
@@ -645,7 +645,7 @@ router.get('/gallery', async (req, res) => {
 
     const totalPages = Math.ceil(totalCount / perPage);
 
-    // ✅ Pass totalPages and currentPage to EJS
+    
     res.render('member/photo', {
       categories,
       currentPage: page,
@@ -697,7 +697,7 @@ router.get('/gallery', async (req, res) => {
 
     const totalPages = Math.ceil(totalCount / perPage);
 
-    // ✅ Make sure to send currentPage and totalPages
+    
     res.render('member/gallery_detail', {
       category,
       images,
