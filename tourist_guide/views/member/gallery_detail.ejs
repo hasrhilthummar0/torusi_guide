@@ -21,13 +21,14 @@
             <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
                 <div class="container z-index-common">
                     <div class="breadcumb-content">
-                        <h1 class="breadcumb-title">Photos</h1>
+                        <h1 class="breadcumb-title"><%= category.title %> Photos</h1>
 
                         <div class="breadcumb-menu-wrap">
                             <ul class="breadcumb-menu">
                                 <li><a href="/">Home</a></li>
                                 <li>Gallery </li>
-                                <li>Photos</li>
+                                <li><a href="/photos">Photos</a></li>
+                                <li><%= category.title %>  Photos</li>
                             </ul>
                         </div>
                     </div>
