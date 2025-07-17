@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide Profile Page</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #007bff;
+      /* Example primary color */
+      --text-color: #333;
+      --text-muted: #6c757d;
+      --background-color: #f7f6f2;
+      /* Light beige background from image */
+      --card-background: #ffffff;
+      --border-color: #e9e8e1;
+      --green-color: #1abc9c;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* --- Header Section --- */
+    .profile-header {
+      position: relative;
+      height: 350px;
+      background: url('https://user-images.githubusercontent.com/10256857/202978051-e73f8612-4299-467f-8555-d36f264858ac.jpg') no-repeat center center;
+      background-size: cover;
+    }
+
+    .profile-intro {
+      position: absolute;
+      bottom: -50px;
+      left: 50px;
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-picture {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 4px solid var(--background-color);
+      object-fit: cover;
+    }
+
+    .profile-info {
+      margin-left: 20px;
+    }
+
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .claimed-badge {
+      color: var(--green-color);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-left: 10px;
+    }
+
+    .profile-actions {
+      position: absolute;
+      bottom: 20px;
+      right: 50px;
+    }
+
+    .action-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- Navigation --- */
+    .profile-nav {
+      background-color: #fff;
+      border-bottom: 1px solid var(--border-color);
+      padding-left: 200px;
+      /* Space for profile info */
+      margin-top: 50px;
+      /* Space for profile picture */
+    }
+
+    .profile-nav ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .profile-nav li a {
+      padding: 15px 20px;
+      display: block;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      border-bottom: 3px solid transparent;
+    }
+
+    .profile-nav li a.active,
+    .profile-nav li a:hover {
+      color: var(--text-color);
+      border-bottom-color: var(--green-color);
+    }
+
+    /* --- Main Content --- */
+    .main-content {
+      display: flex;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .left-column {
+      flex: 2;
+    }
+
+    .right-column {
+      flex: 1;
+    }
+
+    .content-card {
+      background: var(--card-background);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      padding: 25px;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-title i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+
+    /* Specific Card Styles */
+    .country-info {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    .country-info img {
+      width: 40px;
+      margin-right: 15px;
+    }
+
+    .about-me-text {
+      line-height: 1.8;
+    }
+
+    .expertise-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .photo-gallery img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .photo-gallery .more-photos {
+      background: #333;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .review-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .add-review-btn {
+      background: var(--green-color);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Right Column */
+    .contact-list li,
+    .stats-list li {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .contact-list i,
+    .stats-list i {
+      width: 25px;
+      margin-right: 10px;
+      color: var(--text-muted);
+    }
+
+    .inbox-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 600;
+      margin-top: 20px;
+    }
+
+    .stats-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 0;
+      gap: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="profile-header">
+    <%
+        //---------------------------------------------------------------------
+        // Code ne clean rakhva, badhi logic (image paths) upar define kari chhe
+        //---------------------------------------------------------------------
+
+        // Jo cover_photo hoy to teno path, nahi to default photo no path
+        const coverPhotoUrl = guide.cover_photo 
+            ? '/uploads/' + guide.cover_photo 
+            : '/images/default_cover.jpg';
+
+        // E j rite, profile photo maate pan default image set kari
+        const profilePhotoUrl = guide.photo 
+            ? '/uploads/' + guide.photo 
+            : '/images/default_avatar.png'; 
+    %>
+
+    <a href="<%= coverPhotoUrl %>" data-lightbox="guide-gallery" data-title="<%= guide.name %>'s Gallery">
+        <img src="<%= coverPhotoUrl %>" alt="Cover Photo" style="width:100%; height:350px; object-fit: cover;">
+    </a>
+
+    <div style="display: none;">
+        <a href="<%= profilePhotoUrl %>" data-lightbox="guide-gallery" data-title="<%= guide.name %>'s Profile Picture"></a>
+        
+        <% if (galleryPhotos && galleryPhotos.length > 0) { %>
+            <% galleryPhotos.forEach(function(photo) { %>
+                <a href="/uploads/<%= photo.image_filename %>" data-lightbox="guide-gallery"></a>
+            <% }) %>
+        <% } %>
+    </div>
+
+    <div class="profile-intro">
+        <img src="<%= profilePhotoUrl %>" alt="<%= guide.name %>'s Profile Picture" class="profile-picture">
+        <div class="profile-info">
+            <h1 class="profile-name">
+                <%= guide.name %>
+                <% if (guide.is_verified) { %>
+                    <span class="claimed-badge"><i class="fas fa-check"></i> CLAIMED</span>
+                <% } %>
+            </h1>
+        </div>
+    </div>
+
+    <div class="profile-actions">
+        <a href="#" class="action-btn"><i class="far fa-heart"></i> Favorite</a>
+        <a href="#" class="action-btn"><i class="far fa-envelope"></i> Inbox</a>
+        <a href="#" class="action-btn"><i class="fas fa-share-alt"></i> Share</a>
+    </div>
+</header>
+
+  <nav class="profile-nav">
+    <div class="container">
+      <ul>
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Expertise</a></li>
+        <li><a href="#">Country of Operation</a></li>
+        <li><a href="#">Guides Destinations</a></li>
+        <li><a href="#">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container main-content">
+
+    <div class="left-column">
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-flag"></i> Country</h2>
+        <div class="country-info">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Flag_of_Uganda.svg" alt="Uganda Flag">
+          <span>Uganda</span>
+        </div>
+      </section>
+
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-user"></i> About Me</h2>
+        <p class="about-me-text">
+          Turinayo Jonnan I am a Ugandan From western part of Uganda I am single Email: turinayojonnan@gmail.com Phone
+          number:+256961905449 I am a nature and cultural tour guide.
+        </p>
+      </section>
+
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-star"></i> Expertise</h2>
+        <div class="expertise-list">
+          <span>Bird Guide</span>
+          <span>Cultural Guide</span>
+          <span>Tourist Driver</span>
+          <span>Nature Guide</span>
+          <span>History and Monument Guide</span>
+        </div>
+      </section>
+
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-images"></i> Photos</h2>
+        <div class="photo-gallery">
+          <img
+            src="https://user-images.githubusercontent.com/10256857/202978051-e73f8612-4299-467f-8555-d36f264858ac.jpg"
+            alt="Gallery Photo 1">
+          <img
+            src="https://user-images.githubusercontent.com/10256857/202978065-27a32b07-3522-4240-8588-306911c66280.jpg"
+            alt="Gallery Photo 2">
+          <img
+            src="https://user-images.githubusercontent.com/10256857/202978068-966cf7e7-f140-42f0-9159-1d4b6797a627.jpg"
+            alt="Gallery Photo 3">
+          <a href="#" class="photo-gallery-item more-photos">4+ Photos</a>
+        </div>
+      </section>
+
+      <section class="review-section">
+        <h3>0 Review For Mike J Turinayo</h3>
+        <a href="#" class="add-review-btn"><i class="fas fa-plus"></i> Add a review</a>
+      </section>
+    </div>
+
+    <aside class="right-column">
+      <div class="content-card">
+        <h2 class="card-title"><i class="fas fa-address-book"></i> Contact Information</h2>
+        <ul class="contact-list" style="padding: 0;">
+          <li><i class="far fa-envelope"></i> turinayojonnan@gmail.com</li>
+          <li><i class="fas fa-phone"></i> +256761905449</li>
+        </ul>
+        <a href="#" class="inbox-btn">Inbox</a>
+      </div>
+
+      <div class="content-card">
+        <h2 class="card-title"><i class="fas fa-chart-bar"></i> My Statistic</h2>
+        <ul class="stats-list">
+          <li><i class="far fa-eye"></i> 165 Views</li>
+          <li><i class="far fa-star"></i> 0 Rating</li>
+          <li><i class="far fa-heart"></i> 0 Favorite</li>
+          <li><i class="fas fa-share-alt"></i> Share</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
+
+</html>

@@ -5,8 +5,190 @@
 
   <body>
     <style>
-      ul.about-list1 {
-        display: block;
+      /* Main Card Styling */
+      .guide-card {
+        background: #ffffff;
+        border-radius: 18px;
+        overflow: hidden;
+        /* Important for keeping rounded corners */
+        border: 1px solid #e0e0e0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        /* Crucial for positioning child elements */
+      }
+
+      .guide-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Cover Image Section */
+      .guide-bg {
+        position: relative;
+      }
+
+      .guide-bg img {
+        width: 100%;
+        height: 180px;
+        /* Adjusted height */
+        object-fit: cover;
+      }
+
+      /* Views Counter */
+      .views-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .views-badge i {
+        margin-right: 5px;
+      }
+
+      /* Wishlist Button */
+      .wishlist-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: #ffffff;
+        border: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .wishlist-btn:hover {
+        background-color: #ffe0e0;
+        transform: scale(1.1);
+      }
+
+      .wishlist-btn i {
+        color: #e74c3c;
+        font-size: 1.1rem;
+      }
+
+      /* --- KEY CHANGE FOR PROFILE PICTURE --- */
+      /* Your old CSS was named .profile-img, I've renamed it for clarity */
+      .profile-img-container {
+        position: absolute;
+        top: 180px;
+        /* SAME AS COVER IMAGE HEIGHT */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* This centers the image perfectly */
+        z-index: 2;
+      }
+
+      .profile-img-container img {
+        width: 95px;
+        height: 95px;
+        border-radius: 50%;
+        border: 4px solid #ffffff;
+        object-fit: cover;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      /* --- KEY CHANGE FOR CONTENT --- */
+      /* Your old CSS was .p-3, I've renamed it for clarity */
+      .card-body-content {
+        padding: 65px 15px 20px 15px;
+        /* INCREASED TOP PADDING to push text down */
+        text-align: center;
+      }
+
+      /* Guide Name */
+      .guide-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 4px;
+      }
+
+      .guide-tagline {
+        font-size: 0.95rem;
+        color: #7f8c8d;
+        margin-bottom: 15px;
+      }
+
+      /* Contact & Location Info */
+      .guide-info {
+        font-size: 1rem;
+        color: #34495e;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .guide-info i {
+        margin-right: 8px;
+      }
+
+      .guide-info .fa-phone-alt {
+        color: #27ae60;
+      }
+
+      .guide-info .fa-map-marker-alt {
+        color: #c0392b;
+      }
+
+      /* Star Ratings */
+      .rating-stars {
+        margin-top: 10px;
+        margin-bottom: 15px;
+      }
+
+      .rating-stars i {
+        color: #f1c40f;
+        font-size: 1.2rem;
+      }
+
+      /* Category Badge */
+      .category-badge {
+        background-color: #ecf0f1;
+        color: #34495e;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 6px 15px;
+        border-radius: 20px;
+      }
+
+      /* Aa CSS tamara <style> block ma umeri do */
+
+      /* Aa sudharelo CSS copy kari tamara 'verified-badge' na code sathe badli nakho */
+
+      .verified-badge {
+        position: absolute;
+        top: 60px;
+        /* Value vadhari, jethi button niche khase */
+        right: 12px;
+        background-color: #3498db;
+        color: #ffffff;
+        padding: 6px 12px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        z-index: 1;
+      }
+
+      .verified-badge i {
+        font-size: 0.9rem;
+        /* Icon ni size thodi adjust kari */
       }
     </style>
     <!--********************************
@@ -19,13 +201,12 @@
       <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
         <div class="container z-index-common">
           <div class="breadcumb-content">
-            <h1 class="breadcumb-title">Pan India Level</h1>
+            <h1 class="breadcumb-title">Top Tourist Guide</h1>
 
             <div class="breadcumb-menu-wrap">
               <ul class="breadcumb-menu">
                 <li><a href="/">Home</a></li>
-                <li>Tourist Guide </li>
-                <li>Pan India Level</li>
+                <li>Top Tourist Guide</li>
               </ul>
             </div>
           </div>
@@ -37,70 +218,107 @@
       <!--==============================
     About Area Start
     ==============================-->
+    <section class="container py-5" style="margin-bottom: 60px;">
+    <div class="row g-4 justify-content-center">
+        <% if (guides && guides.length > 0) { %>
+            <% guides.forEach(function(guide) { %>
 
-  <section class="container py-5" style="margin-bottom: 60px;">
-  <div class="row g-4 justify-content-center">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a href="/guide_profile/<%= guide.id %>" style="text-decoration: none; color: inherit;">
+                        <div class="guide-card">
 
-    <% if (guides && guides.length > 0) { %>
-      <% guides.forEach(function(guide) { %>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="d-flex border rounded p-4 h-100" style="min-height: 200px;">
-            <img src="/uploads/<%= guide.photo ? guide.photo : 'default.png' %>" alt="Profile"
-              class="img-fluid rounded-circle me-4" style="width: 90px; height: 90px; object-fit: cover;">
-            <div>
-              <h5 class="fw-bold mb-2"><%= guide.name %></h5>
-              <p class="mb-1">City: <%= guide.district %></p>
-              <p class="mb-1">Mobile: <%= guide.mobile %></p>
-              <div class="text-warning">★ ★ ★ ★ ★</div>
-            </div>
-          </div>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <p>No guides available.</p>
-    <% } %>
-
-     <div class="mt-4">
-                      <% if (totalPages> 1) { %>
-                        <nav>
-                          <ul class="pagination d-flex justify-content-center flex-wrap">
-                            <!-- Previous Button -->
-                            <% if (currentPage> 1) { %>
-                              <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
-                              </li>
-                              <% } else { %>
-                                <li class="page-item disabled">
-                                  <span class="page-link">Previous</span>
-                                </li>
+                            <div class="guide-bg">
+                                <img src="/uploads/<%= guide.cover_photo && guide.cover_photo !== '' ? guide.cover_photo : 'default-cover.jpg' %>" alt="Guide Cover">
+                                <div class="views-badge">
+                                    <i class="fas fa-eye"></i> <%= guide.views || 0 %> views
+                                </div>
+                                <button class="wishlist-btn">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <% if (guide.is_verified && guide.is_verified === 1) { %>
+                                    <span class="verified-badge">
+                                        VERIFIED <i class="fas fa-check-circle ms-1"></i>
+                                    </span>
                                 <% } %>
+                            </div>
 
-                                  <!-- Page Numbers -->
-                                  <% for (let i=1; i <=totalPages; i++) { %>
-                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                      <a class="page-link" href="?page=<%= i %>">
-                                        <%= i %>
-                                      </a>
-                                    </li>
-                                    <% } %>
+                            <div class="profile-img-container">
+                                <img src="/uploads/<%= guide.photo && guide.photo !== '' ? guide.photo : 'default.png' %>" alt="Profile">
+                            </div>
 
-                                      <!-- Next Button -->
-                                      <% if (currentPage < totalPages) { %>
-                                        <li class="page-item">
-                                          <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
-                                        </li>
-                                        <% } else { %>
-                                          <li class="page-item disabled">
-                                            <span class="page-link">Next</span>
-                                          </li>
-                                          <% } %>
-                          </ul>
-                        </nav>
+                            <div class="card-body-content">
+                                <h4 class="guide-name">
+                                    <%= guide.name %>
+                                </h4>
+                                <div class="guide-info">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <a href="https://wa.me/<%= guide.mobile %>" target="_blank" rel="noopener noreferrer">
+                                        <span>
+                                            <%= guide.mobile %>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="guide-info">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>
+                                        <%= guide.district %>
+                                    </span>
+                                </div>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="category-badge">Tourist Guide</span>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+
+            <% }) %>
+        <% } else { %>
+            <p class="text-center">No guides available.</p>
+        <% } %>
+
+        <% if (totalPages > 1) { %>
+            <div class="mt-4">
+                <nav>
+                    <ul class="pagination justify-content-center flex-wrap">
+                        <% if (currentPage > 1) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                            </li>
+                        <% } else { %>
+                            <li class="page-item disabled">
+                                <span class="page-link">Previous</span>
+                            </li>
                         <% } %>
-                    </div>
-
-  </div>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                            </li>
+                        <% } %>
+                        <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                            </li>
+                        <% } else { %>
+                            <li class="page-item disabled">
+                                <span class="page-link">Next</span>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+        <% } %>
+    </div>
 </section>
+
+
+
 
 
 

@@ -577,45 +577,86 @@ router.get('/similipal_guide', (req, res) => {
 
 
 
-router.get('/top_tourist_guide', (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = 6;
-  const offset = (page - 1) * limit;
+  router.get('/top_tourist_guide', (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 6;
+    const offset = (page - 1) * limit;
 
-  // First, count the total matching records
-  const countQuery = `
-    SELECT COUNT(*) AS total FROM tgc_users
-    WHERE status = 'Active' AND isbest_guide = 1
-     ORDER BY id DESC
-    LIMIT 20
-  `;
-
-  db.query(countQuery, (err, countResult) => {
-    if (err) return res.status(500).send('Count error');
-
-    const total = countResult[0].total;
-    const totalPages = Math.ceil(total / limit);
-
-
-    const dataQuery = `
-      SELECT * FROM tgc_users
-      WHERE status = 'Active' AND isbest_guide = 1
-      ORDER BY id DESC
-      LIMIT ${limit} OFFSET ${offset}
+    // Total count without ORDER BY or LIMIT
+    const countQuery = `
+      SELECT COUNT(*) AS total 
+      FROM tgc_users
+      WHERE status = 'active' AND isbest_guide = 1
     `;
 
-    db.query(dataQuery, (err, results) => {
-      if (err) return res.status(500).send('Data error');
+    db.query(countQuery, (err, countResult) => {
+      if (err) return res.status(500).send('Count error');
 
-      res.render('member/top_touristguide', {
-        guides: results,
-        currentPage: page,
-        totalPages: totalPages
+      const total = countResult[0].total;
+      const totalPages = Math.ceil(total / limit);
+
+      const dataQuery = `
+        SELECT * FROM tgc_users
+        WHERE status = 'active' AND isbest_guide = 1
+        ORDER BY id DESC
+        LIMIT ${limit} OFFSET ${offset}
+      `;
+
+      db.query(dataQuery, (err, results) => {
+        if (err) return res.status(500).send('Data error');
+
+        res.render('member/top_touristguide', {
+          guides: results,
+          currentPage: page,
+          totalPages: totalPages
+        });
       });
     });
   });
-});
 
+  function runQuery(sql, params) {
+      return new Promise((resolve, reject) => {
+          db.query(sql, params, (err, results) => {
+              if (err) {
+                  return reject(err);
+              }
+              resolve(results);
+          });
+      });
+  }
+
+ router.get("/guide_profile/:guideId", async (req, res) => {
+    try {
+        const { guideId } = req.params;
+
+        // --- Step 1: ગાઈડની મુખ્ય માહિતી મેળવો ---
+        const guideQuery = "SELECT * FROM tgc_users WHERE id = ?";
+        const guideRows = await runQuery(guideQuery, [guideId]);
+
+        // જો ગાઈડ ન મળે, તો 404 એરર મોકલો
+        if (guideRows.length === 0) {
+            return res.status(404).send("Guide not found");
+        }
+        // guideRows એરે માંથી પહેલો ઓબ્જેક્ટ guide વેરીએબલ માં સ્ટોર કરો
+        const guide = guideRows[0];
+
+        // --- Step 2: ગાઈડના ગેલેરી ફોટા મેળવો ---
+        const photosQuery = "SELECT * FROM guide_gallery_photos WHERE guide_id = ?";
+        const photoRows = await runQuery(photosQuery, [guideId]);
+
+        // --- Step 3: બંને ડેટાને EJS પેજ પર રેન્ડર કરો ---
+        // અહીં 'member/guide_profile' એ તમારા EJS ફાઈલનો પાથ છે.
+        res.render("member/guide_profile", {
+            guide: guide,           // EJS માં 'guide' નામથી ઉપલબ્ધ થશે
+            galleryPhotos: photoRows  // EJS માં 'galleryPhotos' નામથી ઉપલબ્ધ થશે
+        });
+
+    } catch (error) {
+        // જો કોઈ પણ ક્વેરીમાં એરર આવે તો...
+        console.error("Route Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 router.get('/photos', async (req, res) => {
   try {
@@ -623,7 +664,7 @@ router.get('/photos', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const offset = (page - 1) * perPage;
 
-    
+
     const totalCount = await new Promise((resolve, reject) => {
       db.query('SELECT COUNT(*) AS count FROM gallery_categories', (err, result) => {
         if (err) return reject(err);
@@ -631,7 +672,7 @@ router.get('/photos', async (req, res) => {
       });
     });
 
-    
+
     const categories = await new Promise((resolve, reject) => {
       db.query(
         'SELECT * FROM gallery_categories LIMIT ? OFFSET ?',
@@ -645,7 +686,7 @@ router.get('/photos', async (req, res) => {
 
     const totalPages = Math.ceil(totalCount / perPage);
 
-    
+
     res.render('member/photo', {
       categories,
       currentPage: page,
@@ -657,12 +698,7 @@ router.get('/photos', async (req, res) => {
   }
 });
 
-
- // AHYA CHANGE HTO 
-
-
-
- router.get('/gallery/:slug', async (req, res) => {
+router.get('/gallery/:slug', async (req, res) => {
   const slug = req.params.slug;
   const perPage = 6;
   const page = parseInt(req.query.page) || 1;
@@ -697,7 +733,7 @@ router.get('/photos', async (req, res) => {
 
     const totalPages = Math.ceil(totalCount / perPage);
 
-    
+
     res.render('member/gallery_detail', {
       category,
       images,
@@ -710,6 +746,8 @@ router.get('/photos', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+
 
 
 
