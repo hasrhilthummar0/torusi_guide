@@ -544,7 +544,7 @@ router.get('/similipal_guide', (req, res) => {
   const limit = 6; // itne container add he abhi change kar sakte he 
   const offset = (page - 1) * limit;
 
-  // select rw as count == tgc
+  
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
     WHERE membership_cat = 'Similipal Guide' AND status = 'Active'
@@ -582,12 +582,11 @@ router.get('/top_tourist_guide', (req, res) => {
   const limit = 6;
   const offset = (page - 1) * limit;
 
-  // Total count without ORDER BY or LIMIT
   const countQuery = `
-    SELECT COUNT(*) AS total 
-    FROM tgc_users
-    WHERE status = 'active' AND isbest_guide = 1
-  `;
+      SELECT COUNT(*) AS total 
+      FROM tgc_users
+      WHERE status = 'active' AND isbest_guide = 1
+    `;
 
   db.query(countQuery, (err, countResult) => {
     if (err) return res.status(500).send('Count error');
@@ -596,11 +595,11 @@ router.get('/top_tourist_guide', (req, res) => {
     const totalPages = Math.ceil(total / limit);
 
     const dataQuery = `
-      SELECT * FROM tgc_users
-      WHERE status = 'active' AND isbest_guide = 1
-      ORDER BY id DESC
-      LIMIT ${limit} OFFSET ${offset}
-    `;
+        SELECT * FROM tgc_users
+        WHERE status = 'active' AND isbest_guide = 1
+        ORDER BY id DESC
+        LIMIT ${limit} OFFSET ${offset}
+      `;
 
     db.query(dataQuery, (err, results) => {
       if (err) return res.status(500).send('Data error');
@@ -615,44 +614,127 @@ router.get('/top_tourist_guide', (req, res) => {
 });
 
 function runQuery(sql, params) {
-    return new Promise((resolve, reject) => {
-        db.query(sql, params, (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(results);
-        });
+  return new Promise((resolve, reject) => {
+    db.query(sql, params, (err, results) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(results);
     });
+  });
 }
 
 router.get("/guide_profile/:id", async (req, res) => {
+  try {
+    const guideId = req.params.id;
+
+
+    const guideQuery = "SELECT * FROM tgc_users WHERE id = ?";
+    const guideRows = await runQuery(guideQuery, [guideId]);
+
+
+    if (guideRows.length === 0) {
+      return res.status(404).send("Guide not found");
+    }
+    const guide = guideRows[0];
+
+
+    const photosQuery = "SELECT * FROM guide_gallery_photos WHERE guide_id = ?";
+    const photoRows = await runQuery(photosQuery, [guideId]);
+
+    const reviewsQuery = "SELECT * FROM reviews WHERE user_id = ? ORDER BY created_at DESC";
+    const reviewRows = await runQuery(reviewsQuery, [guideId]);
+
+    res.render("member/guide_profile", {
+      guide: guide,
+      galleryPhotos: photoRows,
+      reviews: reviewRows
+    });
+
+  } catch (error) {
+    console.error("Route Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.post("/api/guides/:id/toggle_favorite", async (req, res) => {
+  try {
+    const guideId = req.params.id;
+
+    const selectQuery = "SELECT isfavorite FROM tgc_users WHERE id = ?";
+    const rows = await runQuery(selectQuery, [guideId]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Guide not found" });
+    }
+
+    const currentStatus = rows[0].isfavorite;
+    const newStatus = currentStatus ? 0 : 1;
+
+    const updateQuery = "UPDATE tgc_users SET isfavorite = ? WHERE id = ?";
+    await runQuery(updateQuery, [newStatus, guideId]);
+
+    res.json({ success: true, isfavorite: newStatus });
+
+  } catch (error) {
+    console.error("Favorite toggle error:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
+
+router.post("/guides/:id/reviews", async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const { name, email, rating, review_text } = req.body;
+
+
+    const insertQuery = `
+            INSERT INTO reviews (user_id, reviewer_name, reviewer_email, rating, review_text) 
+            VALUES (?, ?, ?, ?, ?)
+        `;
+
+
+    await runQuery(insertQuery, [userId, name, email, rating, review_text]);
+
+
+    res.redirect(`/guide_profile/${userId}`);
+
+  } catch (error) {
+    console.error("Review Submission Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.post('/profile/views/:profileId', async (req, res) => {
+    const profileId = req.params.profileId;
+    const visitorIp = req.ip; // Get the visitor's IP address
+
     try {
-        const guideId = req.params.id;
+        // Insert visit only if not already recorded
+        await db.query(
+            "INSERT IGNORE INTO profile_visits (profile_id, visitor_ip, visit_time) VALUES (?, ?, NOW())",
+            [profileId, visitorIp]
+        );
 
-        // --- Step 1: Get guide details using our new function ---
-        const guideQuery = "SELECT * FROM tgc_users WHERE id = ?";
-        const guideRows = await runQuery(guideQuery, [guideId]);
+        // Get updated unique views count
+        const [viewResult] = await db.query(
+            "SELECT COUNT(DISTINCT visitor_ip) AS views FROM profile_visits WHERE profile_id = ?",
+            [profileId]
+        );
 
-        // If no guide is found, send a 404 error
-        if (guideRows.length === 0) {
-            return res.status(404).send("Guide not found");
-        }
-        const guide = guideRows[0];
+        const uniqueViews = viewResult[0].views || 0;
 
-        // --- Step 2: Get gallery photos using our new function ---
-        const photosQuery = "SELECT * FROM guide_gallery_photos WHERE guide_id = ?";
-        const photoRows = await runQuery(photosQuery, [guideId]);
-
-        // --- Step 3: Render the page with BOTH sets of data ---
-        res.render("member/guide_profile", {
-            guide: guide,
-            galleryPhotos: photoRows
+        res.json({
+            success: true,
+            views: uniqueViews
         });
-
-    } catch (error) {
-        // This 'catch' block will still handle all errors correctly
-        console.error("Route Error:", error);
-        res.status(500).send("Internal Server Error");
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
     }
 });
 

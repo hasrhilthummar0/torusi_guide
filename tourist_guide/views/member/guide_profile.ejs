@@ -2,394 +2,217 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guide Profile Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide Profile Page</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --text-color: #333;
-            --text-muted: #6c757d;
-            --background-color: #f7f6f2;
-            --card-background: #ffffff;
-            --border-color: #e9e8e1;
-            --green-color: #1abc9c;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            margin: 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* --- Header Section --- */
-        .profile-header {
-            position: relative;
-            height: 350px;
-            background-color: #e0e0e0; /* Fallback color */
-        }
-
-        .profile-intro {
-            position: absolute;
-            bottom: -50px;
-            left: 50px;
-            display: flex;
-            align-items: center;
-        }
-
-        .profile-picture {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: 4px solid var(--background-color);
-            object-fit: cover;
-        }
-
-        .profile-info {
-            margin-left: 20px;
-        }
-
-        .profile-name {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .verified-tick {
-            color: #3498db;
-            font-size: 1.1rem; 
-            margin-left: 8px;
-        }
-
-        .profile-actions {
-            position: absolute;
-            bottom: 20px;
-            right: 50px;
-        }
-
-        .action-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 8px 15px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: 500;
-            margin-left: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover {
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        /* --- Navigation --- */
-        .profile-nav {
-            background-color: #fff;
-            border-bottom: 1px solid var(--border-color);
-            padding-left: 200px;
-            margin-top: 50px;
-        }
-
-        .profile-nav ul {
-            display: flex;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .profile-nav li a {
-            padding: 15px 20px;
-            display: block;
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            border-bottom: 3px solid transparent;
-        }
-
-        .profile-nav li a.active,
-        .profile-nav li a:hover {
-            color: var(--text-color);
-            border-bottom-color: var(--green-color);
-        }
-
-        /* --- Main Content --- */
-        .main-content {
-            display: flex;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .left-column {
-            flex: 2;
-            min-width: 300px; /* For better responsive behavior */
-        }
-
-        .right-column {
-            flex: 1;
-            min-width: 280px; /* For better responsive behavior */
-        }
-
-        .content-card {
-            background: var(--card-background);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-bottom: 30px;
-            padding: 25px;
-        }
-
-        .card-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .card-title i {
-            margin-right: 10px;
-            font-size: 1.1rem;
-        }
-
-        /* Specific Card Styles */
-        .country-info {
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-            font-size: 1.1rem;
-        }
-
-        .country-info img {
-            width: 40px;
-            margin-right: 15px;
-        }
-
-        .about-me-text {
-            line-height: 1.8;
-            white-space: pre-wrap; /* Preserves line breaks from the database */
-        }
-
-        .expertise-list {
-            display: flex; /* Changed for better wrapping */
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .expertise-item {
-            background-color: #f0f2f5;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-        }
-
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 10px;
-        }
-
-        .photo-gallery img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        
-        /* Right Column */
-        .contact-list, .stats-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .contact-list li,
-        .stats-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .contact-list i,
-        .stats-list i {
-            width: 25px;
-            margin-right: 10px;
-            color: var(--text-muted);
-        }
-
-        .inbox-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 600;
-            margin-top: 20px;
-        }
-
-        .stats-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-    </style>
+ <link rel="stylesheet" href="/css/guide_profile.css">
+  >
 </head>
 
 <body>
 
-    <header class="profile-header">
-        <% 
-           
-            const coverPhotoUrl = guide.cover_photo 
-                ? '/uploads/' + guide.cover_photo 
-                : '/uploads/default_cover.jpg';
+  <header class="profile-header">
+    <% const coverPhotoUrl=guide.cover_photo ? '/uploads/' + guide.cover_photo : '/uploads/default_cover.jpg' ; const
+      profilePhotoUrl=guide.photo ? '/uploads/' + guide.photo : '/uploads/default_avatar.png' ; %>
 
-            const profilePhotoUrl = guide.photo 
-                ? '/uploads/' + guide.photo 
-                : '/uploads/default_avatar.png'; 
-        %>
+      <a href="<%= coverPhotoUrl %>" data-lightbox="guide-gallery" data-title="<%= guide.name %>'s Gallery">
+        <img src="<%= coverPhotoUrl %>" alt="Cover Photo" style="width:100%; height:350px; object-fit: cover;">
+      </a>
 
-        <a href="<%= coverPhotoUrl %>" data-lightbox="guide-gallery" data-title="<%= guide.name %>'s Gallery">
-            <img src="<%= coverPhotoUrl %>" alt="Cover Photo" style="width:100%; height:350px; object-fit: cover;">
-        </a>
+      <div style="display: none;">
+        <a href="<%= profilePhotoUrl %>" data-lightbox="guide-gallery"
+          data-title="<%= guide.name %>'s Profile Picture"></a>
+        <% if (galleryPhotos && galleryPhotos.length> 0) { %>
+          <% galleryPhotos.forEach(function(photo) { %>
+            <a href="/uploads/<%= photo.image_filename %>" data-lightbox="guide-gallery"></a>
+            <% }) %>
+              <% } %>
+      </div>
 
-        <div style="display: none;">
-            <a href="<%= profilePhotoUrl %>" data-lightbox="guide-gallery" data-title="<%= guide.name %>'s Profile Picture"></a>
-            <% if (galleryPhotos && galleryPhotos.length > 0) { %>
-                <% galleryPhotos.forEach(function(photo) { %>
-                    <a href="/uploads/<%= photo.image_filename %>" data-lightbox="guide-gallery"></a>
-                <% }) %>
+      <div class="profile-intro">
+        <img src="<%= profilePhotoUrl %>" alt="<%= guide.name %>'s Profile Picture" class="profile-picture">
+        <div class="profile-info">
+          <h1 class="profile-name">
+            <%= guide.name %>
+              <% if (guide.is_verified) { %>
+                <span class="verified-tick"><i class="fas fa-check-circle"></i></span>
+                <% } %>
+          </h1>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <% if (guide.isfavorite) { %>
+          <a href="#" id="favorite-btn" class="action-btn favorited" data-guide-id="<%= guide.id %>">
+            <i class="fas fa-heart"></i> Favorite
+          </a>
+          <% } else { %>
+            <a href="#" id="favorite-btn" class="action-btn" data-guide-id="<%= guide.id %>">
+              <i class="far fa-heart"></i> Favorite
+            </a>
             <% } %>
-        </div>
 
-        <div class="profile-intro">
-            <img src="<%= profilePhotoUrl %>" alt="<%= guide.name %>'s Profile Picture" class="profile-picture">
-            <div class="profile-info">
-                <h1 class="profile-name">
-                    <%= guide.name %>
-                    <% if (guide.is_verified) { %>
-                        <span class="verified-tick"><i class="fas fa-check-circle"></i></span>
-                    <% } %>
-                </h1>
+              <a href="mailto:<%= guide.email %>" class="action-btn"><i class="far fa-envelope"></i> Inbox</a>
+              <a href="#" class="action-btn"><i class="fas fa-share-alt"></i> Share</a>
+      </div>
+  </header>
+
+  <nav class="profile-nav">
+    <div class="container">
+      <ul>
+        <li><a href="#" class="active">Home</a></li>
+        <!-- <li><a href="#">Expertise</a></li>
+        <li><a href="#">Country of Operation</a></li>
+        <li><a href="#">Guides Destinations</a></li>
+        <li><a href="#">Videos</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container main-content">
+
+    <div class="left-column">
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-flag"></i> Country</h2>
+        <div class="country-info">
+          <img src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" alt="India Flag">
+          <span>India</span>
+        </div>
+      </section>
+
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-user"></i> About Me</h2>
+        <p class="about-me-text">
+          <%= guide.bio || 'No biography provided.' %>
+        </p>
+      </section>
+
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-star"></i> Expertise</h2>
+        <div class="expertise-list">
+          <% if (guide.expertise && guide.expertise.length> 0) { %>
+            <% guide.expertise.split(',').forEach(function(item) { %>
+              <span class="expertise-item">
+                <%= item.trim() %>
+              </span>
+              <% }) %>
+                <% } else { %>
+                  <p>No expertise listed.</p>
+                  <% } %>
+        </div>
+      </section>
+
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-images"></i> Photos</h2>
+        <div class="photo-gallery">
+          <% if (galleryPhotos && galleryPhotos.length> 0) { %>
+            <% galleryPhotos.forEach(function(photo) { %>
+              <a href="/uploads/<%= photo.image_filename %>" data-lightbox="guide-gallery"
+                data-title="<%= guide.name %>'s Gallery">
+                <img src="/uploads/<%= photo.image_filename %>" alt="Gallery Photo">
+              </a>
+              <% }) %>
+                <% } else { %>
+                  <p>No photos have been uploaded yet.</p>
+                  <% } %>
+        </div>
+      </section>
+      <section class="content-card">
+        <h2 class="card-title"><i class="fas fa-star"></i> Leave a Review</h2>
+
+        <form class="review-form" action="/guides/<%= guide.id %>/reviews" method="POST">
+
+          <div class="form-group">
+            <label>Your Rating</label>
+            <div class="star-rating">
+              <input type="radio" id="5-stars" name="rating" value="5" required /><label for="5-stars" class="star"><i
+                  class="fas fa-star"></i></label>
+              <input type="radio" id="4-stars" name="rating" value="4" /><label for="4-stars" class="star"><i
+                  class="fas fa-star"></i></label>
+              <input type="radio" id="3-stars" name="rating" value="3" /><label for="3-stars" class="star"><i
+                  class="fas fa-star"></i></label>
+              <input type="radio" id="2-stars" name="rating" value="2" /><label for="2-stars" class="star"><i
+                  class="fas fa-star"></i></label>
+              <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" class="star"><i
+                  class="fas fa-star"></i></label>
             </div>
-        </div>
+          </div>
 
-        <div class="profile-actions">
-            <a href="#" class="action-btn"><i class="far fa-heart"></i> Favorite</a>
-            <a href="#" class="action-btn"><i class="far fa-envelope"></i> Inbox</a>
-            <a href="#" class="action-btn"><i class="fas fa-share-alt"></i> Share</a>
-        </div>
-    </header>
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+          </div>
 
-    <nav class="profile-nav">
-        <div class="container">
-            <ul>
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Expertise</a></li>
-                <li><a href="#">Country of Operation</a></li>
-                <li><a href="#">Guides Destinations</a></li>
-                <li><a href="#">Videos</a></li>
-            </ul>
-        </div>
-    </nav>
+          <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+          </div>
 
-    <main class="container main-content">
+          <div class="form-group">
+            <label for="review_text">Your Review</label>
+            <textarea id="review_text" name="review_text" rows="5" placeholder="Write your experience here..."
+              required></textarea>
+          </div>
 
-        <div class="left-column">
-            <section class="content-card">
-                <h2 class="card-title"><i class="fas fa-flag"></i> Country</h2>
-                <div class="country-info">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" alt="India Flag">
-                    <span>India</span>
-                </div>
-            </section>
-            
-            <section class="content-card">
-                <h2 class="card-title"><i class="fas fa-user"></i> About Me</h2>
-                <p class="about-me-text"><%= guide.bio || 'No biography provided.' %></p>
-            </section>
+          <input type="hidden" name="guide_id" value="<%= guide.id %>">
 
-            <section class="content-card">
-                <h2 class="card-title"><i class="fas fa-star"></i> Expertise</h2>
-                <div class="expertise-list">
-                    <% if (guide.expertise && guide.expertise.length > 0) { %>
-                        <% guide.expertise.split(',').forEach(function(item) { %>
-                            <span class="expertise-item"><%= item.trim() %></span>
-                        <% }) %>
-                    <% } else { %>
-                        <p>No expertise listed.</p>
-                    <% } %>
-                </div>
-            </section>
+          <div class="form-group">
+            <button type="submit" class="submit-btn">Submit Review</button>
+          </div>
 
-            <section class="content-card">
-                <h2 class="card-title"><i class="fas fa-images"></i> Photos</h2>
-                <div class="photo-gallery">
-                    <% if (galleryPhotos && galleryPhotos.length > 0) { %>
-                        <% galleryPhotos.forEach(function(photo) { %>
-                            <a href="/uploads/<%= photo.image_filename %>" data-lightbox="guide-gallery" data-title="<%= guide.name %>'s Gallery">
-                                <img src="/uploads/<%= photo.image_filename %>" alt="Gallery Photo">
-                            </a>
-                        <% }) %>
-                    <% } else { %>
-                        <p>No photos have been uploaded yet.</p>
-                    <% } %>
-                </div>
-            </section>
-        </div>
+        </form>
+      </section>
+    </div>
 
-        <aside class="right-column">
-            <div class="content-card">
-                <h2 class="card-title"><i class="fas fa-address-book"></i> Contact Information</h2>
-                <ul class="contact-list">
-                    <li>
-                        <i class="far fa-envelope"></i>
-                        <span><%= guide.email %></span>
-                    </li>
-                    <li>
-                        <i class="fas fa-phone"></i>
-                        <span><%= guide.mobile %></span>
-                    </li>
-                </ul>
-                <a href="mailto:<%= guide.email %>" class="inbox-btn">Inbox</a>
-            </div>
+    <aside class="right-column">
+      <div class="content-card">
+        <h2 class="card-title"><i class="fas fa-address-book"></i> Contact Information</h2>
+        <ul class="contact-list">
+          <li>
+            <i class="far fa-envelope"></i>
+            <span>
+              <%= guide.email %>
+            </span>
+          </li>
+          <li>
+            <i class="fas fa-phone"></i>
+            <span>
+              <%= guide.mobile %>
+            </span>
+          </li>
+        </ul>
+        <a href="mailto:<%= guide.email %>" class="inbox-btn">Inbox</a>
+      </div>
 
-            <div class="content-card">
-                <h2 class="card-title"><i class="fas fa-chart-bar"></i> My Statistic</h2>
-                <ul class="stats-list">
-                    <li><i class="far fa-eye"></i> <%= guide.views || 0 %> Views</li>
-                    <li><i class="far fa-star"></i> <%= guide.rating || 0 %> Rating</li>
-                    <li><i class="far fa-heart"></i> <%= guide.favorites || 0 %> Favorite</li>
-                    <li><i class="fas fa-share-alt"></i> Share</li>
-                </ul>
-            </div>
-        </aside>
-    </main>
+      <div class="content-card">
+        <h2 class="card-title"><i class="fas fa-chart-bar"></i> My Statistic</h2>
+        <ul class="stats-list">
+          <li><i class="far fa-eye"></i>
+            <span id="views-count">
+              <%= guide.views || 0 %> Views
+            </span>
+          </li>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
+          <li><i class="far fa-star"></i>
+            <%= reviews.length || 0 %> Reviews
+          </li>
+
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
+  <script src="/js/favourite.js"></script>
+  <script src="/js/profile_visit.js"></script>
 
 </body>
+
 </html>

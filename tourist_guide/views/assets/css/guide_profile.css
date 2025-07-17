@@ -1,0 +1,350 @@
+:root {
+      --primary-color: #007bff;
+      --text-color: #333;
+      --text-muted: #6c757d;
+      --background-color: #f7f6f2;
+      --card-background: #ffffff;
+      --border-color: #e9e8e1;
+      --green-color: #1abc9c;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* --- Header Section --- */
+    .profile-header {
+      position: relative;
+      height: 350px;
+      background-color: #e0e0e0;
+      /* Fallback color */
+    }
+
+    .profile-intro {
+      position: absolute;
+      bottom: -50px;
+      left: 50px;
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-picture {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 4px solid var(--background-color);
+      object-fit: cover;
+    }
+
+    .profile-info {
+      margin-left: 20px;
+    }
+
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .verified-tick {
+      color: #3498db;
+      font-size: 1.1rem;
+      margin-left: 8px;
+    }
+
+    .profile-actions {
+      position: absolute;
+      bottom: 20px;
+      right: 50px;
+    }
+
+    .action-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- Navigation --- */
+    .profile-nav {
+      background-color: #fff;
+      border-bottom: 1px solid var(--border-color);
+      padding-left: 200px;
+      margin-top: 50px;
+    }
+
+    .profile-nav ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .profile-nav li a {
+      padding: 15px 20px;
+      display: block;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      border-bottom: 3px solid transparent;
+    }
+
+    .profile-nav li a.active,
+    .profile-nav li a:hover {
+      color: var(--text-color);
+      border-bottom-color: var(--green-color);
+    }
+
+    /* --- Main Content --- */
+    .main-content {
+      display: flex;
+      flex-wrap: wrap;
+      /* Allow wrapping on smaller screens */
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .left-column {
+      flex: 2;
+      min-width: 300px;
+      /* For better responsive behavior */
+    }
+
+    .right-column {
+      flex: 1;
+      min-width: 280px;
+      /* For better responsive behavior */
+    }
+
+    .content-card {
+      background: var(--card-background);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      padding: 25px;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-title i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+
+    /* Specific Card Styles */
+    .country-info {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    .country-info img {
+      width: 40px;
+      margin-right: 15px;
+    }
+
+    .about-me-text {
+      line-height: 1.8;
+      white-space: pre-wrap;
+      /* Preserves line breaks from the database */
+    }
+
+    .expertise-list {
+      display: flex;
+      /* Changed for better wrapping */
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .expertise-item {
+      background-color: #f0f2f5;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 0.9rem;
+    }
+
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .photo-gallery img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    /* Right Column */
+    .contact-list,
+    .stats-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .contact-list li,
+    .stats-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .contact-list i,
+    .stats-list i {
+      width: 25px;
+      margin-right: 10px;
+      color: var(--text-muted);
+    }
+
+    .inbox-btn {
+      display: block;
+      /* width: 100%; */
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 600;
+      margin-top: 20px;
+    }
+
+    .stats-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .action-btn.favorited {
+      background-color: #fff0f0;
+      border-color: #e74c3c;
+      color: #e74c3c;
+      font-weight: 600;
+    }
+
+    .action-btn.favorited i {
+      color: #e74c3c;
+    }
+
+    /* Review Form Styling */
+    .review-form {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      /* Adds space between form elements */
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      /* Important for padding and width */
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      /* Allows vertical resizing only */
+    }
+
+    .submit-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Star Rating Styling */
+    .star-rating {
+      display: flex;
+      flex-direction: row-reverse;
+      /* This is the key for the hover effect */
+      justify-content: flex-end;
+      /* Aligns stars to the left */
+    }
+
+    .star-rating input[type="radio"] {
+      display: none;
+      /* Hides the actual radio button */
+    }
+
+    .star-rating label.star {
+      font-size: 2rem;
+      /* Star size */
+      color: #ddd;
+      /* Default star color */
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    /* When a star is hovered or any star after it is hovered */
+    .star-rating:not(:hover) input:checked~label.star,
+    .star-rating:hover input:hover~label.star {
+      color: #ffc107;
+      /* Gold color for selected/hovered stars */
+    }
+
+    .star-rating input:checked+label.star:hover,
+    .star-rating input:checked~label.star:hover,
+    .star-rating label.star:hover~input:checked~label.star,
+    .star-rating input:checked~label.star:hover~label.star {
+      color: #ffc107;
+    }
