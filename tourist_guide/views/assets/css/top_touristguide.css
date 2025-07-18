@@ -1,0 +1,180 @@
+
+    /* Main Card Styling */
+    .guide-card {
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid #e0e0e0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .guide-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    /* --- CORRECTED CODE BLOCK --- */
+    /* Cover Image Section - Corrected for Robustness */
+    .guide-bg {
+      position: relative;
+      /* ADDED: A fallback background color */
+      background-color: #f0f2f5;
+      /* ADDED: Ensures the container keeps its height even if the image is broken */
+      min-height: 180px; 
+    }
+
+    .guide-bg img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    /* Views Counter */
+    .views-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #ffffff;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .views-badge i {
+      margin-right: 5px;
+    }
+
+    /* Wishlist Button */
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #ffffff;
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .wishlist-btn:hover {
+      background-color: #ffe0e0;
+      transform: scale(1.1);
+    }
+
+    .wishlist-btn i {
+      color: #e74c3c;
+      font-size: 1.1rem;
+    }
+
+    /* Profile Picture Container */
+    .profile-img-container {
+      position: absolute;
+      top: 180px;
+      /* SAME AS COVER IMAGE HEIGHT */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /* This centers the image perfectly */
+      z-index: 2;
+    }
+
+    .profile-img-container img {
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      object-fit: cover;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Card Content Area */
+    .card-body-content {
+      padding: 65px 15px 20px 15px;
+      /* Top padding pushes text below the profile picture */
+      text-align: center;
+    }
+
+    /* Guide Name */
+    .guide-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 4px;
+    }
+
+    .guide-tagline {
+      font-size: 0.95rem;
+      color: #7f8c8d;
+      margin-bottom: 15px;
+    }
+
+    /* Contact & Location Info */
+    .guide-info {
+      font-size: 1rem;
+      color: #34495e;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .guide-info i {
+      margin-right: 8px;
+    }
+
+    .guide-info .fa-phone-alt {
+      color: #27ae60;
+    }
+
+    .guide-info .fa-map-marker-alt {
+      color: #c0392b;
+    }
+
+    /* Star Ratings */
+    .rating-stars {
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+
+    .rating-stars i {
+      color: #f1c40f;
+      font-size: 1.2rem;
+    }
+
+    /* Category Badge */
+    .category-badge {
+      background-color: #ecf0f1;
+      color: #34495e;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 15px;
+      border-radius: 20px;
+    }
+
+    .verified-badge {
+      position: absolute;
+      top: 60px;
+      right: 12px;
+      background-color: #3498db;
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .verified-badge i {
+      font-size: 0.9rem;
+    }
