@@ -829,9 +829,63 @@ router.get('/gallery/:slug', async (req, res) => {
 });
 
 router.get("/about/advisor",(req,res)=>{
-  res.render("member/advisor")
+  res.render("member/advisor");
 })
 
+
+router.get("/top-tourist-places", async (req, res) => {
+    try {
+        const sqlQuery = "SELECT * FROM tourist_places ORDER BY id DESC";
+
+        db.query(sqlQuery, (err, results) => {
+            if (err) {
+                console.error("Database query error:", err);
+                
+                return res.status(500).send("Server ma technical problem chhe."); 
+            }
+
+            // 'results' ma aavelo data 'places' naam na variable tarike EJS ma moklo
+            res.render("member/top_touristplace", {
+                places: results 
+            });
+        });
+
+    } catch (error) {
+        console.error("Route ma error:", error);
+        res.status(500).send("Server ma technical problem chhe.");
+    }
+});
+
+router.get("/tourist-places/:id", (req, res) => {
+    try {
+        // URL mathi 'id' prapt karo
+        const placeId = req.params.id; 
+        
+        // Database mathi te 'id' valo data shodho
+        const sqlQuery = "SELECT * FROM tourist_places WHERE id = ?";
+
+        db.query(sqlQuery, [placeId], (err, results) => {
+            if (err) {
+                console.error("Database query error:", err);
+                return res.status(500).send("Server ma technical problem chhe.");
+            }
+
+            // Jo data male to 'tourist_place_detail.ejs' page render karo
+            if (results.length > 0) {
+                res.render("member/tourist_place_detail", {
+                    place: results[0] // Pahelo record 'place' variable tarike moklo
+                });
+            } else {
+                // Jo data na male to 404 error moklo
+                res.status(404).send("Aa ID valo koi place malyo nahi.");
+            }
+        });
+
+    } catch (error) {
+        console.error("Route ma error:", error);
+        res.status(500).send("Server ma technical problem chhe.");
+    }
+});
 
 
 module.exports = router;

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<%- include('../common_pages/head') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <body>
+        <style>
+            .tour-card-link,
+            .tour-card-link:hover {
+                text-decoration: none;
+                /* Link ni niche ni line kadhi nakhshe */
+                color: inherit;
+                /* Link no color parent jevo j rakhe chhe */
+            }
+
+            /* Tamari CSS styles ahiya raheshe... (No Change) */
+            ul.about-list1 {
+                display: block;
+            }
+
+            .tour-card {
+                position: relative;
+                overflow: hidden;
+                border-radius: 15px;
+                margin-bottom: 30px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .tour-card__img {
+                position: relative;
+                display: block;
+            }
+
+            .tour-card__img img {
+                width: 100%;
+                height: 450px;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.4s ease;
+            }
+
+            .tour-card:hover .tour-card__img img {
+                transform: scale(1.05);
+            }
+
+            .tour-card__content {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: #F97316;
+                padding: 20px 25px;
+                color: #ffffff;
+                width: 100%;
+            }
+
+            .tour-card__title {
+                font-size: 24px;
+                font-weight: 700;
+                color: #ffffff;
+                margin: 0 0 5px 0;
+            }
+
+            .tour-card__text {
+                font-size: 16px;
+                color: #ffffff;
+                margin: 0;
+                font-weight: 400;
+            }
+               .detail-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .detail-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #333;
+            text-align: justify;
+        }
+        .gallery-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        </style>
+
+        <%- include('../common_pages/header') %>
+
+            <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
+                <div class="container z-index-common">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">Top Tourist Places</h1>
+                        <div class="breadcumb-menu-wrap">
+                            <ul class="breadcumb-menu">
+                                <li><a href="/">Home</a></li>
+                                <li>Top Tourist Places</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+   <div class="container py-5">
+        <% if (place) { %>
+            <div class="detail-container">
+                
+                <h1 class="display-4 text-center mb-4"><%= place.title %></h1>
+                
+                <img src="<%= place.image %>" alt="<%= place.title %>" class="main-image shadow-sm">
+                
+                <div class="detail-description my-4 fs-5">
+                     <%- place.description %>
+                </div>
+
+                <% if (place.image_1 && place.image_2) { %>
+                    <hr class="my-5">
+                    <h2 class="text-center mb-4">Gallery</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="<%= place.image_1 %>" alt="<%= place.title %> Gallery Image 1" class="gallery-image shadow-sm">
+                        </div>
+                        <div class="col-md-6">
+                            <img src="<%= place.image_2 %>" alt="<%= place.title %> Gallery Image 2" class="gallery-image shadow-sm">
+                        </div>
+                    </div>
+                <% } %>
+
+            </div>
+        <% } else { %>
+            <div class="text-center">
+                 <h2>Place Not Found</h2>
+                 <p>The place you are looking for does not exist.</p>
+                 <a href="/top-tourist-places" class="btn btn-primary">Back to Places</a>
+            </div>
+        <% } %>
+    </div>
+
+            <%- include('../common_pages/footer') %>
+
+                <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+                <script src="/js/slick.min.js"></script>
+                <script src="/js/bootstrap.min.js"></script>
+                <script src="/js/jquery.magnific-popup.min.js"></script>
+                <script src="/js/jquery-ui.min.js"></script>
+                <script src="/js/circle-progress.min.js"></script>
+                <script src="/js/imagesLoaded.js"></script>
+                <script src="/js/isotope.js"></script>
+                <script src="/js/wow.min.js"></script>
+                <script src="/js/main.js"></script>
+    </body>
+
+</html>
