@@ -828,7 +828,9 @@ router.get('/gallery/:slug', async (req, res) => {
   }
 });
 
-
+router.get("/about/advisor",(req,res)=>{
+  res.render("member/advisor")
+})
 
 
 
