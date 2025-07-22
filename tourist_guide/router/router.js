@@ -4,7 +4,7 @@ const db = require("../database/db");
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require('bcrypt');
-
+const nodemailer = require('nodemailer');
 
 
 
@@ -544,7 +544,7 @@ router.get('/similipal_guide', (req, res) => {
   const limit = 6; // itne container add he abhi change kar sakte he 
   const offset = (page - 1) * limit;
 
-  
+
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
     WHERE membership_cat = 'Similipal Guide' AND status = 'Active'
@@ -707,35 +707,35 @@ router.post("/guides/:id/reviews", async (req, res) => {
 });
 
 router.post('/profile/views/:profileId', async (req, res) => {
-    const profileId = req.params.profileId;
-    const visitorIp = req.ip; // Get the visitor's IP address
+  const profileId = req.params.profileId;
+  const visitorIp = req.ip; // Get the visitor's IP address
 
-    try {
-        // Insert visit only if not already recorded
-        await db.query(
-            "INSERT IGNORE INTO profile_visits (profile_id, visitor_ip, visit_time) VALUES (?, ?, NOW())",
-            [profileId, visitorIp]
-        );
+  try {
+    // Insert visit only if not already recorded
+    await db.query(
+      "INSERT IGNORE INTO profile_visits (profile_id, visitor_ip, visit_time) VALUES (?, ?, NOW())",
+      [profileId, visitorIp]
+    );
 
-        // Get updated unique views count
-        const [viewResult] = await db.query(
-            "SELECT COUNT(DISTINCT visitor_ip) AS views FROM profile_visits WHERE profile_id = ?",
-            [profileId]
-        );
+    // Get updated unique views count
+    const [viewResult] = await db.query(
+      "SELECT COUNT(DISTINCT visitor_ip) AS views FROM profile_visits WHERE profile_id = ?",
+      [profileId]
+    );
 
-        const uniqueViews = viewResult[0].views || 0;
+    const uniqueViews = viewResult[0].views || 0;
 
-        res.json({
-            success: true,
-            views: uniqueViews
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: "Server error"
-        });
-    }
+    res.json({
+      success: true,
+      views: uniqueViews
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
 });
 
 
@@ -828,63 +828,114 @@ router.get('/gallery/:slug', async (req, res) => {
   }
 });
 
-router.get("/about/advisor",(req,res)=>{
+router.get("/about/advisor", (req, res) => {
   res.render("member/advisor");
 })
 
 
 router.get("/top-tourist-places", async (req, res) => {
-    try {
-        const sqlQuery = "SELECT * FROM tourist_places ORDER BY id DESC";
+  try {
+    const sqlQuery = "SELECT * FROM tourist_places ORDER BY id DESC";
 
-        db.query(sqlQuery, (err, results) => {
-            if (err) {
-                console.error("Database query error:", err);
-                
-                return res.status(500).send("Server ma technical problem chhe."); 
-            }
+    db.query(sqlQuery, (err, results) => {
+      if (err) {
+        console.error("Database query error:", err);
 
-            // 'results' ma aavelo data 'places' naam na variable tarike EJS ma moklo
-            res.render("member/top_touristplace", {
-                places: results 
-            });
-        });
+        return res.status(500).send("Server ma technical problem chhe.");
+      }
 
-    } catch (error) {
-        console.error("Route ma error:", error);
-        res.status(500).send("Server ma technical problem chhe.");
-    }
+      // 'results' ma aavelo data 'places' naam na variable tarike EJS ma moklo
+      res.render("member/top_touristplace", {
+        places: results
+      });
+    });
+
+  } catch (error) {
+    console.error("Route ma error:", error);
+    res.status(500).send("Server ma technical problem chhe.");
+  }
 });
 
 router.get("/tourist-places/:id", (req, res) => {
-    try {
-        // URL mathi 'id' prapt karo
-        const placeId = req.params.id; 
-        
-        // Database mathi te 'id' valo data shodho
-        const sqlQuery = "SELECT * FROM tourist_places WHERE id = ?";
+  try {
+    // URL mathi 'id' prapt karo
+    const placeId = req.params.id;
 
-        db.query(sqlQuery, [placeId], (err, results) => {
-            if (err) {
-                console.error("Database query error:", err);
-                return res.status(500).send("Server ma technical problem chhe.");
-            }
+    // Database mathi te 'id' valo data shodho
+    const sqlQuery = "SELECT * FROM tourist_places WHERE id = ?";
 
-            // Jo data male to 'tourist_place_detail.ejs' page render karo
-            if (results.length > 0) {
-                res.render("member/tourist_place_detail", {
-                    place: results[0] // Pahelo record 'place' variable tarike moklo
-                });
-            } else {
-                // Jo data na male to 404 error moklo
-                res.status(404).send("Aa ID valo koi place malyo nahi.");
-            }
+    db.query(sqlQuery, [placeId], (err, results) => {
+      if (err) {
+        console.error("Database query error:", err);
+        return res.status(500).send("Server ma technical problem chhe.");
+      }
+
+      // Jo data male to 'tourist_place_detail.ejs' page render karo
+      if (results.length > 0) {
+        res.render("member/tourist_place_detail", {
+          place: results[0] // Pahelo record 'place' variable tarike moklo
         });
+      } else {
+        // Jo data na male to 404 error moklo
+        res.status(404).send("Aa ID valo koi place malyo nahi.");
+      }
+    });
 
-    } catch (error) {
-        console.error("Route ma error:", error);
-        res.status(500).send("Server ma technical problem chhe.");
+  } catch (error) {
+    console.error("Route ma error:", error);
+    res.status(500).send("Server ma technical problem chhe.");
+  }
+});
+
+
+router.get("/contact", (req, res) => {
+  res.render("member/contact",{message : null});
+})
+
+
+router.post('/send-message', (req, res) => {
+
+  
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: "hthummar540@gmail.com", 
+      pass: "akmq qitg fcno cmya"
+    },
+    tls: {
+      rejectUnauthorized: false 
     }
+  });
+
+
+  const mailOptions = {
+    from: req.body.email, 
+    to: "hthummar540@gmail.com", 
+    subject: `Contact Form Submission from ${req.body.firstName} ${req.body.lastName}`,
+    html: `
+            <h2>New Contact Form Inquiry</h2>
+            <p><strong>Name:</strong> ${req.body.firstName} ${req.body.lastName}</p>
+            <p><strong>Email:</strong> ${req.body.email}</p>
+            <p><strong>Phone:</strong> ${req.body.phone || 'Not provided'}</p>
+            <hr>
+            <p><strong>Message:</strong></p>
+            <p>${req.body.comment}</p>
+        `
+  };
+
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Email send karvama error:", error);
+      res.send("Please try again later.");
+    } else {
+      console.log('Email sent: ' + info.response);
+      
+      res.render('member/contact', {
+        message: 'Thank you for your message! We will get back to you soon.'
+      });
+    }
+  });
 });
 
 

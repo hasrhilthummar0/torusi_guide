@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<%- include('../common_pages/head') %>
+
+    <body>
+        <style>
+            ul.about-list1 {
+                display: block;
+            }
+
+            /* --- General Styles --- */
+            body {
+                font-family: 'Poppins', sans-serif;
+                margin: 0;
+                background-color: #fdfdff;
+                color: #333;
+            }
+
+            .container {
+                max-width: 1140px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* --- Top Info Section --- */
+            .top-info-section {
+                background-color: #f96f18;
+                /* Main Orange Color */
+                padding: 50px 0;
+                margin: 150px;
+            }
+
+            .info-cards-wrapper {
+                display: flex;
+                justify-content: space-between;
+                gap: 25px;
+            }
+
+            .info-card {
+                background-color: #ffffff;
+                border-radius: 10px;
+                padding: 25px 30px;
+                display: flex;
+                align-items: center;
+                flex-grow: 1;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            }
+
+            .info-card .icon {
+                width: 55px;
+                height: 55px;
+                background-color: #f96f18;
+                color: #ffffff;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 22px;
+                margin-right: 20px;
+                flex-shrink: 0;
+            }
+
+            .info-card h4 {
+                margin: 0 0 5px 0;
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+
+            .info-card p {
+                margin: 0;
+                font-size: 0.9rem;
+                color: #666;
+                line-height: 1.5;
+            }
+
+            /* --- Form Section --- */
+            .form-section {
+                padding: 80px 0;
+            }
+
+            .form-header {
+                text-align: center;
+                margin-bottom: 50px;
+            }
+
+            .form-header .subtitle {
+                color: #f96f18;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+
+            .form-header h2 {
+                font-size: 2.8rem;
+                font-weight: 700;
+                margin: 0;
+                color: #111;
+            }
+
+            .form-header .description {
+                max-width: 600px;
+                margin: 15px auto 0 auto;
+                color: #777;
+            }
+
+            .contact-form .form-row {
+                display: flex;
+                gap: 25px;
+                margin-bottom: 25px;
+            }
+
+            .contact-form .form-group {
+                width: 100%;
+            }
+
+            .contact-form input,
+            .contact-form textarea {
+                width: 100%;
+                padding: 15px;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 1rem;
+                font-family: 'Poppins', sans-serif;
+                box-sizing: border-box;
+                /* Important for padding and width */
+            }
+
+            .contact-form input:focus,
+            .contact-form textarea:focus {
+                outline: none;
+                border-color: #f96f18;
+            }
+
+            .contact-form textarea {
+                height: 150px;
+                resize: vertical;
+            }
+
+            .btn-wrapper {
+                text-align: center;
+                margin-top: 30px;
+            }
+
+            .btn-submit {
+                background-color: #f96f18;
+                color: #ffffff;
+                border: none;
+                padding: 15px 40px;
+                font-size: 1rem;
+                font-weight: 600;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .btn-submit:hover {
+                background-color: #e0600d;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 992px) {
+                .info-cards-wrapper {
+                    flex-direction: column;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .contact-form .form-row {
+                    flex-direction: column;
+                    gap: 25px;
+                    margin-bottom: 0;
+                }
+
+                .contact-form .form-group {
+                    margin-bottom: 25px;
+                }
+            }
+        </style>
+        <!--********************************
+    Code Start From Here
+    ******************************** -->
+        <%- include('../common_pages/header') %>
+            <!--==============================
+      Hero area Start
+    ==============================-->
+            <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
+                <div class="container z-index-common">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">Contact Us</h1>
+                        <div class="breadcumb-menu-wrap">
+                            <ul class="breadcumb-menu">
+                                <li><a href="/">Home</a></li>
+                                <li>Contact Us</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <section class="form-section">
+                <div class="container">
+                    <% if (locals.message) { %>
+                        <div class="success-message text-center">
+                            <i class="fas fa-check-circle"></i>
+                            <%= message %>
+                        </div>
+                        <% } %>
+                            <div class="form-header">
+                                <h2>Get In Touch</h2>
+                                <p class="description">Curabitur aliquet quam id dui posuere blandit. Vivamus magna
+                                    justo,
+                                    lacinia eget consectetur sed, convallis at tellus. Vestibulum ac diam sit.</p>
+                            </div>
+
+                            <form action="/send-message" method="POST" class="contact-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <input type="text" name="firstName" placeholder="Enter Your First Name"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="lastName" placeholder="Enter Your Last Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <input type="email" name="email" placeholder="Your Email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" name="phone" placeholder="Phone No.">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <textarea name="comment" placeholder="Write Your Comment" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="btn-wrapper">
+                                    <button type="submit" class="btn-submit">SEND MESSAGE</button>
+                                </div>
+                            </form>
+                </div>
+            </section>
+            <!--==============================
+      Hero Area End
+    ==============================-->
+            <!--==============================
+    About Area Start
+    ==============================-->
+
+
+
+            <!--==============================
+    About Area End
+    ==============================-->
+            <!--==============================
+      Histoy area Start
+    ==============================-->
+
+            <!--==============================
+      Histoy area End
+    ==============================-->
+            <!--==============================
+    Special Offer Area Start
+    ==============================-->
+
+            <!--==============================
+    Special Offer Area End
+    ==============================-->
+            <!-- ==============================
+    Testimonail Area Start
+    ==============================-->
+
+            <!-- ==============================
+    Testimonail Area End
+    ==============================-->
+            <!-- ==============================
+    Blogs Area Start
+    ============================== -->
+
+            <!-- ==============================
+    Blogs Area End
+    ============================== -->
+            <%- include('../common_pages/footer') %>
+
+                <!-- Scroll To Top -->
+                <a href="#" class="scrollToTop scroll-btn"><i class="fas fa-arrow-up"></i>
+                </a>
+                <!-- ==============================
+    All Js File
+    ================================ -->
+                <!-- Jquery -->
+                <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+                <!-- Slick Slider -->
+                <script src="/js/slick.min.js"></script>
+                <!-- Bootstrap -->
+                <script src="/js/bootstrap.min.js"></script>
+                <!-- Magnific Popup -->
+                <script src="/js/jquery.magnific-popup.min.js"></script>
+                <!-- jquery Ui -->
+                <script src="/js/jquery-ui.min.js"></script>
+                <!-- Circle Progress -->
+                <script src="/js/circle-progress.min.js"></script>
+                <!-- isotope -->
+                <script src="/js/imagesLoaded.js"></script>
+                <script src="/js/isotope.js"></script>
+                <!-- Wow.js -->
+                <script src="/js/wow.min.js"></script>
+                <!-- Main Js File -->
+                <script src="/js/main.js"></script>
+    </body>
+
+</html>
