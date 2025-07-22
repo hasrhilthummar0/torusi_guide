@@ -1,120 +1,213 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
+
 <%- include('../common_pages/head') %>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-  <body>
-    <style>
-      ul.about-list1 {
+<body>
+      <style>
+    .guides-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+    .guide-card {
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition: transform 0.3s ease;
+        overflow: hidden;
+    }
+    .guide-card:hover {
+        transform: translateY(-5px);
+    }
+    .guide-card-link {
+        text-decoration: none;
+        color: inherit;
+    }
+    .guide-card-header {
+        position: relative;
+    }
+    .cover-image {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
         display: block;
-      }
-    </style>
-    <!--********************************
-    Code Start From Here
-    ******************************** -->
+    }
+    .card-overlay {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.4);
+        color: #fff;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    .card-overlay.top-left { top: 10px; left: 10px; }
+    .card-overlay.top-right { top: 10px; right: 10px; padding: 5px 8px; cursor: pointer; }
+
+    .profile-picture-wrapper {
+        position: absolute;
+        top: 90px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+    }
+    .profile-picture {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 5px solid #ffffff;
+        object-fit: cover;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    .guide-card-body {
+        padding: 60px 20px 25px 20px;
+        text-align: center;
+    }
+    .guide-name {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .verified-badge {
+        font-size: 1rem;
+        color: #007bff;
+    }
+    .guide-info {
+        color: #555;
+        margin: 5px 0;
+        font-size: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .guide-info i {
+        color: #f96f18;
+        margin-right: 8px;
+    }
+    .guide-info a {
+        text-decoration: none;
+        color: inherit;
+    }
+    .star-rating {
+        color: #ffc107;
+        margin: 15px 0;
+        font-size: 1.1rem;
+    }
+    .guide-tag {
+        display: inline-block;
+        background-color: #f0f2f5;
+        color: #555;
+        padding: 8px 25px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-top: 10px;
+    }
+    .pagination-wrapper {
+        grid-column: 1 / -1;
+        margin-top: 40px;
+    }
+    @media (max-width: 992px) { .guides-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { .guides-grid { grid-template-columns: 1fr; } }
+</style>  
     <%- include('../common_pages/header') %>
-      <!--==============================
-      Hero area Start
-    ==============================-->
-      <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
+
+    <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
         <div class="container z-index-common">
-          <div class="breadcumb-content">
-            <h1 class="breadcumb-title">State Level</h1>
-
-            <div class="breadcumb-menu-wrap">
-              <ul class="breadcumb-menu">
-                <li><a href="/">Home</a></li>
-                <li>Tourist Guide </li>
-                <li>State Level</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--==============================
-      Hero Area End
-    ==============================-->
-      <!--==============================
-    About Area Start
-    ==============================-->
-
-      <section class="container py-5" style="margin-bottom: 60px;">
-        <div class="row g-4 justify-content-center">
-
-          <% if (guides && guides.length> 0) { %>
-            <% guides.forEach(function(guide) { %>
-              <div class="col-12 col-md-6 col-lg-4">
-                <div class="d-flex border rounded p-4 h-100" style="min-height: 200px;">
-                  <img src="/uploads/<%= guide.photo ? guide.photo : 'default.png' %>" alt="Profile"
-                    class="img-fluid rounded-circle me-4" style="width: 90px; height: 90px; object-fit: cover;">
-                  <div>
-                    <h5 class="fw-bold mb-2">
-                      <%= guide.name %>
-                    </h5>
-                    <p class="mb-1">City: <%= guide.district %>
-                    </p>
-                    <p class="mb-1">Mobile: <%= guide.mobile %>
-                    </p>
-                    <div class="text-warning">★ ★ ★ ★ ★</div>
-                  </div>
+            <div class="breadcumb-content">
+                <h1 class="breadcumb-title">State Level</h1>
+                <div class="breadcumb-menu-wrap">
+                    <ul class="breadcumb-menu">
+                        <li><a href="/">Home</a></li>
+                        <li>Tourist Guide</li>
+                        <li>State Level</li>
+                    </ul>
                 </div>
-              </div>
-              <% }) %>
-                <% } else { %>
-                  <p>No guides available.</p>
-                  <% } %>
-                    <div class="mt-4">
-                      <% if (totalPages> 1) { %>
-                        <nav>
-                          <ul class="pagination d-flex justify-content-center flex-wrap">
-                            <!-- Previous Button -->
-                            <% if (currentPage> 1) { %>
-                              <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
-                              </li>
-                              <% } else { %>
-                                <li class="page-item disabled">
-                                  <span class="page-link">Previous</span>
-                                </li>
-                                <% } %>
-
-                                  <!-- Page Numbers -->
-                                  <% for (let i=1; i <=totalPages; i++) { %>
-                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                      <a class="page-link" href="?page=<%= i %>">
-                                        <%= i %>
-                                      </a>
-                                    </li>
-                                    <% } %>
-
-                                      <!-- Next Button -->
-                                      <% if (currentPage < totalPages) { %>
-                                        <li class="page-item">
-                                          <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
-                                        </li>
-                                        <% } else { %>
-                                          <li class="page-item disabled">
-                                            <span class="page-link">Next</span>
-                                          </li>
-                                          <% } %>
-                          </ul>
-                        </nav>
-                        <% } %>
-                    </div>
-
+            </div>
         </div>
-      </section>
+    </div>
 
+    <section class="container py-5" style="margin-bottom: 60px;">
+    <div class="guides-grid">
 
-      <%- include('../common_pages/footer') %>
+        <% if (guides && guides.length > 0) { %>
+            <% guides.forEach(function(guide) { %>
+                <div class="guide-card">
+                    <a href="/guide_profile/<%= guide.id %>" class="guide-card-link">
+                        
+                        <div class="guide-card-header  profile-img-container">
+                            <img src="/uploads/<%= guide.cover_photo && guide.cover_photo !== '' ? guide.cover_photo : 'default-cover.jpg' %>" alt="Cover Photo" class="cover-image">
+                            <div class="card-overlay top-left">
+                                <i class="fas fa-eye"></i> <%= guide.views || 0 %> views
+                            </div>
+                            <div class="card-overlay top-right wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </div>
+                        </div>
 
-        <!-- Scroll To Top -->
-        <a href="#" class="scrollToTop scroll-btn"><i class="fas fa-arrow-up"></i>
-        </a>
-        <!-- ==============================
-    All Js File
-    ================================ -->
-        <!-- Jquery -->
+                        <div class="profile-picture-wrapper">
+                            <img src="/uploads/<%= guide.photo && guide.photo !== '' ? guide.photo : 'default.png' %>" alt="Profile" class="profile-picture">
+                        </div>
+
+                        <div class="guide-card-body">
+                            <h3 class="guide-name">
+                                <%= guide.name %>
+                                <% if (guide.is_verified && guide.is_verified === 1) { %>
+                                    <span class="verified-badge" title="Verified Guide">
+                                        <i class="fas fa-check-circle"></i>
+                                    </span>
+                                <% } %>
+                            </h3>
+                            <p class="guide-info">
+                                <i class="fas fa-phone-alt"></i>
+                                <a href="https://wa.me/<%= guide.mobile %>" target="_blank" rel="noopener noreferrer"><%= guide.mobile %></a>
+                            </p>
+                            <p class="guide-info">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <%= guide.district %>
+                            </p>
+                            
+                            <div class="star-rating">
+                                <% const totalStars = 5; %>
+                                <% const rating = guide.rating || 0; %>
+                                <% for (let i = 1; i <= totalStars; i++) { %>
+                                    <% if (i <= rating) { %>
+                                        <i class="fas fa-star"></i>
+                                    <% } else if (i - 0.5 === rating) { %>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    <% } else { %>
+                                        <i class="far fa-star"></i>
+                                    <% } %>
+                                <% } %>
+                            </div>
+
+                            <div class="guide-tag">Tourist Guide</div>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="text-center w-100">No guides available.</p>
+        <% } %>
+    </div>
+    
+    <% if (totalPages > 1) { %>
+        <div class="pagination-wrapper">
+            <nav>
+               </nav>
+        </div>
+    <% } %>
+</section>
+
+    <%- include('../common_pages/footer') %>
+   <!-- Jquery -->
         <script src="/js/vendor/jquery-3.6.0.min.js"></script>
         <!-- Slick Slider -->
         <script src="/js/slick.min.js"></script>
@@ -133,6 +226,5 @@
         <script src="/js/wow.min.js"></script>
         <!-- Main Js File -->
         <script src="/js/main.js"></script>
-  </body>
-
+</body>
 </html>
