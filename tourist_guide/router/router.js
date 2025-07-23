@@ -889,28 +889,28 @@ router.get("/tourist-places/:id", (req, res) => {
 
 
 router.get("/contact", (req, res) => {
-  res.render("member/contact",{message : null});
+  res.render("member/contact", { message: null });
 })
 
 
 router.post('/send-message', (req, res) => {
 
-  
+
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: "hthummar540@gmail.com", 
+      user: "hthummar540@gmail.com",
       pass: "akmq qitg fcno cmya"
     },
     tls: {
-      rejectUnauthorized: false 
+      rejectUnauthorized: false
     }
   });
 
 
   const mailOptions = {
-    from: req.body.email, 
-    to: "hthummar540@gmail.com", 
+    from: req.body.email,
+    to: "hthummar540@gmail.com",
     subject: `Contact Form Submission from ${req.body.firstName} ${req.body.lastName}`,
     html: `
             <h2>New Contact Form Inquiry</h2>
@@ -923,14 +923,14 @@ router.post('/send-message', (req, res) => {
         `
   };
 
-  
+
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Email send karvama error:", error);
       res.send("Please try again later.");
     } else {
       console.log('Email sent: ' + info.response);
-      
+
       res.render('member/contact', {
         message: 'Thank you for your message! We will get back to you soon.'
       });
@@ -938,5 +938,48 @@ router.post('/send-message', (req, res) => {
   });
 });
 
+
+router.get("/api/user-count", async (req, res) => {
+  try {
+    const userCountResult = await db.query('SELECT COUNT(*) AS userCount FROM tgc_users');
+    const totalUsers = userCountResult[0].userCount;
+    res.json({ count: totalUsers });
+  } catch (err) {
+    console.error("API માં યુઝર કાઉન્ટ મેળવવામાં ભૂલ:", err);
+    res.status(500).json({ error: "ડેટા મેળવવામાં નિષ્ફળતા મળી." });
+  }
+});
+
+router.get("/api/review-count", async (req, res) => {
+  try {
+    const query = "SELECT COUNT(*) AS reviewCount FROM reviews";
+    
+    const reviewCountResult = await db.query(query);
+    const totalReviews = reviewCountResult[0].reviewCount;
+
+    res.json({ count: totalReviews });
+
+  } catch (err) {
+    console.error("API માં રિવ્યૂ કાઉન્ટ મેળવવામાં ભૂલ:", err);
+    res.status(500).json({ error: "ડેટા મેળવવામાં નિષ્ફળતા મળી." });
+  }
+});
+
+
+router.get("/api/state-count", async (req, res) => {
+  try {
+
+    const query = "SELECT COUNT(DISTINCT state) AS stateCount FROM tgc_users";
+    
+    const result = await db.query(query);
+    const totalStates = result[0].stateCount;
+  
+    res.json({ count: totalStates });
+
+  } catch (err) {
+    console.error("API માં રાજ્ય કાઉન્ટ મેળવવામાં ભૂલ:", err);
+    res.status(500).json({ error: "ડેટા મેળવવામાં નિષ્ફળતા મળી." });
+  }
+});
 
 module.exports = router;
