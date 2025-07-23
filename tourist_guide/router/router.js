@@ -973,7 +973,7 @@ router.get("/api/state-count", async (req, res) => {
     
     const result = await db.query(query);
     const totalStates = result[0].stateCount;
-  
+    
     res.json({ count: totalStates });
 
   } catch (err) {
@@ -981,5 +981,9 @@ router.get("/api/state-count", async (req, res) => {
     res.status(500).json({ error: "ડેટા મેળવવામાં નિષ્ફળતા મળી." });
   }
 });
+
+router.get("/login",(req,res)=>{
+  res.render("signin");
+})
 
 module.exports = router;
