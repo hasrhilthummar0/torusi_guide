@@ -5,6 +5,13 @@ const multer = require("multer");
 const path = require("path");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const session = require('express-session');
+router.use(session({
+  secret: 'TOUristGuide@#90##',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 
 
 
@@ -45,7 +52,7 @@ const fileFilter = (req, file, cb) => {
   if (isExtValid && isMimeValid) {
     cb(null, true);
   } else {
-    cb(new Error('માત્ર .jpg, .png, અથવા .pdf ફાઇલો માન્ય છે!'), false);
+    cb(new Error('invalid file'), false);
   }
 };
 
@@ -953,7 +960,7 @@ router.get("/api/user-count", async (req, res) => {
 router.get("/api/review-count", async (req, res) => {
   try {
     const query = "SELECT COUNT(*) AS reviewCount FROM reviews";
-    
+
     const reviewCountResult = await db.query(query);
     const totalReviews = reviewCountResult[0].reviewCount;
 
@@ -970,10 +977,10 @@ router.get("/api/state-count", async (req, res) => {
   try {
 
     const query = "SELECT COUNT(DISTINCT state) AS stateCount FROM tgc_users";
-    
+
     const result = await db.query(query);
     const totalStates = result[0].stateCount;
-    
+
     res.json({ count: totalStates });
 
   } catch (err) {
@@ -982,8 +989,54 @@ router.get("/api/state-count", async (req, res) => {
   }
 });
 
-router.get("/login",(req,res)=>{
+router.get("/login", (req, res) => {
   res.render("signin");
 })
 
+
+router.post("/login", async (req, res) => {
+  const { email, password, loginRemember } = req.body;
+  if (!email || !password) {
+    return res.render('signin', { error: "Please enter both email and password." });
+  }
+  const query = "SELECT * FROM tgc_users WHERE email = ?";
+  db.query(query, [email], async (err, results) => {
+    if (err) {
+      console.error('Database query error:', err);
+      return res.status(500).render('signin', { error: 'An internal error occurred.' });
+    }
+
+    if (results.length === 0) {
+      return res.status(401).render('signin', { error: 'Invalid email or password.' });
+    }
+
+    const user = results[0];
+    try {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        if (loginRemember) {
+          const sevenDays = 7 * 24 * 60 * 60 * 1000;
+          req.session.cookie.maxAge = sevenDays;
+        } else {
+          req.session.cookie.expires = false;
+        }
+        req.session.isLoggedIn = true;
+        req.session.user = { id: user.id, email: user.email };
+        console.log(`User ${user.email} logged in successfully.`);
+
+        res.redirect('/dashboard');
+      } else {
+        res.status(401).render('signin', { error: 'Invalid email or password.' });
+      }
+    } catch (bcryptError) {
+      console.error('Bcrypt error:', bcryptError);
+      res.status(500).render('signin', { error: 'An internal error occurred.' });
+    }
+  })
+})
+
+
+router.get("/dashboard", (req, res) => {
+  res.render("member/dashboard");
+})
 module.exports = router;
