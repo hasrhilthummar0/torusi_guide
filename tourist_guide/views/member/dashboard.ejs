@@ -1,11 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Welcome to the Dashboard</h1>
+<html class="no-js" lang="en">
+<%- include('../common_pages/head') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+
+
+    <body>
+        <!--********************************
+    Code Start From Here
+    ******************************** -->
+
+        <!-- Hero Area Start -->
+        <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
+            <div class="container z-index-common">
+                <div class="breadcumb-content">
+                    <h1 class="breadcumb-title">Dashboard</h1>
+                    <div class="breadcumb-menu-wrap">
+                        <ul class="breadcumb-menu">
+                            <li><a href="#">Home</a></li>
+                            <li>Dashboard</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Hero Area End -->
+        <!-- Sign Up Area Start -->
+        <div class="profile-dashboard-wrapper space">
+            <div class="container">
+
+                <div id="dashboardView" class="row justify-content-center g-4">
+                    <div class="col-lg-6">
+                        <div class="profile-box bg-smoke p-4 h-100">
+                            <h3 class="box-title text-center mb-4">Profile Details</h3>
+                            <p class="text-center">View your profile information or download your digital ID card.</p>
+                            <div class="d-grid gap-3">
+                                <a href="/view-profile" class="vs-btn mask-style1 style4 w-100">View Profile</a>
+                                <a href="/download-id" class="vs-btn mask-style1 style2 w-100">Download ID Card</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="profile-box bg-smoke p-4 h-100">
+                            <h3 class="box-title text-center mb-4">Account Settings</h3>
+                            <p class="text-center">Update your personal details, change password, and manage settings.
+                            </p>
+                            <div class="d-grid">
+                                <a href="#" id="editProfileBtn" class="vs-btn mask-style1 style4 w-100">Edit Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="editProfileView" class="row justify-content-center d-none">
+                    <div class="col-lg-8">
+                        <form action="/update-profile-action" method="POST" class="signup-form bg-smoke">
+                            <h2 class="form-title text-center mb-4">Edit Your Profile</h2>
+
+                            <div class="form-group">
+                                <label for="employeeId">Employee ID*</label>
+                                <input type="text" class="form-control" id="employeeId" name="employee_id"
+                                    placeholder="Enter your employee id" value="<%= user.employee_id %>" readonly>
+                            </div>
+                           
+                            <div class="form-group">
+                                <label for="fullName">Full Name*</label>
+                                <input type="text" class="form-control" id="fullName" name="full_name"
+                                    placeholder="Enter your full name" value="<%= user.name %>">
+                            </div>
+                            <div class="form-group">
+                                <label for="emailAddress">Email Address*</label>
+                                <input type="email" class="form-control" id="emailAddress" name="email"
+                                    placeholder="Enter your email address" value="<%= user.email %>" >
+                                <!-- <small class="form-text text-muted">Email address cannot be changed.</small> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number</label>
+                                <input type="tel" class="form-control" id="phoneNumber" name="phone_number"
+                                    placeholder="Enter your phone number" value="<%= user.mobile %>">
+                            </div>
+                            <hr class="my-4">
+                            <h4 class="text-center mb-3">Change Password</h4>
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" class="form-control" id="currentPassword" name="current_password"
+                                    placeholder="Enter your current password">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" name="new_password"
+                                    placeholder="Enter a new password">
+                            </div>
+
+                            <div class="form-group mb-0 text-center mt-4">
+                                <button class="vs-btn mask-style1 w-100 style4" type="submit">Save Changes</button>
+                                <button type="button" id="cancelEditBtn"
+                                    class="vs-btn mask-style1 w-100 style2 mt-3">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Sign Up Area End -->
+        <%- include('../common_pages/footer') %>
+
+            <!-- Scroll To Top -->
+            <a href="#" class="scrollToTop scroll-btn"><i class="fas fa-arrow-up"></i>
+            </a>
+            <!-- ==============================
+    All Js File
+    ================================ -->
+            <!-- Jquery -->
+            <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+            <script src="/js/slick.min.js"></script>
+            <script src="/js/bootstrap.min.js"></script>
+            <script src="/js/jquery.magnific-popup.min.js"></script>
+            <script src="/js/jquery-ui.min.js"></script>
+            <script src="/js/circle-progress.min.js"></script>
+            <script src="/js/imagesLoaded.js"></script>
+            <script src="/js/isotope.js"></script>
+            <script src="/js/wow.min.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
+            <% if (typeof error !=='undefined' && error) { %>
+                <script>
+                    iziToast.error({
+                        title: 'Error',
+                        message: '<%= error %>',
+                        position: 'topRight'
+                    });
+                </script>
+                <% } %>
+
+                    <script>
+                        // Get the elements by their ID
+                        const dashboardView = document.getElementById('dashboardView');
+                        const editProfileView = document.getElementById('editProfileView');
+                        const editProfileBtn = document.getElementById('editProfileBtn');
+                        const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+                        // When "Edit Profile" button is clicked
+                        editProfileBtn.addEventListener('click', function (event) {
+                            event.preventDefault(); // Stop the link from navigating
+                            dashboardView.classList.add('d-none'); // Hide the dashboard
+                            editProfileView.classList.remove('d-none'); // Show the form
+                        });
+
+                        // When "Cancel" button is clicked
+                        cancelEditBtn.addEventListener('click', function () {
+                            editProfileView.classList.add('d-none'); // Hide the form
+                            dashboardView.classList.remove('d-none'); // Show the dashboard
+                        });
+                    </script>
+
+                  <% if (typeof error !== 'undefined' && error) { %>
+            <script>
+                iziToast.error({
+                    title: 'Error',
+                    message: '<%= error %>',
+                    position: 'topRight'
+                });
+            </script>
+        <% } %>
+
+       
+        <% if (typeof success !== 'undefined' && success) { %>
+            <script>
+                iziToast.success({
+                    title: 'Success',
+                    message: '<%= success %>',
+                    position: 'topRight'
+                });
+            </script>
+        <% } %>
+
+    </body>
+
+</html>
 </body>
+
 </html>

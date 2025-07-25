@@ -1021,7 +1021,7 @@ router.post("/login", async (req, res) => {
           req.session.cookie.expires = false;
         }
         req.session.isLoggedIn = true;
-        req.session.user = { id: user.id, email: user.email };
+        req.session.user = { id: user.id, name: user.name, mobile: user.mobile, email: user.email, employee_id: user.empid };
         console.log(`User ${user.email} logged in successfully.`);
 
         res.redirect('/dashboard');
@@ -1036,7 +1036,166 @@ router.post("/login", async (req, res) => {
 })
 
 
+
+
 router.get("/dashboard", (req, res) => {
-  res.render("member/dashboard");
-})
+    // 1. Check if user is logged in
+    if (!req.session.isLoggedIn || !req.session.user) {
+        return res.redirect('/login');
+    }
+
+    let successMessage = null;
+    let errorMessage = null;
+
+    
+    if (req.query.success === 'true') {
+        successMessage = 'Profile updated successfully!';
+    }
+
+   
+    if (req.query.error === 'wrongPassword') {
+        errorMessage = 'The current password you entered is incorrect.';
+    } else if (req.query.error) { 
+        errorMessage = 'An unexpected error occurred. Please try again.';
+    }
+    
+   
+    res.render('member/dashboard', {
+        user: req.session.user,
+        success: successMessage,
+        error: errorMessage
+    });
+});
+
+
+
+// router.post('/update-profile-action', async (req, res) => {
+//     try {
+//         const userId = req.session.user.id;
+//         if (!userId) {
+//             return res.redirect('/login');
+//         }
+
+//         const { full_name, email, phone_number, current_password, new_password } = req.body;
+
+//         // Start building the UPDATE query
+//         let updateQuery = 'UPDATE tgc_users SET name = ?, email = ?, mobile = ?';
+//         let queryParams = [full_name, email, phone_number];
+
+//         // --- Password Update Logic ---
+//         if (new_password && current_password) {
+//             // First, get the current password from DB to compare
+//             const selectQuery = 'SELECT password FROM tgc_users WHERE id = ?';
+//             db.query(selectQuery, [userId], async (err, results) => {
+//                 if (err || results.length === 0) {
+//                     console.error('Could not find user to update password:', err);
+//                     return res.redirect('/dashboard');
+//                 }
+
+//                 const user = results[0];
+//                 const isMatch = await bcrypt.compare(current_password, user.password);
+
+//                 if (isMatch) {
+//                     // If current password matches, hash the new one and add to query
+//                     const hashedNewPassword = await bcrypt.hash(new_password, 10);
+//                     updateQuery += ', password = ? WHERE id = ?';
+//                     queryParams.push(hashedNewPassword, userId);
+
+//                     // Execute the final update query with password
+//                     executeUpdate(updateQuery, queryParams);
+//                 } else {
+//                     console.log("Current password does not match.");
+//                     // If password doesn't match, just update other details without password
+//                     updateQuery += ' WHERE id = ?';
+//                     queryParams.push(userId);
+//                     executeUpdate(updateQuery, queryParams);
+//                 }
+//             });
+//         } else {
+//             // If no new password, just update other details
+//             updateQuery += ' WHERE id = ?';
+//             queryParams.push(userId);
+//             executeUpdate(updateQuery, queryParams);
+//         }
+
+//         // --- Helper function to execute the query ---
+//         function executeUpdate(sql, params) {
+//             db.query(sql, params, (err, result) => {
+//                 if (err) {
+//                     console.error('Error updating profile in DB:', err);
+//                     return res.status(500).send('An error occurred during profile update.');
+//                 }
+//                 console.log(`Profile for user ${userId} updated successfully. Affected rows: ${result.affectedRows}`);
+
+
+//                 req.session.user.email = email; 
+
+//                 res.redirect('/dashboard');
+//             });
+//         }
+
+//     } catch (error) {
+//         console.error('Error in /update-profile-action route:', error);
+//         res.status(500).send('An internal error occurred.');
+//     }
+// });
+
+
+router.post('/update-profile-action', async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+    if (!userId) {
+      return res.redirect('/login');
+    }
+
+    const { full_name, email, phone_number, current_password, new_password } = req.body;
+
+    if (new_password && current_password) {
+      const selectQuery = 'SELECT password FROM tgc_users WHERE id = ?';
+      db.query(selectQuery, [userId], async (err, results) => {
+        if (err || results.length === 0) {
+          return res.redirect('/dashboard?error=userNotFound');
+        }
+
+        const user = results[0];
+        const isMatch = await bcrypt.compare(current_password, user.password);
+
+        if (isMatch) {
+
+          const hashedNewPassword = await bcrypt.hash(new_password, 10);
+          const updateQuery = 'UPDATE tgc_users SET name = ?, email = ?, mobile = ?, password = ? WHERE id = ?';
+          const queryParams = [full_name, email, phone_number, hashedNewPassword, userId];
+          executeUpdate(updateQuery, queryParams);
+        } else {
+
+          console.log("Current password does not match.");
+          return res.redirect('/dashboard?error=wrongPassword');
+        }
+      });
+    } else {
+
+      const updateQuery = 'UPDATE tgc_users SET name = ?, email = ?, mobile = ? WHERE id = ?';
+      const queryParams = [full_name, email, phone_number, userId];
+      executeUpdate(updateQuery, queryParams);
+    }
+
+
+    function executeUpdate(sql, params) {
+      db.query(sql, params, (err, result) => {
+        if (err) {
+          console.error('Error updating profile in DB:', err);
+          return res.redirect('/dashboard?error=dbError');
+        }
+        console.log(`Profile for user ${userId} updated successfully.`);
+        req.session.user.email = email;
+        res.redirect('/dashboard?success=true'); // Redirect with success
+      });
+    }
+
+  } catch (error) {
+    console.error('Error in /update-profile-action route:', error);
+    res.status(500).send('An internal error occurred.');
+  }
+});
+
 module.exports = router;
