@@ -14,11 +14,11 @@
     <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
       <div class="container z-index-common">
         <div class="breadcumb-content">
-          <h1 class="breadcumb-title">Sign In</h1>
+          <h1 class="breadcumb-title">Forgot Password</h1>
             <div class="breadcumb-menu-wrap">
               <ul class="breadcumb-menu">
                 <li><a href="#">Home</a></li>
-                <li>Sign In</li>
+                <li>Forgot Password</li>
               </ul>
             </div>
         </div>
@@ -26,37 +26,31 @@
     </div>
     <!-- Hero Area End -->
     <!-- Sign Up Area Start -->
-    <div class="signup-wrapper  space">
-      <div class="container">
+   <div class="otp-verification-section">
+    <div class="container">
         <div class="row justify-content-center">
-          <div class="col-lg-6 ">
-            <form action="/login" method="POST" class="signup-form bg-smoke">
-              <h2 class="form-title text-center mb-lg-35">Sign In</h2>
-              <div class="form-group">
-                <label for="loginUserId" class="sr-only">Username or email address*</label>
-                <input type="text" class="form-control" placeholder="Username or email address*" id="loginUserId"
-                  name="email">
-              </div>
-              <div class="form-group">
-                <label for="loginUserPass" class="sr-only">Password*</label>
-                <input type="password" class="form-control" placeholder="Password*" id="loginUserPass" name="password">
-              </div>
-              <div class="form-group">
-                <input type="checkbox" name="loginRemember" id="loginRemember">
-                <label for="loginRemember">Remember Me</label>
-              </div>
-              <div class="form-group mb-0 text-center">
-                <button class="vs-btn mask-style1 w-100 style4" type="submit">Login</button>
-                <div class="bottom-links link-inherit d-md-flex justify-content-between mt-3">
-                  <a href="/forgot-password" class="recovery-link mb-2 mb-md-0">Forgot your password?</a>
-                  <a href="<?=SITE_URL;?>membership">Join Tourist Guide Club</a>
+            <div class="col-lg-6 text-center">
+                <div class="signup-form bg-smoke">
+                    <h2 class="form-title">Enter Verification Code</h2>
+                    <p class="text-muted mb-4">A 6-digit code has been sent to your email/mobile.</p>
+                    
+                    <form action="/verify-otp" method="POST">
+                        <div class="otp-inputs d-flex justify-content-center gap-2 gap-md-3 mb-4">
+                            <input type="text" name="otp1" class="form-control otp-input" maxlength="1" required>
+                            <input type="text" name="otp2" class="form-control otp-input" maxlength="1" required>
+                            <input type="text" name="otp3" class="form-control otp-input" maxlength="1" required>
+                            <input type="text" name="otp4" class="form-control otp-input" maxlength="1" required>
+                            <input type="text" name="otp5" class="form-control otp-input" maxlength="1" required>
+                            <input type="text" name="otp6" class="form-control otp-input" maxlength="1" required>
+                        </div>
+                        
+                        <button type="submit" class="vs-btn mask-style1 w-100 style4">Verify OTP</button>
+                    </form>
                 </div>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
+</div>
     <!-- Sign Up Area End -->
     <%- include('common_pages/footer') %>
 

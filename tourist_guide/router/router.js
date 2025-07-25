@@ -1209,4 +1209,12 @@ router.get('/logout', (req, res) => {
     });
 });
 
+router.get("/forgot-password",(req,res)=>{
+  res.render("forgotpassword");
+})
+
+router.get("/otp",(req,res)=>{
+  res.render("otp");
+})
+
 module.exports = router;
