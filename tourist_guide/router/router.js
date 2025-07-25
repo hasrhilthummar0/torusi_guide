@@ -1198,4 +1198,15 @@ router.post('/update-profile-action', async (req, res) => {
   }
 });
 
+router.get('/logout', (req, res) => {
+ req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).send('Could not log out, please try again.');
+        }
+        res.clearCookie('connect.sid'); 
+        res.redirect('/login'); 
+    });
+});
+
 module.exports = router;

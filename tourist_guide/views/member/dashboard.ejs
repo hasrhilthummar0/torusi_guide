@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <%- include('../common_pages/head') %>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
 
 
     <body>
@@ -27,6 +25,7 @@
         <!-- Hero Area End -->
         <!-- Sign Up Area Start -->
         <div class="profile-dashboard-wrapper space">
+
             <div class="container">
 
                 <div id="dashboardView" class="row justify-content-center g-4">
@@ -48,6 +47,9 @@
                             <div class="d-grid">
                                 <a href="#" id="editProfileBtn" class="vs-btn mask-style1 style4 w-100">Edit Profile</a>
                             </div>
+                            <div class="d-grid gap-3 mt-3">
+                                <a href="/logout" class="vs-btn mask-style1 style2 w-100">Logout</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,7 +64,7 @@
                                 <input type="text" class="form-control" id="employeeId" name="employee_id"
                                     placeholder="Enter your employee id" value="<%= user.employee_id %>" readonly>
                             </div>
-                           
+
                             <div class="form-group">
                                 <label for="fullName">Full Name*</label>
                                 <input type="text" class="form-control" id="fullName" name="full_name"
@@ -71,7 +73,7 @@
                             <div class="form-group">
                                 <label for="emailAddress">Email Address*</label>
                                 <input type="email" class="form-control" id="emailAddress" name="email"
-                                    placeholder="Enter your email address" value="<%= user.email %>" >
+                                    placeholder="Enter your email address" value="<%= user.email %>">
                                 <!-- <small class="form-text text-muted">Email address cannot be changed.</small> -->
                             </div>
                             <div class="form-group">
@@ -103,6 +105,7 @@
 
             </div>
         </div>
+
         <!-- Sign Up Area End -->
         <%- include('../common_pages/footer') %>
 
@@ -156,26 +159,26 @@
                         });
                     </script>
 
-                  <% if (typeof error !== 'undefined' && error) { %>
-            <script>
-                iziToast.error({
-                    title: 'Error',
-                    message: '<%= error %>',
-                    position: 'topRight'
-                });
-            </script>
-        <% } %>
+                    <% if (typeof error !=='undefined' && error) { %>
+                        <script>
+                            iziToast.error({
+                                title: 'Error',
+                                message: '<%= error %>',
+                                position: 'topRight'
+                            });
+                        </script>
+                        <% } %>
 
-       
-        <% if (typeof success !== 'undefined' && success) { %>
-            <script>
-                iziToast.success({
-                    title: 'Success',
-                    message: '<%= success %>',
-                    position: 'topRight'
-                });
-            </script>
-        <% } %>
+
+                            <% if (typeof success !=='undefined' && success) { %>
+                                <script>
+                                    iziToast.success({
+                                        title: 'Success',
+                                        message: '<%= success %>',
+                                        position: 'topRight'
+                                    });
+                                </script>
+                                <% } %>
 
     </body>
 
