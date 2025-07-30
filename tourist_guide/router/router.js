@@ -73,6 +73,7 @@ const upload = multer({
 
 
 const util = require("util");
+const { error } = require("console");
 const query = util.promisify(db.query).bind(db);
 
 router.post("/submit_membership", async (req, res) => {
@@ -1039,32 +1040,32 @@ router.post("/login", async (req, res) => {
 
 
 router.get("/dashboard", (req, res) => {
-    // 1. Check if user is logged in
-    if (!req.session.isLoggedIn || !req.session.user) {
-        return res.redirect('/login');
-    }
+  // 1. Check if user is logged in
+  if (!req.session.isLoggedIn || !req.session.user) {
+    return res.redirect('/login');
+  }
 
-    let successMessage = null;
-    let errorMessage = null;
+  let successMessage = null;
+  let errorMessage = null;
 
-    
-    if (req.query.success === 'true') {
-        successMessage = 'Profile updated successfully!';
-    }
 
-   
-    if (req.query.error === 'wrongPassword') {
-        errorMessage = 'The current password you entered is incorrect.';
-    } else if (req.query.error) { 
-        errorMessage = 'An unexpected error occurred. Please try again.';
-    }
-    
-   
-    res.render('member/dashboard', {
-        user: req.session.user,
-        success: successMessage,
-        error: errorMessage
-    });
+  if (req.query.success === 'true') {
+    successMessage = 'Profile updated successfully!';
+  }
+
+
+  if (req.query.error === 'wrongPassword') {
+    errorMessage = 'The current password you entered is incorrect.';
+  } else if (req.query.error) {
+    errorMessage = 'An unexpected error occurred. Please try again.';
+  }
+
+
+  res.render('member/dashboard', {
+    user: req.session.user,
+    success: successMessage,
+    error: errorMessage
+  });
 });
 
 
@@ -1199,22 +1200,78 @@ router.post('/update-profile-action', async (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
- req.session.destroy((err) => {
-        if (err) {
-            console.error('Error destroying session:', err);
-            return res.status(500).send('Could not log out, please try again.');
-        }
-        res.clearCookie('connect.sid'); 
-        res.redirect('/login'); 
-    });
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).send('Could not log out, please try again.');
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/login');
+  });
 });
 
-router.get("/forgot-password",(req,res)=>{
-  res.render("forgotpassword");
-})
+router.get("/forgot-password", (req, res) => {
+  res.render("forgotpassword", { error: null });
+});
 
-router.get("/otp",(req,res)=>{
-  res.render("otp");
-})
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.render('forgotpassword', {
+        error: 'Please enter your email address.'
+      });
+    }
+
+    const rows = await new Promise((resolve, reject) => {
+      db.query('SELECT id, email FROM tgc_users WHERE email = ?', [email], (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(results);
+      });
+    });
+
+   
+    if (rows.length > 0) {
+      
+      req.session.forgot_email = email;
+      res.redirect('/otp');
+    } else {
+      
+      res.render('forgotpassword', {
+        error: 'Invalid email address. Please try again.'
+      });
+    }
+
+  } catch (err) {
+    console.error("Error during forgot password process:", err);
+
+    res.render('forgotpassword', {
+      error: 'An unexpected error occurred. Please try again later.'
+    });
+  }
+});
+
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS 
+    }
+});
+
+router.get('/otp', (req, res) => {
+  // Check if the user has an email in the session
+  if (!req.session.forgot_email) {
+    return res.redirect('/forgot-password');
+  }
+  // Render the OTP page you created earlier
+  res.render('otp', { error: null });
+});
+
+
 
 module.exports = router;
