@@ -1273,5 +1273,9 @@ router.get('/otp', (req, res) => {
 });
 
 
+router.get("/activities",(req, res) => {
+  res.render("member/activities");
+})
+
 
 module.exports = router;
