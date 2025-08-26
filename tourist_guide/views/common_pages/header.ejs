@@ -1,4 +1,29 @@
 <!-- Mobile Menu -->
+<style>
+.vs-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0;
+  width: 100%;
+  z-index: 9999 !important;
+  background: #fff !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* sticky-wrapper & sticky-active પણ override કરવું */
+.sticky-wrapper,
+.sticky-active {
+  position: static !important; /* જેથી JS scroll classes problem ન કરે */
+}
+
+/* જેથી content header નીચે છુપાઈ ન જાય */
+body {
+  padding-top: 180px; /* તમારા header ની total height મુજબ adjust કરો */
+}
+
+
+
+</style>
 <div class="vs-menu-wrapper">
   <div class="vs-menu-area text-center">
     <button class="vs-menu-toggle"><i class="fal fa-times"></i></button>
