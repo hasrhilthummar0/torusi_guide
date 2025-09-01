@@ -1233,13 +1233,13 @@ router.post('/forgot-password', async (req, res) => {
       });
     });
 
-   
+
     if (rows.length > 0) {
-      
+
       req.session.forgot_email = email;
       res.redirect('/otp');
     } else {
-      
+
       res.render('forgotpassword', {
         error: 'Invalid email address. Please try again.'
       });
@@ -1256,11 +1256,11 @@ router.post('/forgot-password', async (req, res) => {
 
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS 
-    }
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
 });
 
 router.get('/otp', (req, res) => {
@@ -1272,8 +1272,62 @@ router.get('/otp', (req, res) => {
   res.render('otp', { error: null });
 });
 
+router.get('/api/guides', async (req, res) => {
+  try {
+    // SQL ક્વેરી MySQL માટે પણ એ જ રહેશે.
+    // ખાતરી કરો કે તમારા 'users' ટેબલમાં નીચે મુજબની કોલમ્સ હોય.
+    const query = `
+  SELECT
+    empid,
+    name,
+    state,
+    district,
+    address,
+    mobile,
+    email,
+    bio,
+    photo,
+    membership_cat,
+    isbest_guide
+  FROM
+    tgc_users
+`;
 
-router.get("/activities",(req, res) => {
+
+    // ક્વેરી ચલાવો
+    const guides = await db.query(query);
+
+    // MySQL ડ્રાઈવર સીધું જ પરિણામોનો એરે આપે છે, એટલે .rows ની જરૂર નથી
+    res.status(200).json(guides);
+
+  } catch (err) {
+    console.error("Error fetching guides:", err.message);
+    res.status(500).json({ error: 'Failed to fetch guides from the database.' });
+  }
+});
+
+router.get('/api/guides/:empid', (req, res) => {
+    const { empid } = req.params; // URL માંથી empid મેળવો
+    const sql = "SELECT * FROM tgc_users WHERE empid = ?"; // empid દ્વારા ક્વેરી
+
+    db.query(sql, [empid], (err, data) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+        if (data.length === 0) {
+            // જો કોઈ ગાઇડ ન મળે તો
+            return res.status(404).json({ error: "Guide not found" });
+        }
+        // જો ગાઇડ મળે તો તેની વિગતો મોકલો
+        return res.json(data[0]);
+    });
+});
+
+
+
+
+router.get("/activities", (req, res) => {
   res.render("member/activities");
 })
 
