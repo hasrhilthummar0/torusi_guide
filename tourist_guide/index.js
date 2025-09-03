@@ -6,6 +6,7 @@ const cors = require('cors')
 app.use(cors());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
+const memberRoutes = require('./router/member_routes');    
 
 //ejs
 
@@ -15,12 +16,13 @@ app.use(express.static(path.join(__dirname,"views/assets")));
 
 const router  = require("./router/router");
 app.use("/",router);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/uploads', express.static('uploads'));
 
-
+app.use('/member', memberRoutes);
 // database
 require('./database/db')
 const port = 2003;
