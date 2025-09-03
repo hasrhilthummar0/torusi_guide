@@ -1307,23 +1307,248 @@ router.get('/api/guides', async (req, res) => {
 });
 
 router.get('/api/guides/:empid', (req, res) => {
-    const { empid } = req.params; // URL માંથી empid મેળવો
-    const sql = "SELECT * FROM tgc_users WHERE empid = ?"; // empid દ્વારા ક્વેરી
+  const { empid } = req.params; // URL માંથી empid મેળવો
+  const sql = "SELECT * FROM tgc_users WHERE empid = ?"; // empid દ્વારા ક્વેરી
 
-    db.query(sql, [empid], (err, data) => {
+  db.query(sql, [empid], (err, data) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    if (data.length === 0) {
+      // જો કોઈ ગાઇડ ન મળે તો
+      return res.status(404).json({ error: "Guide not found" });
+    }
+    // જો ગાઇડ મળે તો તેની વિગતો મોકલો
+    return res.json(data[0]);
+  });
+});
+
+router.get('/api/guides/:empid/reviews', (req, res) => {
+  const { empid } = req.params;
+  const sql = "SELECT * FROM reviews WHERE guide_empid = ? ORDER BY created_at DESC";
+  db.query(sql, [empid], (err, data) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    return res.json(data);
+  });
+});
+
+// >>> નવો રૂટ: કોઈ ચોક્કસ ગાઇડ માટે નવો રિવ્યુ ઉમેરવા માટે <<<
+router.post('/api/guides/:empid/reviews', (req, res) => {
+  const { empid } = req.params;
+  const { rating, name, comment } = req.body;
+
+  // Basic validation
+  if (!rating || !name) {
+    return res.status(400).json({ error: "Rating and name are required." });
+  }
+
+  const sql = "INSERT INTO reviews (guide_empid, rating, name, comment) VALUES (?, ?, ?, ?)";
+  db.query(sql, [empid, rating, name, comment], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Failed to submit review." });
+    }
+    return res.status(201).json({ message: "Review submitted successfully!", reviewId: result.insertId });
+  });
+});
+
+
+router.get('/api/places', (req, res) => {
+  // લિસ્ટ પેજ માટે ફક્ત જરૂરી કોલમ જ લઈએ છીએ.
+  const sql = "SELECT id, title, slogan, country, image FROM tourist_places";
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    return res.json(data);
+  });
+});
+
+// >>> નવો રૂટ: એક જ સ્થળને તેના ID દ્વારા મેળવવા માટે <<<
+router.get('/api/places/:id', (req, res) => {
+  const { id } = req.params; // URL માંથી ID મેળવો
+  const sql = "SELECT * FROM tourist_places WHERE id = ?";
+
+  db.query(sql, [id], (err, data) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    if (data.length === 0) {
+      // જો કોઈ સ્થળ ન મળે તો
+      return res.status(404).json({ error: "Place not found" });
+    }
+    // જો સ્થળ મળે તો તેની સંપૂર્ણ વિગતો મોકલો
+    return res.json(data[0]);
+  });
+});
+
+router.get("/news", (req, res) => {
+  const sql = "SELECT id, title, description, image, created_at FROM tgc_news WHERE status = 'active' ORDER BY created_at DESC";
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching news:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(results);
+  });
+});
+
+
+
+router.get("/news/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "SELECT id, title, description, image, created_at FROM tgc_news WHERE id = ? AND status = 'active' LIMIT 1";
+
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      console.error("Error fetching news:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: "News not found" });
+    }
+    res.json(results[0]);
+  });
+});
+
+
+
+
+const transporterdata = nodemailer.createTransport({
+  service: 'gmail', // ઉદાહરણ તરીકે Gmail
+  auth: {
+    user: 'hthummar540@gmail.com', // તમારું ઈમેલ સરનામું
+    pass: 'vqop ahbf abja jcgb'
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+// API એન્ડપોઇન્ટ
+router.post('/contact', (req, res) => {
+  const { name, email, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).send({ message: 'All fields are required.' });
+  }
+
+  const query = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
+  db.query(query, [name, email, message], (err, result) => {
+    if (err) {
+      console.error('Error inserting data:', err);
+      return res.status(500).send({ message: 'Error saving contact information.' });
+    }
+    console.log('Data inserted successfully:', result);
+
+    // ઈમેલ મોકલવા માટેનું લોજિક
+    const mailOptions = {
+      from: req.body.email, // મોકલનારનું ઈમેલ સરનામું
+      to: 'hthummar540@gmail.com', // જેને ઈમેલ મોકલવાનો છે તેનું સરનામું
+      subject: `New Contact Form Submission from ${name}`,
+      html: `
+        <h3>New Contact Message</h3>
+        <ul>
+          <li><strong>Name:</strong> ${name}</li>
+          <li><strong>Email:</strong> ${email}</li>
+        </ul>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `
+    };
+
+    transporterdata.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+        return res.status(500).send({ message: 'Error sending email.' });
+      }
+      console.log('Email sent:', info.response);
+      res.status(201).send({ message: 'Message sent successfully!' });
+    });
+  });
+});
+
+const storagedata = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+  }
+});
+
+const uploaddata = multer({ storage: storagedata });
+
+router.post('/api/associate', uploaddata.fields([
+    { name: 'logo', maxCount: 1 },
+    { name: 'companyVisitingCard', maxCount: 1 }
+]), (req, res) => {
+    const { name, biography, email, instagramLink, xLink, facebookLink, websiteLink, organizationType } = req.body;
+    const logo = req.files['logo'] ? req.files['logo'][0].filename : null;
+    const companyVisitingCard = req.files['companyVisitingCard'] ? req.files['companyVisitingCard'][0].filename : null;
+
+    if (!name || !biography || !email || !logo || !companyVisitingCard) {
+        return res.status(400).send({ message: 'All required fields must be filled out.' });
+    }
+
+    // ડુપ્લિકેટ ઈમેલ તપાસવા માટેની ક્વેરી
+    const checkEmailQuery = 'SELECT COUNT(*) AS count FROM associates WHERE email = ?';
+    db.query(checkEmailQuery, [email], (err, results) => {
         if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
+            console.error('Error checking email:', err);
+            return res.status(500).send({ message: 'Internal server error.' });
         }
-        if (data.length === 0) {
-            // જો કોઈ ગાઇડ ન મળે તો
-            return res.status(404).json({ error: "Guide not found" });
+
+        if (results[0].count > 0) {
+            // જો ઈમેલ પહેલાથી જ રજિસ્ટર થયેલ હોય
+            return res.status(409).send({ message: 'Email already registered.' });
         }
-        // જો ગાઇડ મળે તો તેની વિગતો મોકલો
-        return res.json(data[0]);
+
+        // જો ઈમેલ ડુપ્લિકેટ ન હોય તો ડેટા દાખલ કરો
+        const insertQuery = 'INSERT INTO associates (name, biography, email, instagramLink, xLink, facebookLink, websiteLink, organizationType, logo, companyVisitingCard) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        db.query(insertQuery, [name, biography, email, instagramLink, xLink, facebookLink, websiteLink, organizationType, logo, companyVisitingCard], (err, result) => {
+            if (err) {
+                console.error('Error inserting data:', err);
+                return res.status(500).send({ message: 'Error saving associate information.' });
+            }
+            console.log('Data inserted successfully:', result);
+            res.status(201).send({ message: 'Application submitted successfully!' });
+        });
     });
 });
 
+router.get('/associates', (req, res) => {
+  const query = 'SELECT * FROM associates';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).send({ message: 'Error retrieving associates.' });
+    }
+    const associates = results.map(associate => ({
+        id: associate.id,
+        name: associate.name,
+        biography: associate.biography, // Added biography
+        email: associate.email, // Added email
+        logo: associate.logo, // Added logo
+        organizationType: associate.organizationType, // Added organizationType
+        created_at: associate.created_at, // Added created_at
+        socials: {
+            instagramLink: associate.instagramLink, // Added Instagram link
+            xLink: associate.xLink, // Added X link
+            facebookLink: associate.facebookLink, // Added Facebook link
+            websiteLink: associate.websiteLink // Added Website link
+        }
+    }));
+    res.status(200).json(associates);
+  });
+});
 
 
 
