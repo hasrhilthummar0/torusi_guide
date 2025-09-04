@@ -17,6 +17,7 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
+    "jsonwebtoken": "^9.0.2",
     "lightbox2": "^2.11.5",
     "multer": "^2.0.1",
     "mysql": "^2.18.1",
