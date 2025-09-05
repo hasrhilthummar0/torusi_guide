@@ -10,6 +10,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 require('./database/db')
 const memberRoutes = require('./router/member_routes');
 const authRoutes = require("./router/authRoutes");
+const idcardRoute = require('./router/idcard');
 
 //ejs
 
@@ -27,6 +28,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use('/member', memberRoutes);
 app.use("/auth", authRoutes);
+app.use('/api/idcard', idcardRoute);
 
 const port = 2003;
 app.listen(port, '0.0.0.0', () => {
