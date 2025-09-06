@@ -1,28 +1,27 @@
 <!-- Mobile Menu -->
 <style>
-.vs-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0;
-  width: 100%;
-  z-index: 9999 !important;
-  background: #fff !important;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+  .vs-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0;
+    width: 100%;
+    z-index: 9999 !important;
+    background: #fff !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
 
-/* sticky-wrapper & sticky-active પણ override કરવું */
-.sticky-wrapper,
-.sticky-active {
-  position: static !important; /* જેથી JS scroll classes problem ન કરે */
-}
+  /* sticky-wrapper & sticky-active પણ override કરવું */
+  .sticky-wrapper,
+  .sticky-active {
+    position: static !important;
+    /* જેથી JS scroll classes problem ન કરે */
+  }
 
-/* જેથી content header નીચે છુપાઈ ન જાય */
-body {
-  padding-top: 180px; /* તમારા header ની total height મુજબ adjust કરો */
-}
-
-
-
+  /* જેથી content header નીચે છુપાઈ ન જાય */
+  body {
+    padding-top: 180px;
+    /* તમારા header ની total height મુજબ adjust કરો */
+  }
 </style>
 <div class="vs-menu-wrapper">
   <div class="vs-menu-area text-center">
@@ -196,12 +195,12 @@ body {
                       <li><a href="/aims_objectives">Aims & Objectives</a></li>
                       <li><a href="/about/about_the_founder">About the Founder</a></li>
                       <li><a href="/about/about_membership">Boards Members</a></li>
-            <li><a href="/about/advisor">Advisor</a></li>
+                      <li><a href="/about/advisor">Advisor</a></li>
 
                       <!-- <li><a href="about/office-bearers">Office Bearers</a></li> -->
                     </ul>
                   </li>
-                  <li><a  href="/top_tourist_guide">Top  Tourist Guide</a></li>
+                  <li><a href="/top_tourist_guide">Top Tourist Guide</a></li>
                   <li class="menu-item-has-children">
                     <a href="tour-guides">Tourist Guides</a>
                     <ul class="sub-menu">
@@ -226,8 +225,17 @@ body {
                     </ul>
                   </li>
                   <li><a href="/top-tourist-places">Top Tourist Places</a></li>
-                  <li><a href="/membership">Membership</a></li>
+                  <!-- <li><a href="/membership">Membership</a></li> -->
+                  <li class="menu-item-has-children">
+                    <a href="javascript:void(0);">Membership</a>
+                    <ul class="sub-menu">
+                      <li><a href="/membership">Guide Registration</a></li>
+                      <li><a href="/associate_registration">Associate Registration</a></li>
+                    </ul>
+                  </li>
+
                   <li><a href="/activities">Activities</a></li>
+
                 </ul>
               </nav>
             </div>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../common_pages/head') %>
+
+    <body>
+        <%- include('../common_pages/header') %>
+
+            <main
+                style="display: flex; justify-content: center; align-items: center; flex-direction: column; min-height: 80vh; padding: 50px 20px;">
+                <h2 style="text-align:center; margin-bottom: 30px;">ID Card for <%= user.name %>
+                </h2>
+
+                <div
+                    style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <img src="data:image/jpeg;base64,<%= image %>" alt="ID Card"
+                        style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+                </div>
+
+                <a href="/api/idcard/preview/api/idcard/preview/download/<%= user.id %>"
+                    style="margin-top: 20px; text-decoration: none; padding: 10px 20px; background: #007bff; color: #fff; border-radius: 5px; display: inline-block;">
+                    Download ID Card
+                </a>
+
+
+            </main>
+
+            <%- include('../common_pages/footer') %>
+
+                <!-- Scroll To Top -->
+                <a href="#" class="scrollToTop scroll-btn"><i class="fas fa-arrow-up"></i></a>
+
+                <!-- ==============================
+       All Js Files
+  ================================ -->
+                <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+                <script src="/js/slick.min.js"></script>
+                <script src="/js/bootstrap.min.js"></script>
+                <script src="/js/jquery.magnific-popup.min.js"></script>
+                <script src="/js/jquery-ui.min.js"></script>
+                <script src="/js/circle-progress.min.js"></script>
+                <script src="/js/imagesLoaded.js"></script>
+                <script src="/js/isotope.js"></script>
+                <script src="/js/wow.min.js"></script>
+                <script src="/js/main.js"></script>
+    </body>
+
+</html>

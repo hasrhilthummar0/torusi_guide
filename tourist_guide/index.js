@@ -11,6 +11,8 @@ require('./database/db')
 const memberRoutes = require('./router/member_routes');
 const authRoutes = require("./router/authRoutes");
 const idcardRoute = require('./router/idcard');
+const idcardPreview = require("./router/idcardPreview");
+const associateRoutes = require("./router/associateRoutes");
 
 //ejs
 
@@ -29,6 +31,8 @@ app.use('/uploads', express.static('uploads'));
 app.use('/member', memberRoutes);
 app.use("/auth", authRoutes);
 app.use('/api/idcard', idcardRoute);
+app.use('/api/idcard/preview', idcardPreview);
+app.use("/associate_registration", associateRoutes);
 
 const port = 2003;
 app.listen(port, '0.0.0.0', () => {

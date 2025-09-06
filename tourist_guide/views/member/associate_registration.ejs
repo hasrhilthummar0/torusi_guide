@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../common_pages/head') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+
+    <body>
+        <!-- Include Header -->
+        <%- include('../common_pages/header') %>
+
+            <!-- Hero Area Start -->
+            <div class="breadcumb-wrapper" data-bg-src="/img/breadcumb/breadcumb-bg.jpg">
+                <div class="container z-index-common">
+                    <div class="breadcumb-content">
+                        <h1 class="breadcumb-title">Associate Registration</h1>
+                        <div class="breadcumb-menu-wrap">
+                            <ul class="breadcumb-menu">
+                                <li><a href="/index">Home</a></li>
+                                <li>Associate Registration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Hero Area End -->
+
+            <!-- Registration Form Start -->
+            <div class="signup-wrapper space pt-2">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <form id="associateForm" action="/associate_registration/submit" method="POST"
+                                enctype="multipart/form-data" class="signup-form bg-smoke p-4 rounded shadow-sm">
+
+                                <h2 class="form-title text-center mb-4">Associate Registration Form</h2>
+                                <p class="form-sub-title text-center mb-4">Please fill in all the mandatory fields to
+                                    apply</p>
+
+                                <!-- Basic Details -->
+                                <p class="mb-1 fw-bold">Basic Details</p>
+                                <hr class="text-info mb-3">
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <input type="text" name="name" class="form-control" placeholder="Full Name*"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="email" name="email" class="form-control" placeholder="Email*"
+                                            required>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea name="biography" class="form-control" placeholder="Short Biography*"
+                                            rows="5" required></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Company & Social Details -->
+                                <p class="mb-1 fw-bold">Company and Social Details</p>
+                                <hr class="text-info mb-3">
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Logo*</label>
+                                        <input type="file" name="logo" class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Company Visiting Card*</label>
+                                        <input type="file" name="visiting_card" class="form-control form-control-sm"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="url" name="instagram" class="form-control"
+                                            placeholder="Instagram link">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="url" name="x_link" class="form-control" placeholder="X link">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="url" name="facebook" class="form-control"
+                                            placeholder="Facebook link">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="url" name="website" class="form-control"
+                                            placeholder="Website link">
+                                    </div>
+                                    <div class="col-12">
+                                        <select name="organization_type" class="form-select" required>
+                                            <option value="">Select Organization Type *</option>
+                                            <option value="private">Company</option>
+                                            <option value="government">Organisation</option>
+                                            <option value="ngo">Hotel</option>
+                                            <!-- <option value="other">Other</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Declaration -->
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" name="declaration" id="declaration"
+                                        required>
+                                    <label class="form-check-label" for="declaration">
+                                        I declare that the information provided in the form is accurate to the best of
+                                        my knowledge. I accept responsibility for any discrepancy.
+                                    </label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 offset-md-8">
+                                        <button type="submit" class="btn w-100 py-2"
+                                            style="background-color: #ff6600; color: #fff; font-size:16px;">Submit
+                                            Application</button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Registration Form End -->
+
+            <%- include('../common_pages/footer') %>
+
+                <!-- JS -->
+                <!-- Jquery -->
+                <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+                <!-- Slick Slider -->
+                <script src="/js/slick.min.js"></script>
+                <!-- Bootstrap -->
+                <script src="/js/bootstrap.min.js"></script>
+                <!-- Magnific Popup -->
+                <script src="/js/jquery.magnific-popup.min.js"></script>
+                <!-- jquery Ui -->
+                <script src="/js/jquery-ui.min.js"></script>
+                <!-- Circle Progress -->
+                <script src="/js/circle-progress.min.js"></script>
+                <!-- isotope -->
+                <script src="/js/imagesLoaded.js"></script>
+                <script src="/js/isotope.js"></script>
+                <!-- Wow.js -->
+                <script src="/js/wow.min.js"></script>
+                <!-- Main Js File -->
+                <script src="/js/main.js"></script>
+                <!-- State City Js File -->
+                <script src="/js/states_cities.js"></script>
+                <script src="/js/validation.js"></script>
+
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+                <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('associateForm');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        const formData = new FormData(form);
+
+        axios.post('/associate_registration/submit', formData)
+            .then(function(res) {
+                if (res.data.success) {
+                    iziToast.success({
+                        title: 'Success',
+                        message: res.data.message,
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                    form.reset();
+                } else {
+                    iziToast.error({
+                        title: 'Error',
+                        message: res.data.message,
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                }
+            })
+            .catch(function(err) {
+                console.error(err);
+                iziToast.error({
+                    title: 'Error',
+                    message: 'Something went wrong. Please try again.',
+                    position: 'topRight',
+                    timeout: 5000
+                });
+            })
+            .finally(function() {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Application';
+            });
+    });
+});
+</script>
+
+
+    </body>
+
+</html>

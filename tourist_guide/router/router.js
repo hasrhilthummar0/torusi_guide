@@ -1654,4 +1654,8 @@ router.get("/activities", (req, res) => {
 })
 
 
+router.get("/associate_registration",(req,res)=>{
+  res.render("member/associate_registration");
+})
+
 module.exports = router;

@@ -34,8 +34,10 @@
                             <h3 class="box-title text-center mb-4">Profile Details</h3>
                             <p class="text-center">View your profile information or download your digital ID card.</p>
                             <div class="d-grid gap-3">
-                                <a href="/view-profile" class="vs-btn mask-style1 style4 w-100">View Profile</a>
-                                <a href="/download-id" class="vs-btn mask-style1 style2 w-100">Download ID Card</a>
+                                <a href="/api/idcard/preview/preview/<%= user.id %>" class="vs-btn mask-style1 style2 w-100">
+                                    Preview ID Card
+                                </a>
+
                             </div>
                         </div>
                     </div>
