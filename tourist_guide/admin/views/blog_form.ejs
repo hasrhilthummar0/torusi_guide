@@ -1,0 +1,80 @@
+<%- include('partials/header') %>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <%- include('partials/sidebar') %>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <%- include('partials/navbar') %>
+
+        <div class="container-fluid p-3">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="page-title">Add Blog</h2>
+                <a href="/blogs/list" class="btn btn-primary btn-round">Manage Blogs</a>
+            </div>
+
+            <!-- Blog Form -->
+            <div class="card shadow p-4 bg-white rounded">
+                <form action="<%= news ? '/blogs/edit/' + news.id : '/blogs/add' %>" method="POST" enctype="multipart/form-data">
+
+                    <div class="row g-3">
+                        <!-- Title -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Title</label>
+                            <input type="text" name="title" class="form-control" placeholder="Enter blog title" required>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Status</label>
+                            <select name="status" class="form-select">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Description</label>
+                            <textarea name="description" rows="6" class="form-control" placeholder="Write blog description..." required></textarea>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Image</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <button type="submit" class="btn btn-success btn-lg px-4">Save Blog</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-4 text-center">
+            <p>Visit Site</p>
+            <p>2025, made with ❤️ By Wimraw</p>
+        </footer>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
+
+<style>
+    .form-label {
+        margin-bottom: 6px;
+        color: #333;
+    }
+    .btn-round {
+        border-radius: 25px;
+        padding: 6px 18px;
+    }
+    .card {
+        border-radius: 12px;
+    }
+</style>

@@ -1,0 +1,129 @@
+<style>
+    .pagination {
+        margin-top: 20px;
+    }
+
+    .pagination .page-item .page-link {
+        border-radius: 8px;
+        margin: 0 3px;
+        color: #0d6efd;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .pagination .page-item .page-link:hover {
+        background-color: #0d6efd;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: #fff;
+        font-weight: bold;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<%- include('partials/header') %>
+
+<div class="wrapper">
+    <%- include('partials/sidebar') %>
+
+    <div class="main-content">
+        <%- include('partials/navbar') %>
+
+        <div class="container-fluid p-3">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="page-title">Manage Associates</h2>
+                <a href="/admin/associates/add" class="btn btn-primary btn-round">Add Associate</a>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive shadow p-3 bg-white rounded">
+                <table class="table table-striped table-bordered align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Biography</th>
+                            <th>Email</th>
+                            <th>Organization Type</th>
+                            <th>Logo</th>
+                            <th>Visiting Card</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (associates.length > 0) { %>
+                            <% associates.forEach(associate => { %>
+                                <tr>
+                                    <td><%= associate.id %></td>
+                                    <td><%= associate.name %></td>
+                                    <td><%= associate.biography %></td>
+                                    <td><%= associate.email %></td>
+                                    <td><%= associate.organizationType %></td>
+                                    <td>
+                                        <% if (associate.logo) { %>
+                                            <img src="/uploads/<%= associate.logo %>" style="height:50px" class="img-thumbnail">
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (associate.companyVisitingCard) { %>
+                                            <img src="/uploads/<%= associate.companyVisitingCard %>" style="height:50px" class="img-thumbnail">
+                                        <% } %>
+                                    </td>
+                                    <td><%= associate.created_at.toISOString().slice(0, 10) %></td>
+                                    <td>
+                                        <a href="/admin/associates/view/<%= associate.id %>" class="btn btn-sm btn-info me-1">View</a>
+                                        <a href="/admin/associates/delete/<%= associate.id %>" class="btn btn-sm btn-danger"
+                                           onclick="return confirm('Are you sure you want to delete this associate?');">Delete</a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="9" class="text-center">No associates found.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination (optional, if you implement server-side pagination) -->
+            <% if (totalPages && totalPages > 1) { %>
+                <nav aria-label="Associates Pagination">
+                    <ul class="pagination justify-content-center mt-4">
+                        <% if (currentPage > 1) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage - 1 %>">« Previous</a>
+                            </li>
+                        <% } %>
+
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                            </li>
+                        <% } %>
+
+                        <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage + 1 %>">Next »</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            <% } %>
+
+            <!-- Footer -->
+            <footer class="mt-4 text-center">
+                <p>2025, made with ❤️ By Wimraw</p>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

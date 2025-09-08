@@ -1,0 +1,65 @@
+<%- include('partials/header') %>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <%- include('partials/sidebar') %>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <%- include('partials/navbar') %>
+
+        <div class="container-fluid p-3">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="page-title"><%= title %></h2>
+                <a href="/places/list" class="btn btn-primary btn-round">Manage Places</a>
+            </div>
+
+            <!-- Form -->
+            <div class="card shadow p-3 bg-white rounded">
+                <form action="/places/add" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label>Title</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Slogan</label>
+                        <input type="text" name="slogan" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Country</label>
+                        <input type="text" name="country" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Thumbnail Image</label>
+                        <input type="file" name="image" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Description (Rich Content)</label>
+                        <textarea id="editor" name="description"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Save</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-4 text-center">
+            <p>Visit Site</p>
+            <p>2025, made with ❤️ By Wimraw</p>
+        </footer>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
+
+<!-- CKEditor -->
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor');
+</script>

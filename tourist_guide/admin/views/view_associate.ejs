@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title><%= title %></title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="stylesheet" href="/admin/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Associate Details</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <td><%= associate.id %></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td><%= associate.name %></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><%= associate.email %></td>
+            </tr>
+            <tr>
+                <th>Organization Type</th>
+                <td><%= associate.organizationType %></td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td>
+                    <% if (associate.logo) { %>
+                        <img src="/uploads/<%= associate.logo %>" style="height:100px;">
+                    <% } else { %>
+                        No logo uploaded
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <th>Visiting Card</th>
+                <td>
+                    <% if (associate.companyVisitingCard) { %>
+                        <img src="/uploads/<%= associate.companyVisitingCard %>" style="height:100px;">
+                    <% } else { %>
+                        No visiting card uploaded
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td><%= associate.status %></td>
+            </tr>
+            <tr>
+                <th>Registered At</th>
+                <td>
+                    <%= associate.created_at ? associate.created_at.toISOString().slice(0,19).replace("T"," ") : "" %>
+                </td>
+            </tr>
+        </table>
+
+        <a href="/admin/associates/pending" class="btn btn-secondary">Back</a>
+    </div>
+</body>
+</html>

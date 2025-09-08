@@ -222,8 +222,8 @@ router.post("/submit_membership", async (req, res) => {
                     INSERT INTO tgc_users (
                         name, dob, gender, blood_group, state, district, pincode, address,
                         membership_cat, membership_type, bio, aadhaar, photo, guide_idcard,
-                        govt_cert, qualification_cert, email, mobile, password
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        govt_cert, qualification_cert, email, mobile, password,status
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,'Pending')
                 `;
 
         const values = [

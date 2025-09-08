@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>
+        <%= title %>
+    </title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="/admin/img/kaiadmin/favicon.ico" type="image/x-icon" />
+
+    <script src="/admin/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["/admin/css/fonts.min.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <link rel="stylesheet" href="/admin/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/admin/css/plugins.min.css" />
+    <link rel="stylesheet" href="/admin/css/kaiadmin.min.css" />
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <!-- Sidebar -->
+            <div class="sidebar" data-background-color="dark">
+                <div class="sidebar-logo">
+                    <!-- Logo Header -->
+                    <div class="logo-header" data-background-color="dark">
+                        <a href="index.html" class="logo">
+                            <img src="/admin/public/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
+                                height="20" />
+                        </a>
+                        <div class="nav-toggle">
+                            <button class="btn btn-toggle toggle-sidebar">
+                                <i class="gg-menu-right"></i>
+                            </button>
+                            <button class="btn btn-toggle sidenav-toggler">
+                                <i class="gg-menu-left"></i>
+                            </button>
+                        </div>
+                        <button class="topbar-toggler more">
+                            <i class="gg-more-vertical-alt"></i>
+                        </button>
+                    </div>
+                    <!-- End Logo Header -->
+                </div>
+                <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                    <div class="sidebar-content">
+                        <ul class="nav nav-secondary">
+                            <li class="nav-item active">
+                                <a href="/dashboard" class="nav-link">
+                                    <i class="fas fa-home"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="nav-section">
+                                <span class="sidebar-mini-icon">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </span>
+                                <h4 class="text-section">Menu</h4>
+                            </li>
+
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse" href="#guides">
+                                    <i class="fas fa-users"></i>
+                                    <p>Users</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="guides">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="/admin/guides/pending">
+                                                <span class="sub-item">Pending Guides</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="sub-item">Associates</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/places/add">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>Places</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/places/manage">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>Manage Places</p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="/blogs/add">
+                                    <i class="fas fa-book"></i>
+                                    <p>Blogs</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/blogs/news">
+                                    <i class="fas fa-book"></i>
+                                    <p>manage blogs</p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="/admin/news/add">
+                                    <i class="fas fa-bullhorn"></i>
+                                    <p>News & Events</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/news/manage">
+                                    <i class="fas fa-bullhorn"></i>
+                                    <p> Manage News & Events</p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse" href="#">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <p>Enquiries</p>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="/admin/logout">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <p>Logout</p>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Sidebar -->
+
+            <!-- Main content -->
+            <div class="main-content">
+                <div class="main-panel">
+                    <div class="main-header">
+                        <div class="main-header-logo">
+                            <!-- Logo Header -->
+                            <div class="logo-header" data-background-color="dark">
+                                <a href="index.html" class="logo">
+                                    <img src="img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
+                                        height="20" />
+                                </a>
+                                <div class="nav-toggle">
+                                    <button class="btn btn-toggle toggle-sidebar">
+                                        <i class="gg-menu-right"></i>
+                                    </button>
+                                    <button class="btn btn-toggle sidenav-toggler">
+                                        <i class="gg-menu-left"></i>
+                                    </button>
+                                </div>
+                                <button class="topbar-toggler more">
+                                    <i class="gg-more-vertical-alt"></i>
+                                </button>
+                            </div>
+                            <!-- End Logo Header -->
+                        </div>
+                        <!-- Navbar Header -->
+                        <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+                            <div class="container-fluid">
+
+                                <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+
+                                    <li class="nav-item topbar-user dropdown hidden-caret">
+                                        <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
+                                            aria-expanded="false">
+                                            <!-- <div class="avatar-sm">
+                  <img src="img/profile.jpg" alt="..." class="avatar-img rounded-circle" />
+                </div> -->
+                                            <span class="profile-username">
+                                                <span class="op-7">Hi,</span>
+                                                <span class="fw-bold">Tourist Guide Admin</span>
+                                            </span>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                            <div class="dropdown-user-scroll scrollbar-outer">
+
+                                                <li>
+                                                    <a class="dropdown-item" href="/admin/logout">Logout</a>
+                                                </li>
+
+                                            </div>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                        <!-- End Navbar -->
+                    </div>
+
+                    <div class="container-fluid p-3">
+                        <!-- Page Header -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2 class="page-title">Pending Guide Approvals</h2>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="table-responsive shadow p-3 bg-white rounded">
+                            <table class="table table-striped table-bordered align-middle mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Registered At</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (guides.length> 0) { %>
+                                        <% guides.forEach(guide=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= guide.empid %>
+                                                </td>
+                                                <td>
+                                                    <%= guide.name %>
+                                                </td>
+                                                <td>
+                                                    <%= guide.email %>
+                                                </td>
+                                                <td>
+                                                    <%= guide.mobile %>
+                                                </td>
+                                                <td>
+                                                    <%= guide.created_at ? guide.created_at.toISOString().slice(0,
+                                                        19).replace('T', ' ' ) : '' %>
+                                                </td>
+                                                <td>
+                                                    <a href="/admin/guides/view/<%= guide.id %>"
+                                                        class="btn btn-sm btn-info me-1">View</a>
+                                                    <form action="/admin/guides/approve/<%= guide.id %>" method="POST"
+                                                        style="display:inline-block;">
+                                                        <button type="submit"
+                                                            class="btn btn-success btn-sm">Approve</button>
+                                                    </form>
+                                                    <form action="/admin/guides/reject/<%= guide.id %>" method="POST"
+                                                        style="display:inline-block;">
+                                                        <button type="submit"
+                                                            class="btn btn-danger btn-sm">Reject</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No pending guides found.
+                                                        </td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Footer -->
+                    </div>
+                </div>
+            </div>
+</body>
+
+</html>
