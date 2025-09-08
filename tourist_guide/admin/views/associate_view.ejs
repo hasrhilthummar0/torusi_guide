@@ -7,25 +7,6 @@
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <link rel="icon" href="/admin/img/kaiadmin/favicon.ico" type="image/x-icon" />
 
-    <script src="/admin/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-        WebFont.load({
-            google: { families: ["Public Sans:300,400,500,600,700"] },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["/admin/css/fonts.min.css"],
-            },
-            active: function () {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script>
-
     <link rel="stylesheet" href="/admin/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/admin/css/plugins.min.css" />
     <link rel="stylesheet" href="/admin/css/kaiadmin.min.css" />
@@ -44,70 +25,72 @@
             <div class="container-fluid p-3">
                 <!-- Page Header -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="page-title">Associate Details (ID: <%= associate.id %>)</h2>
+                    <h2 class="page-title">Edit Associate (ID: <%= associate.id %>)</h2>
                     <a href="/admin/associates/pending" class="btn btn-secondary">Back</a>
                 </div>
 
-                <!-- Associate Info -->
-                <div class="row p-4">
-                    <!-- Left Info -->
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control" value="<%= associate.name %>" disabled>
+                <!-- Form Start -->
+                <form action="/admin/associates/view/<%= associate.id %>" method="POST">
+                    <div class="row p-4">
+                        <!-- Left Info -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Name</label>
+                                <input type="text" name="name" class="form-control" value="<%= associate.name %>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" value="<%= associate.email %>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Organization Type</label>
+                                <input type="text" name="organizationType" class="form-control" value="<%= associate.organizationType %>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Biography</label>
+                                <textarea name="biography" class="form-control"><%= associate.biography %></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <input type="text" name="status" class="form-control" value="<%= associate.status %>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Registered At</label>
+                                <input type="text" class="form-control"
+                                    value="<%= associate.created_at ? associate.created_at.toISOString().slice(0,19).replace('T',' ') : '' %>"
+                                    disabled>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="text" class="form-control" value="<%= associate.email %>" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Organization Type</label>
-                            <input type="text" class="form-control" value="<%= associate.organizationType %>" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <input type="text" class="form-control" value="<%= associate.status %>" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Registered At</label>
-                            <input type="text" class="form-control" 
-                                value="<%= associate.created_at ? associate.created_at.toISOString().slice(0,19).replace('T',' ') : '' %>" 
-                                disabled>
+
+                        <!-- Right Info (Proofs & Images) -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Logo</label><br>
+                                <% if (associate.logo) { %>
+                                    <img src="/uploads/<%= associate.logo %>" class="img-thumbnail mb-2"
+                                        style="max-height:150px">
+                                <% } else { %>
+                                    <p>No logo uploaded</p>
+                                <% } %>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Visiting Card</label><br>
+                                <% if (associate.companyVisitingCard) { %>
+                                    <img src="/uploads/<%= associate.companyVisitingCard %>" class="img-thumbnail mb-2"
+                                        style="max-height:150px">
+                                <% } else { %>
+                                    <p>No visiting card uploaded</p>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Right Info (Proofs & Images) -->
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label">Logo</label><br>
-                            <% if (associate.logo) { %>
-                                <img src="/uploads/<%= associate.logo %>" class="img-thumbnail mb-2"
-                                    style="max-height:150px">
-                            <% } else { %>
-                                <p>No logo uploaded</p>
-                            <% } %>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Visiting Card</label><br>
-                            <% if (associate.companyVisitingCard) { %>
-                                <img src="/uploads/<%= associate.companyVisitingCard %>" class="img-thumbnail mb-2"
-                                    style="max-height:150px">
-                            <% } else { %>
-                                <p>No visiting card uploaded</p>
-                            <% } %>
-                        </div>
+                    <!-- Action Buttons -->
+                    <div class="text-end p-3">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="/admin/associates/pending" class="btn btn-secondary">Back</a>
                     </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="text-end p-3">
-                    <form action="/admin/associates/approve/<%= associate.id %>" method="POST" style="display:inline-block;">
-                        <button type="submit" class="btn btn-success">Approve</button>
-                    </form>
-                    <form action="/admin/associates/reject/<%= associate.id %>" method="POST" style="display:inline-block;">
-                        <button type="submit" class="btn btn-danger">Reject</button>
-                    </form>
-                </div>
+                </form>
             </div>
 
             <!-- Footer -->

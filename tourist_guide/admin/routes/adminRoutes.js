@@ -48,6 +48,7 @@ router.post("/login", (req, res) => {
 });
 
 // Dashboard (protected route)
+// Dashboard (protected route)
 router.get("/dashboard", (req, res) => {
     if (!req.session.admin) {
         return res.redirect("/admin/login");
@@ -57,37 +58,49 @@ router.get("/dashboard", (req, res) => {
     const queryAssociates = "SELECT COUNT(*) AS totalAssociates FROM associates";
     const queryBlogs = "SELECT COUNT(*) AS totalBlogs FROM tgc_news";
     const queryEnquiries = "SELECT COUNT(*) AS totalEnquiries FROM enquiries";
+    const queryRegisteredGuides = `
+        SELECT id, name, bio, email, photo 
+        FROM tgc_users 
+        WHERE status = 'registered' 
+        ORDER BY created_at DESC 
+        LIMIT 5
+    `;
 
-    // Query guides first
     db.query(queryGuides, (err, guideResult) => {
         const totalGuides = !err && guideResult[0] ? guideResult[0].totalGuides : 0;
 
-        // Query associates
         db.query(queryAssociates, (err2, associateResult) => {
             const totalAssociates = !err2 && associateResult[0] ? associateResult[0].totalAssociates : 0;
 
-            // Query blogs
             db.query(queryBlogs, (err3, blogResult) => {
                 const totalBlogs = !err3 && blogResult[0] ? blogResult[0].totalBlogs : 0;
 
-                // Query enquiries
                 db.query(queryEnquiries, (err4, enquiryResult) => {
                     const totalEnquiries = !err4 && enquiryResult[0] ? enquiryResult[0].totalEnquiries : 0;
 
-                    // Render dashboard with all counts
-                    res.render("../admin/views/index", {
-                        totalGuides,
-                        totalAssociates,
-                        totalBlogs,
-                        totalEnquiries,
-                        title: 'Admin Dashboard',
-                        admin: req.session.admin
+                    // 🔹 Registered Guides fetch
+                    db.query(queryRegisteredGuides, (err5, registeredGuides) => {
+                        if (err5) {
+                            console.log("Registered guides fetch error:", err5);
+                            return res.send("Database error");
+                        }
+
+                        res.render("../admin/views/index", {
+                            totalGuides,
+                            totalAssociates,
+                            totalBlogs,
+                            totalEnquiries,
+                            registeredGuides,   // 👈 Pass to EJS
+                            title: 'Admin Dashboard',
+                            admin: req.session.admin
+                        });
                     });
                 });
             });
         });
     });
 });
+
 
 
 router.get("/guides", (req, res) => {
@@ -206,6 +219,7 @@ router.get("/guides/view/:id", (req, res) => {
 
         res.render("../admin/views/view_guide", { 
             guide: result[0], 
+            associate: result[0],
             title: "View Guide", 
             admin: req.session.admin 
         });
@@ -221,7 +235,7 @@ router.post("/guides/approve/:id", (req, res) => {
         res.redirect("/admin/guides/pending");
     });
 });
-// Reject guide
+// Reject guidea
 // Reject guide
 router.post("/guides/reject/:id", (req, res) => {
     const id = req.params.id;

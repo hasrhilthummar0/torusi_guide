@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>
@@ -35,74 +36,94 @@
 <body>
     <div class="wrapper">
 
-<div class="wrapper">
-    <%- include('partials/sidebar') %>
-    <div class="main-content">
-        <%- include('partials/navbar') %>
+        <div class="wrapper">
+            <%- include('partials/sidebar') %>
+                <div class="main-content">
+                    <%- include('partials/navbar') %>
 
-        <div class="container-fluid p-3">
-            <!-- Page Header -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="page-title">Pending Associate Approvals</h2>
-            </div>
+                        <div class="container-fluid p-3">
+                            <!-- Page Header -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2 class="page-title">Pending Associate Approvals</h2>
+                            </div>
 
-            <!-- Table -->
-            <div class="table-responsive shadow p-3 bg-white rounded">
-                <table class="table table-striped table-bordered align-middle mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Organization Type</th>
-                            <th>Logo</th>
-                            <th>Visiting Card</th>
-                            <th>Registered At</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if (associates.length > 0) { %>
-                            <% associates.forEach(associate => { %>
-                                <tr>
-                                    <td><%= associate.id %></td>
-                                    <td><%= associate.name %></td>
-                                    <td><%= associate.email %></td>
-                                    <td><%= associate.organizationType %></td>
-                                    <td>
-                                        <% if (associate.logo) { %>
-                                            <img src="/uploads/<%= associate.logo %>" style="height:50px;">
-                                        <% } %>
+                            <!-- Table -->
+                            <div class="table-responsive shadow p-3 bg-white rounded">
+                                <table class="table table-striped table-bordered align-middle mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Organization Type</th>
+                                            <th>Logo</th>
+                                            <th>Visiting Card</th>
+                                            <th>Registered At</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (associates.length> 0) { %>
+                                            <% associates.forEach(associate=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= associate.id %>
+                                                    </td>
+                                                    <td>
+                                                        <%= associate.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= associate.email %>
+                                                    </td>
+                                                    <td>
+                                                        <%= associate.organizationType %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (associate.logo) { %>
+                                                            <img src="/uploads/<%= associate.logo %>"
+                                                                style="height:50px;">
+                                                            <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (associate.companyVisitingCard) { %>
+                                                            <img src="/uploads/<%= associate.companyVisitingCard %>"
+                                                                style="height:50px;">
+                                                            <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <%= associate.created_at ?
+                                                            associate.created_at.toISOString().slice(0,19).replace('T',' ') : '' %>
                                     </td>
                                     <td>
-                                        <% if (associate.companyVisitingCard) { %>
-                                            <img src="/uploads/<%= associate.companyVisitingCard %>" style="height:50px;">
-                                        <% } %>
-                                    </td>
-                                    <td>
-                                        <%= associate.created_at ? associate.created_at.toISOString().slice(0,19).replace('T',' ') : '' %>
-                                    </td>
-                                    <td>
-                                          <a href="/admin/associates/view/<%= associate.id %>" class="btn btn-info btn-sm">View</a>
-                                        <form action="/admin/associates/approve/<%= associate.id %>" method="POST" style="display:inline-block;">
-                                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
-                                        </form>
-                                        <form action="/admin/associates/reject/<%= associate.id %>" method="POST" style="display:inline-block;">
-                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <% }) %>
-                        <% } else { %>
-                            <tr>
-                                <td colspan="8" class="text-center">No pending associates found.</td>
-                            </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
+                                        <a href="<%=
+    associate.status === ' registered' ? '/admin/associates/edit/' + associate.id : '/admin/associates/view/' +
+                                                            associate.id %>" class="btn btn-info btn-sm">View</a>
+
+                                                            <!-- <a href="/admin/associates/view/<%= associate.id %>" class="btn btn-info btn-sm">View</a> -->
+                                                            <form action="/admin/associates/approve/<%= associate.id %>"
+                                                                method="POST" style="display:inline-block;">
+                                                                <button type="submit"
+                                                                    class="btn btn-success btn-sm">Approve</button>
+                                                            </form>
+                                                            <form action="/admin/associates/reject/<%= associate.id %>"
+                                                                method="POST" style="display:inline-block;">
+                                                                <button type="submit"
+                                                                    class="btn btn-danger btn-sm">Reject</button>
+                                                            </form>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="8" class="text-center">No pending associates
+                                                                found.</td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
         </div>
-    </div>
-</div>
 
-<%- include('partials/footer') %>
+        <%- include('partials/footer') %>

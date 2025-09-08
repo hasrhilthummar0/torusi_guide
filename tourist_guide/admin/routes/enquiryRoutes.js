@@ -24,6 +24,8 @@ router.get("/enquiries/manage", (req, res) => {
             });
         });
     });
+    console.log("Enquiries route accessed");
+    
 });
 
 
