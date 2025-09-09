@@ -208,6 +208,7 @@ Header Area
       <section class="hero-layout4">
         <div class="position-relative">
           <div class="vs-carousel hero-slider2" data-slide-show="1" data-fade="true">
+            <div class="hero-slide p-0"><img src="/uploads/banner1.jpg" class="w-100" /></div>
             <div class="hero-slide p-0"><img src="/uploads/sliders/1736387873160.jpg" class="w-100" /></div>
             <div class="hero-slide p-0"><img src="/uploads/sliders/1736387848010.jpg" class="w-100" /></div>
             <div class="hero-slide p-0"><img src="/uploads/sliders/1736387867292.jpg" class="w-100" /></div>
@@ -308,7 +309,7 @@ Header Area
                     <div class="fact-block__icon" data-bg-src="/img/shape/fact-icon-shape.svg">
                       <img src="/img/icons/fact-1-3.svg" alt="fact">
                     </div>
-                   <span id="total-states-count" class="fact-block__number">...</span>
+                    <span id="total-states-count" class="fact-block__number">...</span>
                     <p class="fact-block__text">Total States</p>
                   </div>
                 </div>
@@ -539,31 +540,31 @@ Footer Area
           document.addEventListener('DOMContentLoaded', fetchReviewCount);
         </script>
         <script>
-    async function fetchStateCount() {
-        try {
-            // નવા API URL '/api/state-count' ને કૉલ કરો
-            const response = await fetch('/api/state-count');
-            const data = await response.json();
+          async function fetchStateCount() {
+            try {
+              // નવા API URL '/api/state-count' ને કૉલ કરો
+              const response = await fetch('/api/state-count');
+              const data = await response.json();
 
-            // નવા ID વાળા એલિમેન્ટને શોધો
-            const countElement = document.getElementById('total-states-count');
-            
-            if (countElement) {
+              // નવા ID વાળા એલિમેન્ટને શોધો
+              const countElement = document.getElementById('total-states-count');
+
+              if (countElement) {
                 countElement.textContent = data.count;
-            }
-        } catch (error) {
-            console.error('રાજ્યોનો કાઉન્ટ લાવવામાં ભૂલ:', error);
-            // ભૂલ આવે તો 0 બતાવો
-            const countElement = document.getElementById('total-states-count');
-            if(countElement) {
+              }
+            } catch (error) {
+              console.error('રાજ્યોનો કાઉન્ટ લાવવામાં ભૂલ:', error);
+              // ભૂલ આવે તો 0 બતાવો
+              const countElement = document.getElementById('total-states-count');
+              if (countElement) {
                 countElement.textContent = '0';
+              }
             }
-        }
-    }
+          }
 
-    // પેજ લોડ થાય કે તરત જ ફંક્શન કૉલ કરો
-    document.addEventListener('DOMContentLoaded', fetchStateCount);
-</script>
+          // પેજ લોડ થાય કે તરત જ ફંક્શન કૉલ કરો
+          document.addEventListener('DOMContentLoaded', fetchStateCount);
+        </script>
   </body>
 
 </html>
