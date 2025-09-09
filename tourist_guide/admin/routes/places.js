@@ -5,15 +5,15 @@ const multer = require("multer");
 const path = require("path");
 
 // 🔹 Storage setup
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Use absolute path to your admin/public/uploads/places
-    cb(null, path.join(__dirname, '../../admin/public/uploads/places'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
+    const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // Use absolute path to your admin/public/uploads/places
+        cb(null, path.join(__dirname, '../../admin/public/uploads/places'));
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+    });
 const upload = multer({ storage });
 
 // =======================

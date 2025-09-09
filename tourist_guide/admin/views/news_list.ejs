@@ -40,7 +40,6 @@
                         <!-- Page Header -->
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h2 class="page-title">Manage Guides</h2>
-                            <a href="/admin/guides/add" class="btn btn-primary btn-round">Add Guide</a>
                         </div>
 
                         <!-- Table -->
@@ -79,10 +78,11 @@
                                             </td>
                                             <td>
                                                 <%= item.created_at.toISOString().slice(0,19).replace('T',' ') %></td>
-            <td>
-              <a href="/blogs/edit/<%= item.id %>" class="btn btn-warning btn-sm">Edit</a>
-        <a href="/blogs/delete/<%= item.id %>" class="btn btn-danger btn-sm"
-   onclick="return confirm('Are you sure you want to delete this news?');">Delete</a>
+                                            <td>
+                                              <a href="/blogs/edit/<%= item.id %>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="/blogs/delete/<%= item.id %>" class="btn btn-danger btn-sm"
+                                                 onclick="return confirm(' Are you sure you want to delete this news?');">Delete
+                                                </a>
 
 
                                             </td>

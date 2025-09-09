@@ -148,55 +148,53 @@
                 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
                 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('associateForm');
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const form = document.getElementById('associateForm');
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+                        form.addEventListener('submit', function (e) {
+                            e.preventDefault();
 
-        const submitBtn = form.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting...';
+                            const submitBtn = form.querySelector('button[type="submit"]');
+                            submitBtn.disabled = true;
+                            submitBtn.textContent = 'Submitting...';
 
-        const formData = new FormData(form);
+                            const formData = new FormData(form);
 
-        axios.post('/associate_registration/submit', formData)
-            .then(function(res) {
-                if (res.data.success) {
-                    iziToast.success({
-                        title: 'Success',
-                        message: res.data.message,
-                        position: 'topRight',
-                        timeout: 5000
+                            axios.post('/associate_registration/submit', formData)
+                                .then(function (res) {
+                                    if (res.data.success) {
+                                        iziToast.success({
+                                            title: 'Success',
+                                            message: res.data.message,
+                                            position: 'topRight',
+                                            timeout: 5000
+                                        });
+                                        form.reset();
+                                    } else {
+                                        iziToast.error({
+                                            title: 'Error',
+                                            message: res.data.message,
+                                            position: 'topRight',
+                                            timeout: 5000
+                                        });
+                                    }
+                                })
+                                .catch(function (err) {
+                                    console.error(err);
+                                    iziToast.error({
+                                        title: 'Error',
+                                        message: 'Something went wrong. Please try again.',
+                                        position: 'topRight',
+                                        timeout: 5000
+                                    });
+                                })
+                                .finally(function () {
+                                    submitBtn.disabled = false;
+                                    submitBtn.textContent = 'Submit Application';
+                                });
+                        });
                     });
-                    form.reset();
-                } else {
-                    iziToast.error({
-                        title: 'Error',
-                        message: res.data.message,
-                        position: 'topRight',
-                        timeout: 5000
-                    });
-                }
-            })
-            .catch(function(err) {
-                console.error(err);
-                iziToast.error({
-                    title: 'Error',
-                    message: 'Something went wrong. Please try again.',
-                    position: 'topRight',
-                    timeout: 5000
-                });
-            })
-            .finally(function() {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Application';
-            });
-    });
-});
-</script>
-
-
+                </script>
     </body>
 
 </html>
