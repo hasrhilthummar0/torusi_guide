@@ -83,15 +83,15 @@ router.post("/submit_membership", uploadmembership, async (req, res) => {
 
                 // Insert user
                 const insertSql = `INSERT INTO tgc_users 
-                    (name, dob, gender, blood_group, state, district, pincode, address, membership_cat, membership_type, bio, email, mobile, password, aadhaar, photo, qualification_cert, guide_idcard, govt_cert) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    (name, dob, gender, blood_group, state, district, pincode, address, membership_cat, membership_type, bio, email, mobile, password, aadhaar, photo, qualification_cert, guide_idcard, govt_cert, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
                 db.query(
                     insertSql,
                     [
                         name, dob, gender, blood_group, state, district, pincode, address,
                         membership_cat, membership_type, bio, email, mobile, hashedPassword,
-                        aadhaar, photo, qualification_cert, guide_idcard, govt_cert,
+                        aadhaar, photo, qualification_cert, guide_idcard, govt_cert,'pending'
                     ],
                     (err, result) => {
                         if (err) {

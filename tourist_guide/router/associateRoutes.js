@@ -40,9 +40,13 @@
         // Files
         const logo_file = findFileByFieldname(req.files, "logo");
         const visiting_card_file = findFileByFieldname(req.files, "visiting_card");
+        const cover_photo_file = findFileByFieldname(req.files, "cover_photo");
 
         const logo = logo_file ? logo_file.filename : null;
         const companyVisitingCard = visiting_card_file ? visiting_card_file.filename : null;
+        
+          // Default cover photo if none uploaded
+        const coverPhoto = cover_photo_file ? cover_photo_file.filename : "default_cover.jpg";
 
         // Validation
         if (!name || !email || !bio || !organizationType) {
@@ -55,8 +59,8 @@
 
         // Insert into MySQL
         const sql = `INSERT INTO associates 
-        (name, biography, email, instagramLink, xLink, facebookLink, websiteLink, organizationType, logo, companyVisitingCard,status, created_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  'pending', NOW())`;
+        (name, biography, email, instagramLink, xLink, facebookLink, websiteLink, organizationType, logo, companyVisitingCard, coverPhoto, status, created_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`;
 
         const values = [
         name,
@@ -69,6 +73,7 @@
         organizationType,
         logo,
         companyVisitingCard,
+        coverPhoto
         ];
 
         db.query(sql, values, (err, result) => {

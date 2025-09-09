@@ -294,7 +294,7 @@ router.get("/publications", (req, res) => {
   const offset = (page - 1) * limit;
 
 
-  db.query("SELECT COUNT(*) AS count FROM tgc_news WHERE status = 'active'", (err, countResult) => {
+  db.query("SELECT COUNT(*) AS count FROM tgc_news WHERE status = 'registered'", (err, countResult) => {
     if (err) {
       console.error("Count error:", err);
       return res.status(500).send("Internal Server Error");
@@ -305,7 +305,7 @@ router.get("/publications", (req, res) => {
 
 
     db.query(
-      "SELECT * FROM tgc_news WHERE status = 'active' ORDER BY created_at DESC LIMIT ? OFFSET ?",
+      "SELECT * FROM tgc_news WHERE status = 'registered' ORDER BY created_at DESC LIMIT ? OFFSET ?",
       [limit, offset],
       (err, result) => {
         if (err) {
@@ -334,7 +334,7 @@ router.get('/panindia_level', (req, res) => {
   // First, get total count
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
-    WHERE membership_cat = 'Pan India Level' AND status = 'Active'
+    WHERE membership_cat = 'Pan India Level' AND status = 'registered'
   `;
 
   db.query(countQuery, (err, countResult) => {
@@ -345,9 +345,10 @@ router.get('/panindia_level', (req, res) => {
 
     const dataQuery = `
       SELECT * FROM tgc_users
-      WHERE membership_cat = 'Pan India Level' AND status = 'Active'
+      WHERE membership_cat = 'Pan India Level' AND status = 'registered'
       LIMIT ${limit} OFFSET ${offset}
     `;
+    console.log(dataQuery);
 
     db.query(dataQuery, (err, results) => {
       if (err) return res.status(500).send('Data error');
@@ -371,7 +372,7 @@ router.get('/regional_level', (req, res) => {
 
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
-    WHERE membership_cat = 'Regional Guide' AND status = 'Active'
+    WHERE membership_cat = 'Regional Guide' AND status = 'registered'
   `;
 
   db.query(countQuery, (err, countResult) => {
@@ -382,7 +383,7 @@ router.get('/regional_level', (req, res) => {
 
     const dataQuery = `
       SELECT * FROM tgc_users
-      WHERE membership_cat = 'Regional Guide' AND status = 'Active'
+      WHERE membership_cat = 'Regional Guide' AND status = 'registered'
       LIMIT ${limit} OFFSET ${offset}
     `;
 
@@ -408,7 +409,7 @@ router.get('/state_level', (req, res) => {
 
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
-    WHERE membership_cat = 'State Level' AND status = 'Active'
+    WHERE membership_cat = 'State Level' AND status = 'registered'
   `;
 
   db.query(countQuery, (err, countResult) => {
@@ -419,7 +420,7 @@ router.get('/state_level', (req, res) => {
 
     const dataQuery = `
       SELECT * FROM tgc_users
-      WHERE membership_cat = 'State Level' AND status = 'Active'
+      WHERE membership_cat = 'State Level' AND status = 'registered'
       LIMIT ${limit} OFFSET ${offset}
     `;
 
@@ -445,7 +446,7 @@ router.get('/eco_guide', (req, res) => {
 
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
-    WHERE membership_cat = 'Eco Guide' AND status = 'Active'
+    WHERE membership_cat = 'Eco Guide' AND status = 'registered'
   `;
 
   db.query(countQuery, (err, countResult) => {
@@ -456,7 +457,7 @@ router.get('/eco_guide', (req, res) => {
 
     const dataQuery = `
       SELECT * FROM tgc_users
-      WHERE membership_cat = 'Eco Guide' AND status = 'Active'
+      WHERE membership_cat = 'Eco Guide' AND status = 'registered'
       LIMIT ${limit} OFFSET ${offset}
     `;
 
@@ -483,7 +484,7 @@ router.get('/konark', (req, res) => {
 
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
-    WHERE membership_cat = 'Konark Guide' AND status = 'Active'
+    WHERE membership_cat = 'Konark Guide' AND status = 'registered'
   `;
 
   db.query(countQuery, (err, countResult) => {
@@ -494,7 +495,7 @@ router.get('/konark', (req, res) => {
 
     const dataQuery = `
       SELECT * FROM tgc_users
-      WHERE membership_cat = 'Konark Guide' AND status = 'Active'
+      WHERE membership_cat = 'Konark Guide' AND status = 'registered'
       LIMIT ${limit} OFFSET ${offset}
     `;
 
@@ -519,7 +520,7 @@ router.get('/nandankanan_guide', (req, res) => {
 
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
-    WHERE membership_cat = 'Nandankanan Guide' AND status = 'Active'
+    WHERE membership_cat = 'Nandankanan Guide' AND status = 'registered'
   `;
 
   db.query(countQuery, (err, countResult) => {
@@ -530,7 +531,7 @@ router.get('/nandankanan_guide', (req, res) => {
 
     const dataQuery = `
       SELECT * FROM tgc_users
-      WHERE membership_cat = 'Nandankanan Guide' AND status = 'Active'
+      WHERE membership_cat = 'Nandankanan Guide' AND status = 'registered'
       LIMIT ${limit} OFFSET ${offset}
     `;
 
@@ -555,7 +556,7 @@ router.get('/similipal_guide', (req, res) => {
 
   const countQuery = `
     SELECT COUNT(*) AS total FROM tgc_users
-    WHERE membership_cat = 'Similipal Guide' AND status = 'Active'
+    WHERE membership_cat = 'Similipal Guide' AND status = 'registered'
   `;
 
   db.query(countQuery, (err, countResult) => {
@@ -566,7 +567,7 @@ router.get('/similipal_guide', (req, res) => {
 
     const dataQuery = `
       SELECT * FROM tgc_users
-      WHERE membership_cat = 'Similipal Guide' AND status = 'Active'
+      WHERE membership_cat = 'Similipal Guide' AND status = 'registered'
       LIMIT ${limit} OFFSET ${offset}
     `;
 
@@ -593,7 +594,7 @@ router.get('/top_tourist_guide', (req, res) => {
   const countQuery = `
       SELECT COUNT(*) AS total 
       FROM tgc_users
-      WHERE status = 'active' AND isbest_guide = 1
+      WHERE status = 'registered' AND isbest_guide = 1
     `;
 
   db.query(countQuery, (err, countResult) => {
@@ -604,7 +605,7 @@ router.get('/top_tourist_guide', (req, res) => {
 
     const dataQuery = `
         SELECT * FROM tgc_users
-        WHERE status = 'active' AND isbest_guide = 1
+        WHERE status = 'registered' AND isbest_guide = 1
         ORDER BY id DESC
         LIMIT ${limit} OFFSET ${offset}
       `;
@@ -1324,37 +1325,62 @@ router.get('/api/guides/:empid', (req, res) => {
   });
 });
 
+// GET reviews for a guide
 router.get('/api/guides/:empid/reviews', (req, res) => {
   const { empid } = req.params;
-  const sql = "SELECT * FROM reviews WHERE guide_empid = ? ORDER BY created_at DESC";
-  db.query(sql, [empid], (err, data) => {
+  const getUserSql = 'SELECT id FROM tgc_users WHERE empid = ? LIMIT 1';
+  db.query(getUserSql, [empid], (err, users) => {
+    if (err) return res.status(500).json({ error: "Internal Server Error" });
+    if (users.length === 0) return res.status(404).json({ error: "Guide not found." });
+
+    const userId = users[0].id;
+    const sql = 'SELECT * FROM reviews WHERE user_id = ? ORDER BY created_at DESC';
+    db.query(sql, [userId], (err, data) => {
+      if (err) return res.status(500).json({ error: "Internal Server Error" });
+      res.json(data);
+    });
+  });
+});
+
+
+// POST new review
+router.post('/api/guides/:empid/reviews', (req, res) => {
+  const { empid } = req.params; // e.g. 'TGC036'
+  const { rating, name, email, review_text } = req.body;
+
+  if (!rating || !name || !review_text) {
+    return res.status(400).json({ error: "Rating, name, and review text are required." });
+  }
+
+  // First, get actual user id from tgc_users
+  const getUserSql = 'SELECT id FROM tgc_users WHERE empid = ? LIMIT 1';
+  db.query(getUserSql, [empid], (err, users) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Internal Server Error" });
     }
-    return res.json(data);
-  });
-});
-
-// >>> નવો રૂટ: કોઈ ચોક્કસ ગાઇડ માટે નવો રિવ્યુ ઉમેરવા માટે <<<
-router.post('/api/guides/:empid/reviews', (req, res) => {
-  const { empid } = req.params;
-  const { rating, name, comment } = req.body;
-
-  // Basic validation
-  if (!rating || !name) {
-    return res.status(400).json({ error: "Rating and name are required." });
-  }
-
-  const sql = "INSERT INTO reviews (guide_empid, rating, name, comment) VALUES (?, ?, ?, ?)";
-  db.query(sql, [empid, rating, name, comment], (err, result) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ error: "Failed to submit review." });
+    if (users.length === 0) {
+      return res.status(404).json({ error: "Guide not found." });
     }
-    return res.status(201).json({ message: "Review submitted successfully!", reviewId: result.insertId });
+
+    const userId = users[0].id; // integer
+
+    const sql = `
+      INSERT INTO reviews (user_id, reviewer_name, reviewer_email, rating, review_text, created_at)
+      VALUES (?, ?, ?, ?, ?, NOW())
+    `;
+
+    db.query(sql, [userId, name, email || null, rating, review_text], (err, result) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: "Failed to submit review." });
+      }
+      return res.status(201).json({ message: "Review submitted successfully!", reviewId: result.insertId });
+    });
   });
 });
+
+
 
 
 router.get('/api/places', (req, res) => {
