@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Videos</title>
+    <link rel="stylesheet" href="/admin/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/admin/css/plugins.min.css">
+    <link rel="stylesheet" href="/admin/css/kaiadmin.min.css">
+
+    <style>
+        /* Video card styling */
+        .video-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-card video {
+            width: 100%;
+            height: 180px;
+            border-radius: 0;
+            object-fit: cover;
+        }
+
+        .video-card .card-body {
+            padding: 10px;
+            text-align: center;
+            background-color: #f9fafb;
+        }
+
+        .delete-btn {
+            margin-top: 5px;
+            background-color: #ef4444;
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        form.upload-video-form input {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <%- include('./partials/sidebar') %>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Navbar -->
+            <%- include('./partials/navbar') %>
+
+            <div class="container-fluid p-3">
+                <h2 class="page-title text-center mb-4">Videos Admin Panel</h2>
+
+                <!-- Upload Video Form -->
+                <div class="shadow p-3 mb-4 bg-white rounded">
+                    <h4>Upload New Video</h4>
+                    <form class="upload-video-form" action="/admin/videos" method="POST" enctype="multipart/form-data">
+                        <input type="text" name="title" placeholder="Video Title" class="form-control" required>
+                        <input type="file" name="video_file" accept="video/*" class="form-control" required>
+                        <button type="submit" class="btn btn-teal mt-2">Upload Video</button>
+                    </form>
+                </div>
+
+                <!-- Existing Videos -->
+                <div class="row g-3">
+                    <% if (videos && videos.length > 0) { %>
+                        <% videos.forEach(video => { %>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="video-card">
+                                    <video controls>
+                                        <source src="/uploads/<%= video.video_file %>" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <div class="card-body">
+                                        <p class="mb-2"><strong><%= video.title %></strong></p>
+                                        <form action="/admin/videos/delete/<%= video.id %>" method="POST">
+                                            <button type="submit" class="delete-btn">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="text-center mt-4">No videos uploaded yet.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer mt-4">
+                <div class="copyright text-center">
+                    2025, made with <i class="fa fa-heart text-danger"></i> By
+                    <a href="https://www.wimraw.com">Wimraw</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/admin/js/core/jquery-3.7.1.min.js"></script>
+    <script src="/admin/js/core/popper.min.js"></script>
+    <script src="/admin/js/core/bootstrap.min.js"></script>
+    <script src="/admin/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="/admin/js/kaiadmin.min.js"></script>
+</body>
+
+</html>

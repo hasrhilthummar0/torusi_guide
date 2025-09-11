@@ -23,6 +23,9 @@ const blogRoute = require("./admin/routes/admin");
 const newsRoutes = require("./admin/routes/newsRoutes");
 const enquiryRoutes = require("./admin/routes/enquiryRoutes");
 const associatesRoute = require('./admin/routes/associates');
+const routerGallery = require('./router/gallery');
+const routegalleryUpdate = require("./admin/routes/gallery");
+const routeVideos = require("./admin/routes/videos");
 
 
 
@@ -62,6 +65,11 @@ app.use("/blogs", blogRoute);
 app.use("/admin", newsRoutes);
 app.use("/admin", enquiryRoutes);
 app.use('/admin/associates', associatesRoute);
+app.use("/api/gallery", routerGallery);
+app.use("/admin/gallery", routegalleryUpdate);
+app.use("/admin/videos", routeVideos);
+
+
 
 //server
 const port = 2003;

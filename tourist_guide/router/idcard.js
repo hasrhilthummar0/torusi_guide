@@ -29,6 +29,10 @@ async function getUserData(userId) {
                 photoPath = path.join(__dirname, '..', 'uploads', 'user-photo.jpg');
             }
 
+            const photoUrl = user.photo
+                ? `http://localhost:2003/uploads/${user.photo}`
+                : `http://localhost:2003/uploads/user-photo.jpg`;
+
             resolve({
                 id: user.id,
                 name: user.name,
@@ -38,8 +42,10 @@ async function getUserData(userId) {
                 bloodGroup: user.blood_group,
                 issueDate: user.issueDate ? user.issueDate.toISOString().split('T')[0] : '',
                 expiryDate: user.expiryDate ? user.expiryDate.toISOString().split('T')[0] : '',
-                photoPath
+                photoPath,   // <-- add this
+                photoUrl
             });
+
         });
     });
 }
@@ -80,24 +86,21 @@ router.get('/download/:userId', async (req, res) => {
         const userData = await getUserData(userId);
         const templatePath = path.join(__dirname, '..', 'uploads', 'idcard.jpg');
 
-        // 👇 FIX: Await here
         const textOverlay = await createTextSVG(userData, templatePath);
 
-        const qrData = {
-            url: `http://localhost:3000/guide-view/${userData.id}`, // biju folder route
-            id: userData.id,
-            name: userData.name,
-            mobile: userData.mobile,
-            email: userData.email,
-            bloodGroup: userData.bloodGroup,
-            issueDate: userData.issueDate,
-            expiryDate: userData.expiryDate
-        };
-        const qrCodeBuffer = await qrcode.toBuffer(JSON.stringify(qrData), { width: 217 });
+        // Resize profile photo to desired width & height
+        const profilePhotoBuffer = await sharp(userData.photoPath)
+            .resize(590, 659) // <-- adjust width & height here
+            .toBuffer();
+
+        const qrCodeBuffer = await qrcode.toBuffer(
+            `http://localhost:3000/guide-view/${userData.id}`,
+            { width: 217 }
+        );
 
         const finalBuffer = await sharp(templatePath)
             .composite([
-                { input: userData.photoPath, left: 470, top: 590 },
+                { input: profilePhotoBuffer, left: 360, top: 430 }, // use resized photo
                 { input: qrCodeBuffer, left: 2294, top: 1605 },
                 { input: textOverlay, top: 0, left: 0 }
             ])
@@ -114,5 +117,16 @@ router.get('/download/:userId', async (req, res) => {
     }
 });
 
+
+router.get('/:id', async (req, res) => {
+    try {
+        const guideId = req.params.id;
+        const guide = await getUserData(guideId);
+        res.json(guide);
+    } catch (err) {
+        console.error(err);
+        res.status(404).json({ error: 'Guide not found' });
+    }
+});
 
 module.exports = router;
