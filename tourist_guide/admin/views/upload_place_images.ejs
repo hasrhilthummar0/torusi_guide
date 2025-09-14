@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Images for <%= place.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/admin/img/kaiadmin/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/admin/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/admin/css/plugins.min.css" />
+  <link rel="stylesheet" href="/admin/css/kaiadmin.min.css" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container-fluid {
+      padding-top: 70px; /* Add top spacing from navbar */
+      padding-bottom: 40px;
+    }
+    .card {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+    .current-images img {
+      border-radius: 6px;
+      border: 1px solid #dee2e6;
+      width: 100%;
+      max-width: 150px;
+      height: auto;
+      object-fit: cover;
+    }
+    .upload-btn {
+      margin-top: 10px;
+    }
+    @media (max-width: 768px) {
+      .current-images {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <%- include('./partials/sidebar') %>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Navbar -->
+      <%- include('./partials/navbar') %>
+
+      <div class="container-fluid">
+        <div class="card p-4">
+          <h2 class="mb-4">Upload Images for <span class="text-primary"><%= place.title %></span></h2>
+
+          <!-- Upload Form -->
+          <form action="/admin/place-images/<%= place.id %>" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label">Select up to 3 images:</label>
+              <input class="form-control" type="file" name="images" multiple accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-success upload-btn">Upload Images</button>
+            <a href="/places/manage" class="btn btn-secondary upload-btn">Back to Places</a>
+          </form>
+
+          <!-- Current Images -->
+          <h4 class="mt-5 mb-3">Current Images:</h4>
+          <div class="current-images d-flex flex-wrap gap-3">
+            <% if (place.image_1) { %>
+              <img src="/uploads/places/<%= place.image_1 %>" alt="Image 1">
+            <% } %>
+            <% if (place.image_2) { %>
+              <img src="/uploads/places/<%= place.image_2 %>" alt="Image 2">
+            <% } %>
+            <% if (place.image_3) { %>
+              <img src="/uploads/places/<%= place.image_3 %>" alt="Image 3">
+            <% } %>
+            <% if (!place.image_1 && !place.image_2 && !place.image_3) { %>
+              <span class="text-muted">No images uploaded yet.</span>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer mt-4">
+        <nav class="pull-left">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.touristguideclub.com">
+                Visit Site
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="copyright">
+          2025, made with <i class="fa fa-heart heart text-danger"></i> By
+          <a href="https://www.wimraw.com">Wimraw</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/admin/js/core/jquery-3.7.1.min.js"></script>
+  <script src="/admin/js/core/popper.min.js"></script>
+  <script src="/admin/js/core/bootstrap.min.js"></script>
+  <script src="/admin/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+  <script src="/admin/js/plugin/chart.js/chart.min.js"></script>
+  <script src="/admin/js/kaiadmin.min.js"></script>
+</body>
+</html>

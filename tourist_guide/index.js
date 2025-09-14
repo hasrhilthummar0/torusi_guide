@@ -26,8 +26,9 @@ const associatesRoute = require('./admin/routes/associates');
 const routerGallery = require('./router/gallery');
 const routegalleryUpdate = require("./admin/routes/gallery");
 const routeVideos = require("./admin/routes/videos");
-
-
+const userRoutes = require('./router/users');
+const guidePublic = require("./router/guidePublic");
+const placeImagesRouter = require("../tourist_guide/admin/routes/placeImages");
 
 
 //ejs
@@ -51,9 +52,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'admin/public/uploads'))
 app.use('/admin', express.static(path.join(__dirname, 'admin/public')));
 
 
-
-
-
+// routes
 app.use('/member', memberRoutes);
 app.use("/auth", authRoutes);
 app.use('/api/idcard', idcardRoute);
@@ -68,7 +67,9 @@ app.use('/admin/associates', associatesRoute);
 app.use("/api/gallery", routerGallery);
 app.use("/admin/gallery", routegalleryUpdate);
 app.use("/admin/videos", routeVideos);
-
+app.use('/api/users', userRoutes);
+app.use("/api", guidePublic);
+app.use("/admin/place-images", placeImagesRouter);
 
 
 //server

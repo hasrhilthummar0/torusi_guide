@@ -56,15 +56,54 @@ exports.getProfile = (req, res) => {
 exports.updateProfile = (req, res) => {
   const userId = req.user.id;
   const { name, mobile, bio } = req.body;
-  const photo = req.file ? req.file.filename : null;
 
-  const sql = "UPDATE tgc_users SET name=?, mobile=?, bio=?, photo=? WHERE id=?";
-  db.query(sql, [name, mobile, bio, photo, userId], (err, result) => {
-    if (err) return res.status(500).json({ message: "DB error", error: err });
-    res.json({ message: "Profile updated successfully" });
+  // Single profile photo
+  const photo = req.files && req.files.photo ? req.files.photo[0].filename : null;
+
+  // Multiple guide photos
+  const guidePhotos = req.files && req.files.guidePhotos ? req.files.guidePhotos : [];
+
+  db.getConnection((err, conn) => {
+    if (err) return res.status(500).json({ message: "DB connection error", error: err });
+
+    conn.beginTransaction(async (txErr) => {
+      if (txErr) {
+        conn.release();
+        return res.status(500).json({ message: "Transaction error", error: txErr });
+      }
+
+      try {
+        // 1️⃣ Update main profile
+        let sql = "UPDATE tgc_users SET name=?, mobile=?, bio=?";
+        const params = [name, mobile, bio];
+        if (photo) {
+          sql += ", photo=?";
+          params.push(photo);
+        }
+        sql += " WHERE id=?";
+        params.push(userId);
+
+        await conn.query(sql, params);
+
+        // 2️⃣ Insert guide photos
+        if (guidePhotos.length > 0) {
+          const values = guidePhotos.map((f) => [userId, f.filename]);
+          const insertSql = "INSERT INTO guide_photos (guide_id, file_name) VALUES ?";
+          await conn.query(insertSql, [values]);
+        }
+
+        conn.commit(() => {
+          conn.release();
+          res.json({ message: "Profile updated successfully" });
+        });
+      } catch (e) {
+        conn.rollback(() => conn.release());
+        console.error("Update error:", e);
+        res.status(500).json({ message: "Server error", error: e });
+      }
+    });
   });
 };
-
 
 
 // 🔒 Change Password

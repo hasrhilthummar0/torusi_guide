@@ -1,13 +1,14 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const pool = require("../database/db");
 const router = express.Router();
-const { loginUser, getProfile, updateProfile, changePassword} = require("../controller/authController");
+const { loginUser, getProfile, updateProfile, changePassword } = require("../controller/authController");
 const authMiddleware = require("../middleware/authMiddleware");
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+    destination: (req, file, cb) => cb(null, "uploads/"),
+    filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
 });
 const upload = multer({ storage });
 
@@ -17,8 +18,19 @@ router.post("/login", loginUser);
 // Profile (protected)
 router.get("/profile", authMiddleware, getProfile);
 
-// Update Profile (protected)
-router.put("/profile-update", upload.single("photo"), authMiddleware, updateProfile);
+// // Update Profile (protected)
+// router.put("/profile-update", upload.single("photo"), authMiddleware, updateProfile);
+
+
+router.put(
+    "/profile-update",
+    authMiddleware,
+    upload.fields([
+        { name: "photo", maxCount: 1 },
+        { name: "guidePhotos", maxCount: 10 },
+    ]),
+    updateProfile
+);
 
 router.put("/change-password", authMiddleware, changePassword);
 
@@ -51,5 +63,8 @@ router.get('/profile/:id', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
+
+
 
 module.exports = router;
